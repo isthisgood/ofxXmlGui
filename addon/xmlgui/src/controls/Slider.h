@@ -11,6 +11,8 @@
 #include "Control.h"
 #include "LabeledControl.h"
 #include <math.h>
+#include <stdlib.h>
+
 class Slider: public LabeledControl {
 public:
 
@@ -99,15 +101,28 @@ public:
 			}
 		}
 		ofSetColor(255, 255, 255);
-		if(showValue) {
-
+		if(showValue && value) {
+//		    printf("->%s\n",  name.c_str());
+            try {
 			if(stepped) {
-				string lab = name + "  " + ofToString((int)__round(fval(value)));
+			    
+#ifdef _WIN32
+				char s[512];
+			    itoa((int)fval(value), s, 10);
+
+				string lab = name + "  " + s;// ofToString((int)__round(fval(value)));
+#else
+				string lab = name + "  " + ofToString((int)fval(value));
+#endif
 				drawCustomLabel(lab, x, y-3);
 			} else {
-				string lab = name + "  " + ofToString(fval(value), 3);
+			    char s[512];
+                sprintf(s, "%.2f", fval(value));
+				string lab = name + "  " + s;//ofToString(fval(value), 3);
 				drawCustomLabel(lab, x, y-3);
 			}
+            } catch(int i) {printf("Caught exception in Slider.h"); }
+
 		} else {
 			drawLabel(x, y-3);
 		}
@@ -130,12 +145,12 @@ public:
 		} else {
 			val = (_x-x)/width;
 		}
-		
+
 		fval(value) = ofMap(val, 0, 1, min, max, true);
 		if(stepped) {
 			fval(value) = __round(fval(value));
 		}
-		
+
 		return true;
 	}
 

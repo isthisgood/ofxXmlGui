@@ -9,10 +9,10 @@
 #pragma once
 
 #include "LabeledControl.h"
-class ColourPicker: public LabeledControl {
+class HexColorPicker: public LabeledControl {
 public:
 
-	ColourPicker(): LabeledControl() {
+	HexColorPicker(): LabeledControl() {
 
 		height = 55;
 		width = 70;
@@ -71,44 +71,27 @@ public:
 	bool touchDown(int _x, int _y, int touchId) {
 
 
-
+		float val = (255.f*(_x-x)/width);
+		val = ofClamp(val, 0, 255);
+		int v = val;
 		if(_y-y<height/4) { // r value
 			ival(value) &= 0x0000FFFF;
-			int red = (255.f*(_x-x)/width);
-			ival(value) += red << 16;
+			ival(value) += v << 16;
 		} else if(_y-y<(height*2)/4) { // g value
 			ival(value) &= 0x00FF00FF;
-			int green = (255.f*(_x-x)/width);
-			ival(value) += green << 8;
+			ival(value) += v << 8;
 
 		} else if(_y-y<(height*3)/4) { // b value
 			ival(value) &= 0x00FFFF00;
-			int blue = (255.f*(_x-x)/width);
-			ival(value) += blue;
+			ival(value) += v;
 
 		} else { // a value
 			ival(value) &= 0x00FFFFFF;
-			int alpha = 255 - (255.f*(_x-x)/width);
-			ival(value) += alpha << 24;
+			ival(value) += v << 24;
 
 		}
 		return true;
-		/*
-		if(_y-y<height/3) { // r value
-			ival(value) &= 0x0000FFFF;
-			int red = (255.f*(_x-x)/width);
-			ival(value) += red << 16;
-		} else if(_y-y<(height*2)/3) { // g value
-			ival(value) &= 0x00FF00FF;
-			int green = (255.f*(_x-x)/width);
-			ival(value) += green << 8;
-		} else { // b value
-			ival(value) &= 0x00FFFF00;
-			int blue = (255.f*(_x-x)/width);
-			ival(value) += blue;
 
-		}
-		return true;*/
 	}
 
 

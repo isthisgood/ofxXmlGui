@@ -4,8 +4,9 @@
  *  Created by Marek Bereza on 13/11/2012.
  */
 
-#include "SimpleGui.h"
 #pragma once
+
+#include "SimpleGui.h"
 #include "Container.h"
 #include "Instantiator.h"
 #include "Slider.h"
@@ -24,7 +25,7 @@
 #include "HorizontalRule.h"
 #include "RangeSlider.h"
 #include "FloatField.h"
-
+#include "FloatColorPicker.h"
 
 //#include "SliderBank.h"
 
@@ -43,7 +44,7 @@ namespace xmlgui {
 		isSetup = false;
 		SIMPLE_GUI_WIDTH = 150;
 	}
-
+/*
 	void SimpleGui::setup() {
 		events.setup(this);
 		isSetup = true;
@@ -51,9 +52,16 @@ namespace xmlgui {
 		setEnabled(true);
 		setEnabled(false);
 	}
-
+*/
 	void SimpleGui::setEnabled(bool enabled) {
-		if(!isSetup) this->setup();
+		if(!isSetup) {
+			events.setup(this);
+			isSetup = true;
+			this->enabled = false;
+			setEnabled(true);
+			setEnabled(false);
+
+		}
 		if(this->enabled!=enabled) {
 			events.setEnabled(enabled);
 			this->enabled = enabled;
@@ -96,9 +104,32 @@ namespace xmlgui {
 		return drawable;
 
 	}
+	
+	HexColorPicker	*SimpleGui::addHexColorPicker(string name, int &value) {
+		HexColorPicker *cp = (HexColorPicker*)INSTANTIATE_WITH_ID("hexcolorpicker", name);
+		cp->pointToValue(&value);
+		cp->width = SIMPLE_GUI_WIDTH;
+		
+		addChild(cp);
+		columnCheck();
+		return cp;
+	}
+	
+	FloatColorPicker	*SimpleGui::addColorPicker(string name, ofFloatColor &value) {
+		FloatColorPicker *cp = (FloatColorPicker*)INSTANTIATE_WITH_ID("floatcolorpicker", name);
+		cp->pointToValue(&value);
+		cp->width = SIMPLE_GUI_WIDTH;
+		
+		addChild(cp);
+		columnCheck();
+		return cp;
+	}
+	
 	IntSlider *SimpleGui::addSlider(string name, int &value, int min, int max) {
 		IntSlider *slider = (IntSlider*)INSTANTIATE_WITH_ID("intslider", name);
 		slider->pointToValue(&value);
+		if(value<min) value = min;
+		if(value>max) value = max;
 		slider->min = min;
 		slider->max = max;
 		slider->width = SIMPLE_GUI_WIDTH;
@@ -110,6 +141,9 @@ namespace xmlgui {
 	}
 	Slider *SimpleGui::addSlider(string name, float &value, float min, float max) {
 		Slider *slider = (Slider*)INSTANTIATE_WITH_ID("slider", name);
+		if(value<min) value = min;
+		if(value>max) value = max;
+		
 		slider->pointToValue(&value);
 		slider->min = min;
 		slider->max = max;
@@ -154,6 +188,7 @@ namespace xmlgui {
 		Meter *slider = (Meter*)INSTANTIATE_WITH_ID("meter", name);
 		slider->pointToValue(&value);
 		slider->width = SIMPLE_GUI_WIDTH;
+		slider->vertical = false;
 		addChild(slider);
 		columnCheck();
 		return slider;
@@ -266,6 +301,11 @@ namespace xmlgui {
 	}
 
 
+	Control			*SimpleGui::addControl(Control *c) {
+		c->width = SIMPLE_GUI_WIDTH;
+		addChild(c);
+		columnCheck();
+	}
 	void SimpleGui::saveSettings(string file) {
 		if(file=="") {
 			if(this->settingsFile=="") {
@@ -290,6 +330,10 @@ namespace xmlgui {
 	void SimpleGui::loadSettings(string file) {
 		this->settingsFile = file;
 		ofxXmlSettings xml;
+		if(!ofFile(file).exists()) {
+			printf("Warning: Couldn't load %s\n", file.c_str());
+			return;
+		}
 		xml.loadFile(file);
 
 		xml.pushTag("settings");

@@ -1,17 +1,17 @@
-/**     ___           ___           ___                         ___           ___     
- *     /__/\         /  /\         /  /\         _____         /  /\         /__/|    
- *    |  |::\       /  /::\       /  /::|       /  /::\       /  /::\       |  |:|    
- *    |  |:|:\     /  /:/\:\     /  /:/:|      /  /:/\:\     /  /:/\:\      |  |:|    
- *  __|__|:|\:\   /  /:/~/::\   /  /:/|:|__   /  /:/~/::\   /  /:/  \:\   __|__|:|    
+/**     ___           ___           ___                         ___           ___
+ *     /__/\         /  /\         /  /\         _____         /  /\         /__/|
+ *    |  |::\       /  /::\       /  /::|       /  /::\       /  /::\       |  |:|
+ *    |  |:|:\     /  /:/\:\     /  /:/:|      /  /:/\:\     /  /:/\:\      |  |:|
+ *  __|__|:|\:\   /  /:/~/::\   /  /:/|:|__   /  /:/~/::\   /  /:/  \:\   __|__|:|
  * /__/::::| \:\ /__/:/ /:/\:\ /__/:/ |:| /\ /__/:/ /:/\:| /__/:/ \__\:\ /__/::::\____
  * \  \:\~~\__\/ \  \:\/:/__\/ \__\/  |:|/:/ \  \:\/:/~/:/ \  \:\ /  /:/    ~\~~\::::/
- *  \  \:\        \  \::/          |  |:/:/   \  \::/ /:/   \  \:\  /:/      |~~|:|~~ 
- *   \  \:\        \  \:\          |  |::/     \  \:\/:/     \  \:\/:/       |  |:|   
- *    \  \:\        \  \:\         |  |:/       \  \::/       \  \::/        |  |:|   
- *     \__\/         \__\/         |__|/         \__\/         \__\/         |__|/   
+ *  \  \:\        \  \::/          |  |:/:/   \  \::/ /:/   \  \:\  /:/      |~~|:|~~
+ *   \  \:\        \  \:\          |  |::/     \  \:\/:/     \  \:\/:/       |  |:|
+ *    \  \:\        \  \:\         |  |:/       \  \::/       \  \::/        |  |:|
+ *     \__\/         \__\/         |__|/         \__\/         \__\/         |__|/
  *
- *  Description: 
- *				 
+ *  Description:
+ *
  *  ParameterizedGui.h, created by Marek Bereza on 13/11/2012.
  */
 
@@ -24,23 +24,23 @@ namespace xmlgui {
 		ParameterizedGui(): xmlgui::SimpleGui() {
 			choice = -1;
 			lastChoice = -2;
-			gui = new SimpleGui();
+			gui = new xmlgui::SimpleGui();
 			list = addList("list", choice, vector<string>());
 			addChild(gui);
 		}
-		
-		
+
+
 		// this is a workaround to let you listen to the gui
 		// even though the superclass is a Listener. See
 		// SimpleGui::ctrlChanged() and ::controlChanged()
 		void ctrlChanged(xmlgui::Event *e) {
-			
+
 			if(choice!=lastChoice && choice>=0) {
 				gui->clear();
-				parameterizeds[choice].second->buildGui(gui);
+				parameterizeds[choice].second->parameterize(gui);
 				gui->loadSettings("settings/" + parameterizeds[choice].first + ".xml");
 			}
-			
+
 			lastChoice = choice;
 		}
 
@@ -48,28 +48,28 @@ namespace xmlgui {
 			parameterizeds.push_back(make_pair(name, parameterized));
 
 			parameterized->name = name;
-			
+
 			// configure it to autosave
-			parameterized->buildGui(gui);
+			parameterized->parameterize(gui);
 			gui->loadSettings("settings/" + name + ".xml");
 
 			gui->clear();
-			
+
 			list->addItem(name);
 		}
-		
+
 		void save(Parameterized *me) {
 			xmlgui::SimpleGui g;
-			me->buildGui(&g);
+			me->parameterize(&g);
 			string name = me->name;
 			g.saveSettings("settings/"+name+".xml");
 		}
-		
+
 	private:
 		int choice;
 		int lastChoice;
 		List *list;
 		vector<pair<string, Parameterized *> > parameterizeds;
-		SimpleGui *gui;
+		xmlgui::SimpleGui *gui;
 	};
 }

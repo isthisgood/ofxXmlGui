@@ -1,5 +1,6 @@
 #pragma once
 #include "Container.h"
+#include "FloatColorPicker.h"
 #include "Instantiator.h"
 #include "Slider.h"
 #include "Toggle.h"
@@ -18,6 +19,7 @@
 #include "RangeSlider.h"
 #include "FloatField.h"
 #include "Title.h"
+#include "HexColorPicker.h"
 
 
 //#include "SliderBank.h"
@@ -33,7 +35,6 @@ namespace xmlgui {
 		SimpleGui();
 
 
-		virtual void setup();
 
 		void setEnabled(bool enabled);
 		// implement this method if you want to receive
@@ -44,15 +45,17 @@ namespace xmlgui {
 		}
 		void controlChanged(xmlgui::Event *e);
 		Title 		 	*addTitle(string title);
-		RangeSlider		*addRangeSlider(string name, float *value, float min, float max);
+		RangeSlider		*addRangeSlider(string name, float *value, float min = 1, float max = 1);
 		Drawable		*addDrawable(string name, ofBaseDraws &baseDraws);
-		IntSlider		*addSlider(string name, int &value, int min, int max);
-		Slider			*addSlider(string name, float &value, float min, float max);
-		Slider2D		*addSlider2D(string name, float *value, float minX, float maxX, float minY, float maxY);
+		IntSlider		*addSlider(string name, int &value, int min = 0, int max = 128);
+		Slider			*addSlider(string name, float &value, float min = 0, float max = 1);
+		Slider2D		*addSlider2D(string name, float *value, float minX=-1, float maxX=1, float minY=-1, float maxY=1);
+		HexColorPicker	*addHexColorPicker(string name, int &value);
+		FloatColorPicker*addColorPicker(string name, ofFloatColor &value);
 		HorizontalRule	*addHR();
 		Meter			*addMeter(string name, float &value);
 		Meter			*addMeter(string name, float &value, float min, float max);
-		Panner			*addPanner(string name, float &value, float min, float max);
+		Panner			*addPanner(string name, float &value, float min=-1, float max=1);
 		Toggle			*addToggle(string name, bool &value);
 		PushButton		*addPushButton(string name);
 		SegmentedControl *addSegmented(string name, int &value, string options);
@@ -61,7 +64,7 @@ namespace xmlgui {
 		IntField		*addIntField(string name, int &value);
 		FloatField		*addFloatField(string name, float &value);
 		TextField		*addTextField(string name, string &value);
-
+		Control			*addControl(Control *c);
 
 		void saveSettings(string file = "");
 

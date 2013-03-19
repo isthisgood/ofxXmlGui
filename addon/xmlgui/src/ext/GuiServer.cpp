@@ -11,13 +11,21 @@
 
 xmlgui::GuiServer::GuiServer() {
 	started = false;
+	extraListener = NULL;
 }
+
+
+void xmlgui::GuiServer::setExtraListener(xmlgui::GuiServerExtraListener *extraListener) {
+    this->extraListener = extraListener;
+}
+
 
 xmlgui::GuiServer::~GuiServer() {
 	if(started) {
 		ws.stop();
 	}
 }
+
 void xmlgui::GuiServer::setup() {
 	started = true;
 	ws.start();
@@ -36,7 +44,7 @@ float xmlgui::GuiServer::getControlRange(xmlgui::Control *c) {
 	} else if(c->type=="panner") {
 		Panner *p = (Panner*)c;
 		return p->max - p->min;
-		
+
 	} else {
 		printf("Asking for the range of something that isn't a slider or a panner in GuiServer!\n");
 		return -1;
@@ -45,11 +53,12 @@ float xmlgui::GuiServer::getControlRange(xmlgui::Control *c) {
 void xmlgui::GuiServer::update() {
 	ofxOscMessage m;
 	while(osc.getNextMessage(&m)) {
+//		printf("%s\n", m.getAddress().c_str());
 		if(m.getAddress()=="/gui") {
 			string name = m.getArgAsString(0);
 			for(int i = 0; i < guis.size(); i++) {
 				if(guis[i]->name==name) {
-					
+
 					xmlgui::Control *c = guis[i]->getControlById(m.getArgAsString(1));
 					if(c!=NULL) {
 						if(c->type=="slider" || c->type=="panner") {
@@ -63,21 +72,23 @@ void xmlgui::GuiServer::update() {
 					break;
 				}
 			}
+		} else if(extraListener!=NULL) {
+			extraListener->guiServerExtraMessage(m);
 		}
 	}
-	
+
 	float filter = 0.3;
 	map<xmlgui::Control*, float>::iterator it = smoothControls.begin();
 	while(it != smoothControls.end()) {
 		xmlgui::Control *c = (*it).first;
-		
+
 		float f = c->getFloat() * filter + (*it).second * (1.f-filter);
 		c->setValue(f);
 		xmlgui::Event e(c, xmlgui::Event::TOUCH_UP);
 		c->parent->notifyChange(&e);
 		float diff = ABS(f - (*it).second);
-		
-		// we're pretty much there, so set it 
+
+		// we're pretty much there, so set it
 		if(diff/getControlRange(c)<0.01) {
 			c->setValue((*it).second);
 			xmlgui::Event e(c, xmlgui::Event::TOUCH_UP);
@@ -86,7 +97,7 @@ void xmlgui::GuiServer::update() {
 		} else {
 			it++;
 		}
-		
+
 	}
 }
 
@@ -97,11 +108,11 @@ void xmlgui::GuiServer::addGui(xmlgui::Container *gui) {
 void xmlgui::GuiServer::httpGet(string url) {
 	printf("GET %s\n", url.c_str());
 	if(url=="/") {
-		
+
 		ofxXmlSettings xml;
 		xml.addTag("guis");
 		xml.pushTag("guis");
-		
+
 		for(int i = 0; i < guis.size(); i++) {
 		//	printf("%s\n", guis[i]->name.c_str());
 			xml.addTag("gui");

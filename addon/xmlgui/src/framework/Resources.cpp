@@ -24,13 +24,13 @@ ofImage *xmlgui::Resources::getImage(string path) {
 
 	if(path=="") return NULL;
 
-	struct stat stFileInfo; 
-	
+	struct stat stFileInfo;
+
 	if(stat(ofToDataPath(path, true).c_str(),&stFileInfo)!=0) {
 		printf("Can't find the file %s\n", (path).c_str());
 		return NULL;
 	}
-	
+
 	// cache the image if it's not already loaded
 	if(images.find(path)==images.end()) {
 		ofImage *img = new ofImage();
@@ -46,9 +46,10 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 	if(font==NULL && !customFontNotAvailable) {
 		// try to load font
 		ofFile f(DEFAULT_FONT);
-		printf("Loading font\n");
+		//printf("Loading font\n");
 		if(f.exists()) {
-			printf("Cant find font\n");
+			//printf("Cant find font\n
+			ofLogError("Can't find font\n");
 			font = new ofTrueTypeFont();
 			font->loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
 		} else {

@@ -11,9 +11,10 @@
 #include "Slider.h"
 #include "PushButton.h"
 #include "Menu.h"
+#include "FloatColorPicker.h"
 #include "MenuItem.h"
 #include "MenuBar.h"
-#include "ColourPicker.h"
+#include "HexColorPicker.h"
 #include "Knob.h"
 #include "Toggle.h"
 #include "Contour.h"
@@ -55,7 +56,8 @@ void xmlgui::Instantiator::registerControls() {
 	REGISTER_CONTROL(PushButton,	"pushbutton");
 	REGISTER_CONTROL(Slider,		"slider");
 	REGISTER_CONTROL(SliderBank,	"sliderbank");
-	REGISTER_CONTROL(ColourPicker,	"colourpicker");
+	REGISTER_CONTROL(HexColorPicker,	"hexcolorpicker");
+	REGISTER_CONTROL(FloatColorPicker,	"floatcolorpicker");
 	REGISTER_CONTROL(Knob,			"knob");
 	REGISTER_CONTROL(Toggle,		"toggle");
 	REGISTER_CONTROL(Contour,		"contour");

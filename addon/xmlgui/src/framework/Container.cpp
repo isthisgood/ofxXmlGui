@@ -200,8 +200,9 @@ bool xmlgui::Container::touchUp(int x, int y, int id) {
 #else
 		if((c->isContainer() || c->inside(x, y)) && c->touchUp(x, y, id)) {
 #endif
-			//notifyChange((*it));
 
+			xmlgui::Event e(c, xmlgui::Event::TOUCH_UP);
+			notifyChange(&e);
 
 			focusedControl = NULL;
 			return true;
@@ -279,10 +280,11 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 
 	const char *_bgImageUrl = xml->Attribute("bgImage");
 	if(_bgImageUrl!=NULL) {
-		printf("Loading image\n");
 		bgImageUrl = _bgImageUrl;
-		bgImage = xmlgui::Resources::getImage(bgImageUrl);
-		if(bgImage==NULL) printf("Image couldn't be loaded\n");
+		if(bgImageUrl!="") { // sometimes it's blank
+            bgImage = xmlgui::Resources::getImage(bgImageUrl);
+            if(bgImage==NULL) printf("Image '%s' couldn't be loaded\n", _bgImageUrl);
+		}
 	}
 	// now we've loaded this container, load the children
 	TiXmlNode *childNode = xml->FirstChild();
