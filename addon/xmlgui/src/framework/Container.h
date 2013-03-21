@@ -65,7 +65,7 @@ namespace xmlgui {
 		void notifyChange(Event *e);
 		bool isOpaque();
 		void setOpaque(bool opaque);
-
+		void print(int indent = 0);
 	protected:
 		bool opaque;
 

@@ -23,6 +23,9 @@ public:
 		faval(value, 3) = 0;
 	}
 	
+	float getBrightness() {
+		return (faval(value,0)+faval(value,1)+faval(value,2)+faval(value,3))/4.f;
+	}
 	
 	
 	void draw() {
@@ -34,7 +37,13 @@ public:
 		ofRect(x, y, width, height);
 		
 		float h4 = height/4;
-		ofSetColor(255, 255, 255);
+		
+		if(getBrightness()>0.5) {
+			ofSetHexColor(0);
+		} else {
+			ofSetColor(255, 255, 255);
+		}
+		
 		ofNoFill();
 		ofRect(x, y, width, height);
 		ofLine(x, y + h4,  x+width, y + h4);
@@ -62,7 +71,7 @@ public:
 		xmlgui::Resources::drawString("green", x+3, y+h4*2 - 5);
 		xmlgui::Resources::drawString("blue", x+3, y+h4*3 - 5);
 		xmlgui::Resources::drawString("alpha", x+3, y+height - 5);
-		drawLabel(x+3, y);
+		drawLabel(x+3, y-2);
 		
 			
 	}

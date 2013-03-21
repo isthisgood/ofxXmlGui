@@ -43,6 +43,11 @@ public:
 		}
 
 	}
+	string getSelectedString() {
+		if(ival(value)==-1) return "";
+		else return opts[ival(value)];
+	}
+	
 	void addOption(string opt) {
 		if(options=="") options = opt;
 		else options += string("|") + opt;

@@ -20,7 +20,13 @@ public:
 		ival(value) = 0;
 	}
 
-
+	int getBrightness() {
+		float r = ((ival(value)&0xFF0000)>>16);
+		float g = ((ival(value)&0xFF00)>>8);
+		float b = ival(value)&0xFF;
+		float a = 255 - ((ival(value)&0xFF000000)>>24);
+		return (r + g + b + a) / 4;
+	}
 
 	void draw() {
 
@@ -30,7 +36,11 @@ public:
 		ofRect(x, y, width, height);
 
 		float h4 = height/4;
-		ofSetColor(255, 255, 255);
+		if(getBrightness()<128) {
+			ofSetColor(255, 255, 255);
+		} else {
+			ofSetHexColor(0);
+		}
 		ofNoFill();
 		ofRect(x, y, width, height);
 		ofLine(x, y + h4,  x+width, y + h4);
@@ -62,7 +72,7 @@ public:
 		xmlgui::Resources::drawString("green", x+3, y+h4*2 - 5);
 		xmlgui::Resources::drawString("blue", x+3, y+h4*3 - 5);
 		xmlgui::Resources::drawString("alpha", x+3, y+height - 5);
-		drawLabel(x+3, y);
+		drawLabel(x+3, y-2);
 
 
 	}
@@ -87,7 +97,7 @@ public:
 
 		} else { // a value
 			ival(value) &= 0x00FFFFFF;
-			ival(value) += v << 24;
+			ival(value) += (255-v) << 24;
 
 		}
 		return true;

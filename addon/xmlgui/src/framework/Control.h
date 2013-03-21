@@ -84,6 +84,7 @@ namespace xmlgui {
 		virtual bool keyReleased(int key) { return false; }
 		virtual void getParameterInfo(vector<ParameterInfo> &parameterInfo) {}
 		
+		virtual void print(int indent = 0);
 		
 		// this helps with the polymorphism, probably don't need to override it
 		// if you're subclassing "Container" it sets it to true.

@@ -50,8 +50,8 @@ public:
 	}
 	
 	bool touchDown(int _x, int _y, int touchId) {
-		faval(value, 1) = ofMap((_y-y)/height, 0, 1, minY, maxY);
-		faval(value, 0) = ofMap((_x-x)/width, 0, 1, minX, maxX);
+		faval(value, 1) = ofMap((_y-y)/height, 0, 1, minY, maxY, true);
+		faval(value, 0) = ofMap((_x-x)/width, 0, 1, minX, maxX, true);
 		return true;
 	}
 	

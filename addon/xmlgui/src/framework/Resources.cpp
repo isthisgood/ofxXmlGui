@@ -11,7 +11,7 @@
 
 //#define DEFAULT_FONT "OCRAStd.ttf"
 //#define DEFAULT_FONT_SIZE 12
-#define DEFAULT_FONT "res/automat.ttf"
+#define DEFAULT_FONT "res/mono0755.ttf"
 #define DEFAULT_FONT_SIZE 6
 
 

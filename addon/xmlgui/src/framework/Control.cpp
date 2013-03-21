@@ -199,3 +199,8 @@ xmlgui::Control *xmlgui::Control::size(float width, float height) {
 xmlgui::Control::~Control() {
 	//printf("Goodbye, '%s' - '%s'\n", name.c_str(), type.c_str());
 }
+
+void xmlgui::Control::print(int indent) {
+	for(int i = 0; i < indent; i++) printf("  ");
+	printf("Control type=%s    id=%s    name=%s\n", type.c_str(), id.c_str(), name.c_str());
+}

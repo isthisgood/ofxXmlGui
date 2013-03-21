@@ -364,3 +364,10 @@ void xmlgui::Container::pointToValue(string controlName, void *pointer) {
 		c->pointToValue(pointer);
 	}
 }
+void xmlgui::Container::print(int indent) {
+	Control::print(indent);
+	deque<Control*>::iterator it;
+	for(it = children.begin(); it != children.end(); it++) {
+		(*it)->print(indent+1);
+	}
+}

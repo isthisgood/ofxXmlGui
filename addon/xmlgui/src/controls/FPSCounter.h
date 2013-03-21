@@ -9,16 +9,18 @@
 class FPSCounter: public xmlgui::Control {
 public:
 	
-	
+	float fps;
 	FPSCounter(): Control() {
+		fps = 10;
 		height = 25;
 		width = 60;
 	}
 	
 	void draw() {
+		fps = ofGetFrameRate() * 0.05 + fps * 0.95;
 		ofSetColor(0, 100, 0);
 		ofRect(x, y, width, height);
 		ofSetColor(255, 255, 255);
-		xmlgui::Resources::drawString(ofToString(ofGetFrameRate(), 3), x+3, y+14);
+		xmlgui::Resources::drawString(ofToString(fps, 1), x+3, y+14);
 	}
 };

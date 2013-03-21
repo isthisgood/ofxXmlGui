@@ -32,27 +32,23 @@
 
 //#define SIMPLE_GUI_WIDTH 150
 
+
 namespace xmlgui {
 
 
 	SimpleGui::SimpleGui(): xmlgui::Container() {
+		gui = this;
 		addListener(this);
+		
 		setLayoutType(xmlgui::LayoutType_vertical);
 		x = 10;
 		y = 20;
-		mustAddNewColumn = false;
 		isSetup = false;
 		SIMPLE_GUI_WIDTH = 150;
+		autosave = true;
+		
 	}
-/*
-	void SimpleGui::setup() {
-		events.setup(this);
-		isSetup = true;
-		enabled = false;
-		setEnabled(true);
-		setEnabled(false);
-	}
-*/
+
 	void SimpleGui::setEnabled(bool enabled) {
 		if(!isSetup) {
 			events.setup(this);
@@ -60,6 +56,8 @@ namespace xmlgui {
 			this->enabled = false;
 			setEnabled(true);
 			setEnabled(false);
+			ofAddListener(ofEvents().windowResized, this, &xmlgui::SimpleGui::windowResized);
+			redoLayout();
 
 		}
 		if(this->enabled!=enabled) {
@@ -68,28 +66,30 @@ namespace xmlgui {
 		}
 	}
 
+	void SimpleGui::windowResized(ofResizeEventArgs &e) {
+		redoLayout();
+	}
 
 	void SimpleGui::controlChanged(xmlgui::Event *e) {
 		this->ctrlChanged(e);
-		if(settingsFile!="") {
+		if(settingsFile!="" && autosave) {
 			saveSettings();
 		}
 	}
 
 	Title *SimpleGui::addTitle(string title) {
 		Title *t = (Title*) INSTANTIATE_WITH_ID("title", title);
-		addChild(t);
-		columnCheck();
+		gui->addChild(t);
 		return t;
 	}
 
 	RangeSlider *SimpleGui::addRangeSlider(string name, float *value, float min, float max) {
 		RangeSlider *r = (RangeSlider*)INSTANTIATE_WITH_ID("rangeslider", name);
 		r->pointToValue(value);
+		r->width = SIMPLE_GUI_WIDTH;
 		r->min = min;
 		r->max = max;
-		addChild(r);
-		columnCheck();
+		gui->addChild(r);
 		return r;
 	}
 
@@ -99,8 +99,7 @@ namespace xmlgui {
 		drawable->drawable = &baseDraws;
 		drawable->width = SIMPLE_GUI_WIDTH;
 		drawable->height = baseDraws.getHeight()*SIMPLE_GUI_WIDTH/baseDraws.getWidth();
-		addChild(drawable);
-		columnCheck();
+		gui->addChild(drawable);
 		return drawable;
 
 	}
@@ -110,8 +109,7 @@ namespace xmlgui {
 		cp->pointToValue(&value);
 		cp->width = SIMPLE_GUI_WIDTH;
 		
-		addChild(cp);
-		columnCheck();
+		gui->addChild(cp);
 		return cp;
 	}
 	
@@ -120,8 +118,7 @@ namespace xmlgui {
 		cp->pointToValue(&value);
 		cp->width = SIMPLE_GUI_WIDTH;
 		
-		addChild(cp);
-		columnCheck();
+		gui->addChild(cp);
 		return cp;
 	}
 	
@@ -134,8 +131,7 @@ namespace xmlgui {
 		slider->max = max;
 		slider->width = SIMPLE_GUI_WIDTH;
 		slider->showValue = true;
-		addChild(slider);
-		columnCheck();
+		gui->addChild(slider);
 		return slider;
 
 	}
@@ -149,8 +145,7 @@ namespace xmlgui {
 		slider->max = max;
 		slider->width = SIMPLE_GUI_WIDTH;
 		slider->showValue = true;
-		addChild(slider);
-		columnCheck();
+		gui->addChild(slider);
 		return slider;
 
 	}
@@ -163,14 +158,17 @@ namespace xmlgui {
 		s2d->minY = minY;
 		s2d->maxX = maxX;
 		s2d->maxY = maxY;
-
+		
 		s2d->width = SIMPLE_GUI_WIDTH;
 		s2d->height = SIMPLE_GUI_WIDTH;
 		s2d->showValue = true;
-		addChild(s2d);
-		columnCheck();
+		gui->addChild(s2d);
 		return s2d;
-
+		
+	}
+	
+	Slider2D *SimpleGui::addSlider2D(string name, ofVec2f &pos, float minX, float maxX, float minY, float maxY) {
+		return addSlider2D(name, &pos.x, minX, maxX, minY, maxY);
 	}
 
 
@@ -179,29 +177,18 @@ namespace xmlgui {
 		string dummy = ofToString(ofRandomuf());
 		HorizontalRule *r = (HorizontalRule*)INSTANTIATE_WITH_ID("horizontalrule", dummy);
 		r->width = SIMPLE_GUI_WIDTH;
-		addChild(r);
-		columnCheck();
+		gui->addChild(r);
 		return r;
 	}
 
-	Meter *SimpleGui::addMeter(string name, float &value) {
-		Meter *slider = (Meter*)INSTANTIATE_WITH_ID("meter", name);
-		slider->pointToValue(&value);
-		slider->width = SIMPLE_GUI_WIDTH;
-		slider->vertical = false;
-		addChild(slider);
-		columnCheck();
-		return slider;
-
-	}
+	
 	Meter *SimpleGui::addMeter(string name, float &value, float min, float max) {
 		Meter *slider = (Meter*)INSTANTIATE_WITH_ID("meter", name);
 		slider->pointToValue(&value);
 		slider->min = min;
 		slider->max = max;
 		slider->width = SIMPLE_GUI_WIDTH;
-		addChild(slider);
-		columnCheck();
+		gui->addChild(slider);
 		return slider;
 
 	}
@@ -213,9 +200,7 @@ namespace xmlgui {
 		slider->width = SIMPLE_GUI_WIDTH;
 		slider->pointToValue(&value);
 		slider->showValue = true;
-		addChild(slider);
-		columnCheck();
-
+		gui->addChild(slider);
 		return slider;
 	}
 
@@ -223,8 +208,7 @@ namespace xmlgui {
 		Toggle *tog = (Toggle*)INSTANTIATE_WITH_ID("toggle", name);
 		tog->pointToValue(&value);
 		tog->width = tog->height; // make it square
-		addChild(tog);
-		columnCheck();
+		gui->addChild(tog);
 		return tog;
 	}
 
@@ -232,20 +216,12 @@ namespace xmlgui {
 		PushButton *tog = (PushButton*)INSTANTIATE_WITH_ID("pushbutton", name);
 		tog->width = 80;
 		tog->height = 20;
-		addChild(tog);
-		columnCheck();
+		gui->addChild(tog);
 		return tog;
 
 	}
 	SegmentedControl *SimpleGui::addSegmented(string name, int &value, string options) {
-		SegmentedControl *seg = (SegmentedControl*)INSTANTIATE_WITH_ID("segmented", name);
-		seg->pointToValue(&value);
-		seg->width = SIMPLE_GUI_WIDTH;
-		seg->options = options;
-		seg->load();
-		addChild(seg);
-		columnCheck();
-		return seg;
+		return addSegmented(name, value, ofSplitString(options, "|"));
 	}
 
 	SegmentedControl *SimpleGui::addSegmented(string name, int &value, vector<string> options) {
@@ -254,9 +230,12 @@ namespace xmlgui {
 		seg->pointToValue(&value);
 		seg->width = SIMPLE_GUI_WIDTH;
 		seg->opts = options;
-		addChild(seg);
-		columnCheck();
+		gui->addChild(seg);
 		return seg;
+	}
+
+	List *SimpleGui::addList(string name, int &value, string options) {
+		return addList(name, value, ofSplitString(options, "|"));
 	}
 
 	List *SimpleGui::addList(string name, int &value, vector<string> options) {
@@ -264,8 +243,7 @@ namespace xmlgui {
 		list->pointToValue(&value);
 		list->items = options;
 		list->width = SIMPLE_GUI_WIDTH;
-		addChild(list);
-		columnCheck();
+		gui->addChild(list);
 		return list;
 	}
 
@@ -273,8 +251,7 @@ namespace xmlgui {
 		IntField *field = (IntField*)INSTANTIATE_WITH_ID("intfield", name);
 		field->pointToValue(&value);
 		field->width = SIMPLE_GUI_WIDTH;
-		addChild(field);
-		columnCheck();
+		gui->addChild(field);
 		return field;
 	}
 
@@ -284,27 +261,47 @@ namespace xmlgui {
 		field->pointToValue(&value);
 		field->width = SIMPLE_GUI_WIDTH;
 
-		addChild(field);
-		columnCheck();
+		gui->addChild(field);
 		return field;
 	}
 
+	void SimpleGui::redoLayout() {
+		ofVec2f startingPos(0,0);
+		float winHeight = ofGetHeight();
+		printf("Relaying %d children\n", gui->getNumChildren());
+		float guiY = gui->getAbsolutePosition().y;
+		for(int i = 0; i < gui->getNumChildren(); i++) {
+			Control *c = gui->getChild(i);
+			
+			if(c->type=="column") {
+				startingPos.y = 0;
+				startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
+			} else {
+				c->position(startingPos.x, startingPos.y);
+				if(guiY+c->y+c->height>winHeight) {
+					startingPos.y = 0;
+					startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
+					c->position(startingPos.x, startingPos.y);
+				}
+				
+				startingPos.y += c->height + AUTO_LAYOUT_PADDING;
+			}
+		}
+	}
 
 
 	TextField *SimpleGui::addTextField(string name, string &value) {
 		TextField *field = (TextField*)INSTANTIATE_WITH_ID("textfield", name);
 		field->pointToValue(&value);
 		field->width = SIMPLE_GUI_WIDTH;
-		addChild(field);
-		columnCheck();
+		gui->addChild(field);
 		return field;
 	}
 
 
 	Control			*SimpleGui::addControl(Control *c) {
 		c->width = SIMPLE_GUI_WIDTH;
-		addChild(c);
-		columnCheck();
+		gui->addChild(c);
 	}
 	void SimpleGui::saveSettings(string file) {
 		if(file=="") {
@@ -352,16 +349,7 @@ namespace xmlgui {
 		}
 	}
 
-	void SimpleGui::columnCheck() {
-		if(mustAddNewColumn) {
-			// move the last added item onto a new column
-			if(children.size()>0) {
-				children.back()->y = 0;
-				children.back()->x = children[children.size()-2]->x + SIMPLE_GUI_WIDTH + AUTO_LAYOUT_PADDING;
-			}
-			mustAddNewColumn = false;
-		}
-	}
+
 
 	void SimpleGui::enableInteraction() {
 		events.enableInteraction();
@@ -370,6 +358,17 @@ namespace xmlgui {
 
 	void SimpleGui::disableInteraction() {
 		events.disableInteraction();
+	}
+	void SimpleGui::addColumn() {
+		
+		// adds an invisible "column" control (doesn't actually do anything except identify
+		// itself as of type "column"
+		Control *c = new Control();
+		c->type = "column";
+		c->id = ofToString(ofRandomuf());
+		c->name = id;
+		c->set(0, 0, 0, 0);
+		gui->addChild(c);
 	}
 }
 
