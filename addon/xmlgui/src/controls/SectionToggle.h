@@ -12,41 +12,39 @@
  *
  *  Description: 
  *				 
- *  Event.h, created by Marek Bereza on 16/11/2012.
+ *  SectionToggle.h, created by Marek Bereza on 08/04/2013.
  */
 
 
 
-namespace xmlgui {
-	struct Event {
-		enum EventType {
-			TOUCH_MOVED,
-			TOUCH_UP,
-			TOUCH_DOWN
-		};
-		xmlgui::Control *control;
+class SectionToggle: public xmlgui::Control {
+public:
+	
+	
+	SectionToggle(): Control() {
+		height = 24;
+		width = 110;
+		value = new bool[1];
+		bval(value) = true;
+	}
+	
+	
+	
+	void draw() {
+		ofSetHexColor(0xFFFFFF);
 		
-		EventType type;
+		string action = "<";
+		if(bval(value)) action = "v";
+		xmlgui::Resources::drawString(name, x+3, y+14);
+		xmlgui::Resources::drawString(action, x+width-6, y+14);
 		
-		Event(Control *control, EventType type) {
-			this->control = control;
-			this->type = type;
-		}
-		void print() {
-			printf("%s\n", this->toString().c_str());
-		}
-		string toString() {
-			string s = "Event (";
-			if(type==TOUCH_MOVED) {
-				s += "TOUCH_MOVED";
-			} else if(type==TOUCH_UP) {
-				s += "TOUCH_UP";
-			} else if(type==TOUCH_DOWN) {
-				s += "TOUCH_DOWN";
-			}
-			s += ") id = '"+control->id+"'\n";
-			return  s;
-		}
-		
-	};
-}
+		ofLine(x, y+height-5, x+width, y+height-5);
+
+	}
+	
+	bool touchDown(int _x, int _y, int button) {
+		bval(value) ^= true;
+		return true;
+	}
+	string valueToString() { return bval(value)?"true":"false"; }
+};

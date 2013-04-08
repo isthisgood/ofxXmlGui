@@ -26,7 +26,6 @@
 #include "RangeSlider.h"
 #include "FloatField.h"
 #include "FloatColorPicker.h"
-
 //#include "SliderBank.h"
 
 
@@ -46,6 +45,8 @@ namespace xmlgui {
 		isSetup = false;
 		SIMPLE_GUI_WIDTH = 150;
 		autosave = true;
+		autoLayout = true;
+		type = "simplegui";
 		
 	}
 
@@ -69,16 +70,42 @@ namespace xmlgui {
 	void SimpleGui::windowResized(ofResizeEventArgs &e) {
 		redoLayout();
 	}
+	
+	
+	void SimpleGui::setCollapse(bool collapsed) {
+		if(!collapsed) {
+			printf("Close\n");
+			for(int i = 1; i < getNumChildren(); i++) {
+				collapsedItems.push_back(getChild(i));
+				removeChild(getChild(i));
+			}
+		} else {
+			printf("Open\n");
+			for(int i = 0; i < collapsedItems.size(); i++) {
+				addChild(collapsedItems[i]);
+			}
+			collapsedItems.clear();
+		}
+	}
 
 	void SimpleGui::controlChanged(xmlgui::Event *e) {
 		this->ctrlChanged(e);
+
 		if(settingsFile!="" && autosave) {
 			saveSettings();
+		}
+		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
+			
+			SimpleGui *s = (SimpleGui*) e->control->parent;
+			s->setCollapse(e->control->getBool());
+			redoLayout();
+			
 		}
 	}
 
 	Title *SimpleGui::addTitle(string title) {
 		Title *t = (Title*) INSTANTIATE_WITH_ID("title", title);
+		t->width = SIMPLE_GUI_WIDTH;
 		gui->addChild(t);
 		return t;
 	}
@@ -120,6 +147,18 @@ namespace xmlgui {
 		
 		gui->addChild(cp);
 		return cp;
+	}
+	SimpleGui *SimpleGui::addSection(string name) {
+		SimpleGui *sg = new SimpleGui();
+		sg->name = name;
+		
+		xmlgui::Control *st = INSTANTIATE_WITH_ID("sectiontoggle", name+"_sectiontoggle");
+		st->name = name;
+		st->width = SIMPLE_GUI_WIDTH;
+		sg->addChild(st);
+		
+		gui->addChild(sg);
+		return sg;
 	}
 	
 	IntSlider *SimpleGui::addSlider(string name, int &value, int min, int max) {
@@ -235,7 +274,10 @@ namespace xmlgui {
 	}
 
 	List *SimpleGui::addList(string name, int &value, string options) {
-		return addList(name, value, ofSplitString(options, "|"));
+		vector<string> opts = ofSplitString(options, "|");
+		if(options=="") opts.clear();
+		
+		return addList(name, value, opts);
 	}
 
 	List *SimpleGui::addList(string name, int &value, vector<string> options) {
@@ -266,10 +308,12 @@ namespace xmlgui {
 	}
 
 	void SimpleGui::redoLayout() {
+
+		if(!autoLayout) return;
 		ofVec2f startingPos(0,0);
 		float winHeight = ofGetHeight();
-		printf("Relaying %d children\n", gui->getNumChildren());
 		float guiY = gui->getAbsolutePosition().y;
+		ofRectangle r;
 		for(int i = 0; i < gui->getNumChildren(); i++) {
 			Control *c = gui->getChild(i);
 			
@@ -277,6 +321,10 @@ namespace xmlgui {
 				startingPos.y = 0;
 				startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
 			} else {
+				if(c->type=="simplegui") {
+					SimpleGui *s = (SimpleGui*)c;
+					s->redoLayout();
+				}
 				c->position(startingPos.x, startingPos.y);
 				if(guiY+c->y+c->height>winHeight) {
 					startingPos.y = 0;
@@ -285,8 +333,11 @@ namespace xmlgui {
 				}
 				
 				startingPos.y += c->height + AUTO_LAYOUT_PADDING;
+				r.growToInclude(*c);
 			}
 		}
+		width = r.width;
+		height = r.height;
 	}
 
 
@@ -303,51 +354,7 @@ namespace xmlgui {
 		c->width = SIMPLE_GUI_WIDTH;
 		gui->addChild(c);
 	}
-	void SimpleGui::saveSettings(string file) {
-		if(file=="") {
-			if(this->settingsFile=="") {
-				ofLogError() << "No settings file specified, will not save gui settings";
-				return;
-			}
-		} else {
-			this->settingsFile = file;
-		}
-		ofxXmlSettings xml;
-		xml.addTag("settings");
-		xml.pushTag("settings");
-		for(int i = 0; i < children.size(); i++) {
-			xml.addTag("setting");
-			xml.addAttribute("setting", "id", children[i]->id, i);
-			xml.addAttribute("setting", "value", children[i]->valueToString(), i);
-		}
-		xml.saveFile(settingsFile);
-	}
-
-
-	void SimpleGui::loadSettings(string file) {
-		this->settingsFile = file;
-		ofxXmlSettings xml;
-		if(!ofFile(file).exists()) {
-			printf("Warning: Couldn't load %s\n", file.c_str());
-			return;
-		}
-		xml.loadFile(file);
-
-		xml.pushTag("settings");
-		int numTags = xml.getNumTags("setting");
-		for(int i = 0; i < numTags; i++) {
-			string id = xml.getAttribute("setting", "id", "", i);
-			string value = xml.getAttribute("setting", "value", "", i);
-			xmlgui::Control *c = getControlById(id);
-			if(c!=NULL) {
-				c->valueFromString(value);
-			} else {
-
-				ofLogError() << "Could not find control named '" << id << "'";
-			}
-
-		}
-	}
+	
 
 
 

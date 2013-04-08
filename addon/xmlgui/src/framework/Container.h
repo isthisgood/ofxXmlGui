@@ -66,6 +66,9 @@ namespace xmlgui {
 		bool isOpaque();
 		void setOpaque(bool opaque);
 		void print(int indent = 0);
+		void saveSettings(string file = "");
+		void loadSettings(string file);
+		
 	protected:
 		bool opaque;
 
@@ -78,6 +81,11 @@ namespace xmlgui {
 		void drawChildren() ;
 
 		deque<Control*> children;
+		string settingsFile;
+		
+		// recursive settings load/save function
+		void saveSettings(ofxXmlSettings &xml);
+		void loadSettings(ofxXmlSettings &xml);
 	};
 
 };

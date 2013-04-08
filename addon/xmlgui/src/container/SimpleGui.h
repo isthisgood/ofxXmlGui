@@ -29,6 +29,7 @@
 
 namespace xmlgui {
 
+	
 	class SimpleGui: public xmlgui::Container, public xmlgui::Listener {
 	public:
 
@@ -67,11 +68,8 @@ namespace xmlgui {
 		FloatField		*addFloatField(string name, float &value);
 		TextField		*addTextField(string name, string &value);
 		Control			*addControl(Control *c);
-
-		void saveSettings(string file = "");
-
-
-		void loadSettings(string file);
+		SimpleGui			*addSection(string name);
+		
 
 		void addColumn();
 		xmlgui::ofGuiEventDispatcher events;
@@ -100,16 +98,19 @@ namespace xmlgui {
 		void setAutoSave(bool autosave) { this->autosave = autosave; }
 		
 		void windowResized(ofResizeEventArgs &e);
+		void setAutoLayout(bool autoLayout) { this->autoLayout = autoLayout; }
+		void setCollapse(bool collapsed);
+		vector<xmlgui::Control*> collapsedItems;
 	protected:
 		xmlgui::Container *gui;
 		void redoLayout();
-
+		
 	private:
 		
+		bool autoLayout;
 		bool autosave;
 		bool enabled;
 		bool isSetup;
-		string settingsFile;
 		float SIMPLE_GUI_WIDTH;
 	};
 };

@@ -40,7 +40,7 @@
 #include "HorizontalRule.h"
 #include "RangeSlider.h"
 #include "IntSlider.h"
-
+#include "SectionToggle.h"
 
 #define REGISTER_CONTROL(A, B) addControlConstructor(ControlInstantiator<A>, B);
 
@@ -57,6 +57,7 @@ void xmlgui::Instantiator::registerControls() {
 	REGISTER_CONTROL(Slider,		"slider");
 	REGISTER_CONTROL(SliderBank,	"sliderbank");
 	REGISTER_CONTROL(HexColorPicker,	"hexcolorpicker");
+	REGISTER_CONTROL(SectionToggle,	"sectiontoggle");
 	REGISTER_CONTROL(FloatColorPicker,	"floatcolorpicker");
 	REGISTER_CONTROL(Knob,			"knob");
 	REGISTER_CONTROL(Toggle,		"toggle");
