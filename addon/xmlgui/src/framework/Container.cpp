@@ -332,6 +332,10 @@ xmlgui::Control *xmlgui::Container::getControlById(string id) {
 	for(it = children.begin(); it != children.end(); it++) {
 		if((*it)->id==id) {
 			return (*it);
+		} else if((*it)->isContainer()) {
+			xmlgui::Container *cont = (xmlgui::Container*)(*it);
+			xmlgui::Control *c = cont->getControlById(id);
+			if(c!=NULL) return c;
 		}
 	}
 	return NULL;
@@ -370,4 +374,70 @@ void xmlgui::Container::print(int indent) {
 	for(it = children.begin(); it != children.end(); it++) {
 		(*it)->print(indent+1);
 	}
+}
+
+void xmlgui::Container::saveSettings(ofxXmlSettings &xml) {
+	for(int i = 0; i < children.size(); i++) {
+		
+		xml.addTag("setting");
+		xml.addAttribute("setting", "id", children[i]->id, i);
+		xml.addAttribute("setting", "value", children[i]->valueToString(), i);
+		if(children[i]->isContainer()) {
+			xml.pushTag("setting", i);
+			Container *c = (Container*)children[i];
+			c->saveSettings(xml);
+			xml.popTag();
+		}
+	}
+}
+void xmlgui::Container::saveSettings(string file) {
+	if(file=="") {
+		if(this->settingsFile=="") {
+			ofLogError() << "No settings file specified, will not save gui settings";
+			return;
+		}
+	} else {
+		this->settingsFile = file;
+	}
+	ofxXmlSettings xml;
+	xml.addTag("settings");
+	xml.pushTag("settings");
+	saveSettings(xml);
+	
+	
+	xml.saveFile(settingsFile);
+}
+
+void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
+	int numTags = xml.getNumTags("setting");
+	for(int i = 0; i < numTags; i++) {
+		string id = xml.getAttribute("setting", "id", "", i);
+		string value = xml.getAttribute("setting", "value", "", i);
+		xmlgui::Control *c = getControlById(id);
+		if(c!=NULL) {
+			c->valueFromString(value);
+			//printf("Setting %s to %s\n", c->id.c_str(), value.c_str());
+			if(c->isContainer()) {
+				xml.pushTag("setting", i);
+				loadSettings(xml);
+			}
+		} else {
+			
+			ofLogError() << "Could not find control named '" << id << "'";
+		}
+		
+	}
+}
+void xmlgui::Container::loadSettings(string file) {
+	//printf("Trying to load %s\n", file.c_str());
+	this->settingsFile = file;
+	ofxXmlSettings xml;
+	if(!ofFile(file).exists()) {
+		printf("Warning: Couldn't load %s\n", file.c_str());
+		return;
+	}
+	xml.loadFile(file);
+	
+	xml.pushTag("settings");
+	loadSettings(xml);
 }

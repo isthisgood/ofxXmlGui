@@ -1,0 +1,4 @@
+<mappings>
+    <mapping type="midi" cc="1" inMin="0.000000000" inMax="127.000000000" outMin="0.000000000" outMax="1.000000000" curve="0" to="d" smoothing="0.000000000"></mapping>
+    <mapping type="midi" cc="7" inMin="0.000000000" inMax="127.000000000" outMin="0.000000000" outMax="1.000000000" curve="0" to="c" smoothing="0.000000000"></mapping>
+</mappings>

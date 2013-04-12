@@ -48,6 +48,8 @@ public:
 
 	void load() {
 		items = ofSplitString(options, "|");
+		// must have zero items if blank
+		if(options=="") items.clear();
 
 	}
 

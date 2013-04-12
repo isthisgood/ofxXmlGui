@@ -1,0 +1,14 @@
+<settings>
+    <setting id="tabber" value="0"></setting>
+    <setting id="fps" value=""></setting>
+    <setting id="default" value="">
+        <setting id="a" value="1.000000000"></setting>
+        <setting id="b" value="0.094488189"></setting>
+        <setting id="c" value="0.306666672"></setting>
+    </setting>
+    <setting id="two" value="">
+        <setting id="d" value="1.000000000"></setting>
+        <setting id="e" value="0.000000000"></setting>
+        <setting id="f" value="0.000000000"></setting>
+    </setting>
+</settings>
