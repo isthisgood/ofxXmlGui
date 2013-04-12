@@ -125,12 +125,12 @@ void Mapper::controlChanged(xmlgui::Event *e) {
 
 
 
-void Mapper::newMidiMessage(ofxMidiEventArgs& eventArgs) {
+void Mapper::newMidiMessage(ofxMidiMessage& eventArgs) {
 	if(eventArgs.status==MIDI_CONTROL_CHANGE) {
 
         mutex.lock();
-		int ccNum = eventArgs.byteOne;
-		int ccVal = eventArgs.byteTwo;
+		int ccNum = eventArgs.bytes[0];
+		int ccVal = eventArgs.bytes[1];
 		if(learning) { // learn the control
 			if(learnStep==LEARN_STEP_SRC) {
 

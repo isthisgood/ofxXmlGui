@@ -34,7 +34,7 @@ namespace xmlgui {
 			xmlgui::SimpleGui g;
 			
 			void setup(xmlgui::Container *gui);
-			void newMidiMessage(ofxMidiEventArgs &e);
+			void newMidiMessage(ofxMidiMessage& e);
 			void controlChanged(xmlgui::Event *e);
 			void setEnabled(bool enabled) { g.setEnabled(enabled); }
 			void toggle() { g.toggle(); }

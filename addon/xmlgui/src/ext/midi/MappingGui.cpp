@@ -240,9 +240,9 @@ void MappingGui::selectMapping(Map *mapping) {
 }
 
 
-void MappingGui::newMidiMessage(ofxMidiEventArgs &e) {
+void MappingGui::newMidiMessage(ofxMidiMessage& e) {
 	if(e.status==MIDI_CONTROL_CHANGE) {
-		int ccNum = e.byteOne;
+		int ccNum = e.bytes[0];
 	
 		if(destControl!=NULL) {
 			createMidiMapping(ccNum, destControl->id);
@@ -255,7 +255,7 @@ void MappingGui::newMidiMessage(ofxMidiEventArgs &e) {
 			// affect the control
 			// look it up first
 			if(midiMappings.find(ccNum)!=midiMappings.end()) {
-				midiMappings[ccNum]->updateValue(e.byteTwo);
+				midiMappings[ccNum]->updateValue(e.bytes[1]);
 			}
 		}
 	} else if(e.status==MIDI_NOTE_ON) {
@@ -267,9 +267,9 @@ void MappingGui::newMidiMessage(ofxMidiEventArgs &e) {
 		if(savingToMidiNote) {
 			saveToMidiNoteButton->name = "Save to midi note";
 			savingToMidiNote = false;
-			save(settingsDir+"mapping-"+ofToString(e.byteOne)+".xml", settingsDir+"settings-"+ofToString(e.byteOne)+".xml");
+			save(settingsDir+"mapping-"+ofToString(e.bytes[0])+".xml", settingsDir+"settings-"+ofToString(e.bytes[0])+".xml");
 		} else {
-			load(settingsDir+"mapping-"+ofToString(e.byteOne)+".xml", settingsDir+"settings-"+ofToString(e.byteOne)+".xml");
+			load(settingsDir+"mapping-"+ofToString(e.bytes[0])+".xml", settingsDir+"settings-"+ofToString(e.bytes[0])+".xml");
 		}
 		
 	}

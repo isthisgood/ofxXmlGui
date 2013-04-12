@@ -162,10 +162,10 @@ namespace xmlgui {
 		static vector<string> getMidiPortNames() {
 			ofxMidiIn inp;
 			inp.listPorts();
-			return inp.portNames;
+			return inp.getPortList();
 		}
 		
-		void newMidiMessage(ofxMidiEventArgs &e) {
+		void newMidiMessage(ofxMidiMessage& e) {
 		}
 	private:
 		ofxMidiIn *midi;
