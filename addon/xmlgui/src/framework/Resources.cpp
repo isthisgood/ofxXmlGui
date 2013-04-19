@@ -49,7 +49,7 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 		//printf("Loading font\n");
 		if(f.exists()) {
 			//printf("Cant find font\n
-			ofLogError("Can't find font\n");
+			//ofLogError("Can't find font\n");
 			font = new ofTrueTypeFont();
 			font->loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
 		} else {
