@@ -129,8 +129,8 @@ void Mapper::newMidiMessage(ofxMidiMessage& eventArgs) {
 	if(eventArgs.status==MIDI_CONTROL_CHANGE) {
 
         mutex.lock();
-		int ccNum = eventArgs.bytes[0];
-		int ccVal = eventArgs.bytes[1];
+		int ccNum = eventArgs.control;
+		int ccVal = eventArgs.value;
 		if(learning) { // learn the control
 			if(learnStep==LEARN_STEP_SRC) {
 

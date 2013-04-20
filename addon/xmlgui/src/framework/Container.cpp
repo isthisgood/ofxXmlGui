@@ -429,7 +429,7 @@ void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 	}
 }
 void xmlgui::Container::loadSettings(string file) {
-	//printf("Trying to load %s\n", file.c_str());
+	printf("Trying to load %s\n", file.c_str());
 	this->settingsFile = file;
 	ofxXmlSettings xml;
 	if(!ofFile(file).exists()) {

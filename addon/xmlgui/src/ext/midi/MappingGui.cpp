@@ -242,7 +242,7 @@ void MappingGui::selectMapping(Map *mapping) {
 
 void MappingGui::newMidiMessage(ofxMidiMessage& e) {
 	if(e.status==MIDI_CONTROL_CHANGE) {
-		int ccNum = e.bytes[0];
+		int ccNum = e.control;
 	
 		if(destControl!=NULL) {
 			createMidiMapping(ccNum, destControl->id);
@@ -255,7 +255,7 @@ void MappingGui::newMidiMessage(ofxMidiMessage& e) {
 			// affect the control
 			// look it up first
 			if(midiMappings.find(ccNum)!=midiMappings.end()) {
-				midiMappings[ccNum]->updateValue(e.bytes[1]);
+				midiMappings[ccNum]->updateValue(e.value);
 			}
 		}
 	} else if(e.status==MIDI_NOTE_ON) {
