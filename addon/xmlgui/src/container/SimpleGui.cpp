@@ -74,14 +74,21 @@ namespace xmlgui {
 	
 	void SimpleGui::setCollapse(bool collapsed) {
 		if(!collapsed) {
-			printf("Close\n");
-			for(int i = 1; i < getNumChildren(); i++) {
+			//printf("Close\n");
+            ofLogVerbose() << "Collapse close";
+            while (getNumChildren() > 1)
+            {
+                collapsedItems.push_back(getChild(1));
+				removeChild(getChild(1));
+            }
+			/*for(int i = 1; i < getNumChildren(); i++) {
 				collapsedItems.push_back(getChild(i));
 				removeChild(getChild(i));
-			}
+			}*/
 		} else {
-			printf("Open\n");
-			for(int i = 0; i < collapsedItems.size(); i++) {
+			//printf("Open\n");
+			ofLogVerbose() << "Collapse open";
+            for(int i = 0; i < collapsedItems.size(); i++) {
 				addChild(collapsedItems[i]);
 			}
 			collapsedItems.clear();
@@ -151,13 +158,14 @@ namespace xmlgui {
 	SimpleGui *SimpleGui::addSection(string name) {
 		SimpleGui *sg = new SimpleGui();
 		sg->name = name;
-		
+        
 		xmlgui::Control *st = INSTANTIATE_WITH_ID("sectiontoggle", name+"_sectiontoggle");
 		st->name = name;
 		st->width = SIMPLE_GUI_WIDTH;
 		sg->addChild(st);
 		
 		gui->addChild(sg);
+        
 		return sg;
 	}
 	

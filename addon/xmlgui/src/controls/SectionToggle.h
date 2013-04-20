@@ -22,10 +22,10 @@ public:
 	
 	
 	SectionToggle(): Control() {
-		height = 24;
+		height = 12;
 		width = 110;
 		value = new bool[1];
-		bval(value) = true;
+		bval(value) = false;
 	}
 	
 	
@@ -35,10 +35,10 @@ public:
 		
 		string action = "<";
 		if(bval(value)) action = "v";
-		xmlgui::Resources::drawString(name, x+3, y+14);
-		xmlgui::Resources::drawString(action, x+width-6, y+14);
+		xmlgui::Resources::drawString(name, x+3, y + 4);
+		xmlgui::Resources::drawString(action, x+width-6, y + 4);
 		
-		ofLine(x, y+height-5, x+width, y+height-5);
+		//ofLine(x, y+height-5, x+width, y+height-5);
 
 	}
 	
