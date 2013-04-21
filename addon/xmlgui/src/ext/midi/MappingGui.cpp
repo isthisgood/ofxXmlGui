@@ -11,6 +11,7 @@ MappingGui::MappingGui() {
 	mappingList = NULL;
 	creatingMapping = false;
 	savingToMidiNote = false;
+    destControl = NULL;
 }
 
 MappingGui::~MappingGui() {
@@ -54,7 +55,7 @@ void MappingGui::setup(xmlgui::Container *gui) {
 	g.addListener(this);
 	gui->addListener(this);
 	
-	load("mappings.xml", "settings.xml");
+	//load("mappings.xml", "settings.xml");
 	
 }
 
@@ -146,14 +147,60 @@ void MappingGui::createMidiMapping(int ccNum, string id) {
 }
 
 void MappingGui::save(string mappingsPath, string settingsPath) {
-	ofxXmlSettings xml;
+	saveMappings(mappingsPath);
+    gui->saveSettings(settingsPath);
+}
+
+void MappingGui::saveMappings(const string& mappingsPath)
+{
+    ofxXmlSettings xml;
 	xml.addTag("mappings");
 	xml.pushTag("mappings");
 	for(int i = 0; i < allMaps.size(); i++) {
 		allMaps[i]->save(xml, i);
 	}
 	xml.saveFile(mappingsPath);
-	gui->saveSettings(settingsPath);
+}
+
+void MappingGui::loadMappings(const string& mappingsPath)
+{
+    for(int i = 0; i < allMaps.size(); i++) {
+		delete allMaps[i];
+		allMaps[i] = NULL;
+	}
+	allMaps.clear();
+	midiMappings.clear();
+	mappingList->clearItems();
+	printf("load\n");
+	
+	ofxXmlSettings xml;
+	if(!xml.loadFile(mappingsPath)) {
+		// ignore files that don't exist
+		printf("Can't load %s\n", mappingsPath.c_str());
+		return;
+	}
+	
+	xml.pushTag("mappings");
+	int numTags = xml.getNumTags("mapping");
+	for(int i = 0; i < numTags; i++) {
+		if(xml.getAttribute("mapping", "type", "", i)=="midi") {
+			
+		    if(gui->getControlById(xml.getAttribute("mapping", "to", "", i))) {
+				MidiMap *mm = new MidiMap(xml, i, gui);
+                allMaps.push_back(mm);
+				midiMappings[mm->cc] = mm;
+		    }
+		} else {
+			//xmlgui::Control *c = sourceGui->getControlById(xml.getAttribute("mapping", "from", "", i));
+			//if(c!=NULL) {
+			//	mappings.push_back(new FloatMap(xml, i, sourceGui, targetGui));
+			//} else {
+			//	printf("Error broken mapping: %s\n", xml.getAttribute("mapping", "from", "", i).c_str());
+			//}
+		}
+	}
+	refreshMappingList();
+	selectMapping(&dummyMap);
 }
 
 void MappingGui::load(string mappingsPath, string settingsPath) {

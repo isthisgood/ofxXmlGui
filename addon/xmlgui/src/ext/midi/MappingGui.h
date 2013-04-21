@@ -44,7 +44,10 @@ namespace xmlgui {
 			void update(ofEventArgs &e);
 			void save(string mappingsPath, string settingsPath);
 			void load(string mappingsPath, string settingsPath);
-			
+            
+            void saveMappings(const string& mappingsPath);
+			void loadMappings(const string& mappingsPath);
+            
 			void setSettingsDir(string settingsDir) { this->settingsDir = settingsDir; }
 			
 			

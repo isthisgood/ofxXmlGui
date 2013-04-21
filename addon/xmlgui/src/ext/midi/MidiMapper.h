@@ -167,6 +167,16 @@ namespace xmlgui {
 		
 		void newMidiMessage(ofxMidiMessage& e) {
 		}
+        
+        void saveMappings(const string& mappingsPath)
+        {
+            mappingGui.saveMappings(mappingsPath);
+        }
+        
+        void loadMappings(const string& mappingsPath)
+        {
+            mappingGui.loadMappings(mappingsPath);
+        }
 	private:
 		ofxMidiIn *midi;
 		bool mustDeleteMidi;
