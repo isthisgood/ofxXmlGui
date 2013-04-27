@@ -101,9 +101,10 @@ namespace xmlgui {
 		void setAutoLayout(bool autoLayout) { this->autoLayout = autoLayout; }
 		void setCollapse(bool collapsed);
 		vector<xmlgui::Control*> collapsedItems;
-	protected:
+        void redoLayout();
+		
+    protected:
 		xmlgui::Container *gui;
-		void redoLayout();
 		
 	private:
 		
