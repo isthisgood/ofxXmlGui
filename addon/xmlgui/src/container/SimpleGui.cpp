@@ -361,6 +361,7 @@ namespace xmlgui {
 	Control			*SimpleGui::addControl(Control *c) {
 		c->width = SIMPLE_GUI_WIDTH;
 		gui->addChild(c);
+		return c;
 	}
 	
 

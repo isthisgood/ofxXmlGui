@@ -143,7 +143,6 @@ public:
 		if(vertical) {
 			float val = 1 - (float)(_y-y)/height;
 			ival(value) = round((float)val*((float)max-min) + min);
-
 		} else {
 			float val = (float)(_x-x)/width;
 			ival(value) = round((float)val*(max-min) + min);
