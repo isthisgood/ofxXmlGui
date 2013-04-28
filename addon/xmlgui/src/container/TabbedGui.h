@@ -73,9 +73,11 @@ namespace xmlgui {
 				if(i==index) {
 					tabs[i].second->position(0, guiYOffset);
 					gui = tabs[i].second;
-					if(ofGetAppPtr()!=NULL) redoLayout();
+					if(ofGetAppPtr()!=NULL)
+                        redoLayout();
 				} else {
-					tabs[i].second->position(-1000, 0);
+					//tabs[i].second->position(-1000, 0);
+                    tabs[i].second->position(-ofGetWidth(), 0);
 				}
 			}
 		}
