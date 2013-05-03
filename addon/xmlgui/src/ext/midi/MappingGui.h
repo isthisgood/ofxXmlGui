@@ -48,9 +48,9 @@ namespace xmlgui {
             void saveMappings(const string& mappingsPath);
 			void loadMappings(const string& mappingsPath);
             
-			void setSettingsDir(string settingsDir) { this->settingsDir = settingsDir; }
+			void setSettingsDir(const string& settingsDir) { this->settingsDir = settingsDir; }
 			
-			
+            void setRightX(float rightX) { this->rightX = rightX; }
 			
 		private:
 			
@@ -70,6 +70,7 @@ namespace xmlgui {
 			void refreshMappingList();
 			bool creatingMapping;
 			bool savingToMidiNote;
+            float rightX;
 		};
 
 	}

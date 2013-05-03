@@ -55,14 +55,15 @@ void MappingGui::setup(xmlgui::Container *gui) {
 	g.addListener(this);
 	gui->addListener(this);
 	
+    rightX = -1;
 	//load("mappings.xml", "settings.xml");
 	
 }
 
 void MappingGui::windowResized(ofResizeEventArgs &e) {
 	if(mappingList==NULL) return;
-	
-	g.x = ofGetWidth()-mappingList->width;
+	if (rightX == -1) g.x = ofGetWidth()-mappingList->width;
+    else g.x = rightX - mappingList->width;
 }
 void MappingGui::update(ofEventArgs &e) {
 	for(int i = 0; i < allMaps.size(); i++) {
