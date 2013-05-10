@@ -100,7 +100,7 @@ namespace xmlgui {
 		
 		void windowResized(ofResizeEventArgs &e);
 		void setAutoLayout(bool autoLayout) { this->autoLayout = autoLayout; }
-		void setCollapse(bool collapsed);
+		void setCollapsed(bool collapsed);
 		vector<xmlgui::Control*> collapsedItems;
         void redoLayout();
 		

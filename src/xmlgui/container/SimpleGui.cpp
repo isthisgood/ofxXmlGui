@@ -72,7 +72,7 @@ namespace xmlgui {
 	}
 	
 	
-	void SimpleGui::setCollapse(bool collapse) {
+	void SimpleGui::setCollapsed(bool collapse) {
 		
 		if(getNumChildren()>0) getChild(0)->setValue(!collapse);
 		for(int i = 1; i < getNumChildren(); i++) {
@@ -90,7 +90,7 @@ namespace xmlgui {
 		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
 			
 			SimpleGui *s = (SimpleGui*) e->control->parent;
-			s->setCollapse(!e->control->getBool());
+			s->setCollapsed(!e->control->getBool());
 			
 			
 		}
