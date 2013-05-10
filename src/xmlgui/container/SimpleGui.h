@@ -8,7 +8,7 @@
 #include "List.h"
 #include "PushButton.h"
 #include "ofGuiEventDispatcher.h"
-#include "Drawable.h"
+#include "controls/Drawable.h"
 #include "Panner.h"
 #include "IntSlider.h"
 #include "Meter.h"
