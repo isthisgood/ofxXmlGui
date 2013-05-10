@@ -15,7 +15,8 @@ namespace xmlgui {
 		static void drawString(string str, int x, int y);
 		static ofTrueTypeFont *font;
 		static ofImage *getImage(string path);
-		
+		static void bindFont();
+		static void unbindFont();
 	private:
 		static bool customFontNotAvailable;
 		static map<string,ofImage*> images;

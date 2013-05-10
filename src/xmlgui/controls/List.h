@@ -9,8 +9,8 @@
 #pragma once
 
 #define SCROLL_NONE 0
-#define SCROLL_UP 2
-#define SCROLL_DOWN -2
+#define SCROLL_UP 4
+#define SCROLL_DOWN -4
 
 #include "xmlgui/controls/LabeledControl.h"
 
@@ -37,7 +37,8 @@ public:
 		fgColor = 0xFFFFFF;
 		dragging = false;
 		scrolling = SCROLL_NONE;
-		itemHeight = scrollerWidth = 22;
+		itemHeight = 16;
+		scrollerWidth = 22;
 		scrollOffset = 0;
 		value = new int[1];
 		ival(value) = -1;
@@ -89,38 +90,70 @@ public:
 		setRGBA(bgColor);
 		ofRect(x, y, width, height);
 
-		glEnable(GL_SCISSOR_TEST);
+		//glEnable(GL_SCISSOR_TEST);
 
 		ofNoFill();
 		setRGBA(fgColor);
 		ofRect(x, y, width, height);
 
+		
+		
 		ofPoint abs = getAbsolutePosition();
-		maskOn(abs.x, abs.y, width, height);
+		maskOn(abs.x, abs.y, width - scrollerWidth, height);
 
 
 
-
+		ofFill();
+		ofSetHexColor(0x999999);
+		
 		for(int i =0; i < items.size(); i++) {
-			setRGBA(fgColor);
+			float yy = scrollOffset + y + i*itemHeight;
+			if(i==ival(value)) {
+				ofSetHexColor(0x007700);
+				ofRect(x, yy, width-scrollerWidth, itemHeight);
+			}
+			
+			ofSetHexColor(0x999999);
+			ofLine(x, yy+itemHeight, x+width-scrollerWidth, yy+itemHeight);
 
-
-			ofRect(x, scrollOffset + y + i*itemHeight, width-scrollerWidth, itemHeight);
-
-			if(i==ival(value)) ofSetHexColor(0x00FF00);
+		}
+		
+		
+		
+		ofNoFill();
+		
+		setRGBA(fgColor);
+		
+		// do all font writing in one fell swoop
+		xmlgui::Resources::bindFont();
+		for(int i =0; i < items.size(); i++) {
+			//if(i==ival(value)) ofSetHexColor(0x00FF00);
+			//else
+			//	setRGBA(fgColor);
+			
 			xmlgui::Resources::drawString(items[i], x+5, scrollOffset + y + (i+1)*itemHeight-4);
-
+			
 			// only draw as much as we need
 			//if((i+1)*itemHeight>height) break;
 		}
-		ofNoFill();
+		xmlgui::Resources::unbindFont();
+		
+	
+		maskOff();
+		
+		
 		if(needsScrollbar()) setRGBA(fgColor);
 		else setRGBA(blendColor(fgColor, bgColor, 0.2));
 		ofLine(x+width-scrollerWidth, y+height/2, x+width, y+height/2);
 		ofLine(x+width-scrollerWidth, y, x+width-scrollerWidth, y+height);
+		
+		xmlgui::Resources::bindFont();
 		xmlgui::Resources::drawString("UP", 4+x+width-scrollerWidth, y+height/2 - 5);
 		xmlgui::Resources::drawString("DN", 4+x+width-scrollerWidth, y+height/2 + 15);
-		maskOff();
+		xmlgui::Resources::unbindFont();
+		
+		
+		
 		ofFill();
 		drawLabel();
 	}

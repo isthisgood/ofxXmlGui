@@ -38,7 +38,7 @@ public:
                xmlgui::SimpleGui *sourceGui);
 
     void controlChanged(xmlgui::Event *e);
-    void newMidiMessage(ofxMidiEventArgs& eventArgs);
+    void newMidiMessage(ofxMidiMessage& eventArgs);
     void learn();
     void mousePressed(ofMouseEventArgs &e);
     void update();

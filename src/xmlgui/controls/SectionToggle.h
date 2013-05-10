@@ -15,31 +15,46 @@
  *  SectionToggle.h, created by Marek Bereza on 08/04/2013.
  */
 
+<<<<<<< HEAD:src/xmlgui/controls/SectionToggle.h
 #include "xmlgui/framework/Control.h"
+=======
+#include "LabeledControl.h"
+>>>>>>> origin/dev:addon/xmlgui/src/controls/SectionToggle.h
 
 
-class SectionToggle: public xmlgui::Control {
+class SectionToggle: public LabeledControl {
 public:
 	
 	
-	SectionToggle(): Control() {
-		height = 24;
+	SectionToggle(): LabeledControl() {
+		height = 12;
 		width = 110;
 		value = new bool[1];
-		bval(value) = true;
+		bval(value) = false;
 	}
 	
 	
 	
 	void draw() {
+
+		ofSetHexColor(0x333333);
+		ofRect(*this);
+		
 		ofSetHexColor(0xFFFFFF);
 		
 		string action = "<";
 		if(bval(value)) action = "v";
-		xmlgui::Resources::drawString(name, x+3, y+14);
-		xmlgui::Resources::drawString(action, x+width-6, y+14);
+		drawLabel(x+3,y+9);
+		drawCustomLabel(action, x+width-6, y + 9);
+/*		xmlgui::Resources::bindFont();
+		xmlgui::Resources::drawString(name, x+3, y + 9);
+		xmlgui::Resources::drawString(action, x+width-6, y + 9);
+		xmlgui::Resources::unbindFont();
+ */
+
+
 		
-		ofLine(x, y+height-5, x+width, y+height-5);
+	//	ofLine(x, y+height, x+width, y+height);
 
 	}
 	

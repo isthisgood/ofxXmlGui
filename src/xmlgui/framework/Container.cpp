@@ -19,6 +19,7 @@ xmlgui::Container::Container(): Control() {
 	keyboardFocusedControl = NULL;
 	focusedControl = NULL;
 	opaque = false;
+	enabled = true;
 
 }
 
@@ -52,6 +53,8 @@ xmlgui::Container::~Container() {
 	clear();
 }
 void xmlgui::Container::draw() {
+	//glDisable(GL_DEPTH_TEST);
+	if(!enabled) return;
 	if(bgImage!=NULL) {
 		bgImage->draw(x, y, width, height);
 
@@ -108,6 +111,7 @@ void xmlgui::Container::setKeyboardFocus(Control *keyboardFocusedControl) {
 }
 
 void xmlgui::Container::touchOver(int x, int y, int id) {
+	if(!enabled) return;
 	x -= this->x;
 	y -= this->y;
 	deque<Control*>::iterator it;
@@ -123,6 +127,7 @@ void xmlgui::Container::notifyChange(xmlgui::Event *e) {
 	}
 }
 bool xmlgui::Container::touchDown(int x, int y, int id) {
+	if(!enabled) return;
 	x -= this->x;
 	y -= this->y;
 	deque<Control*>::iterator it;
@@ -143,6 +148,7 @@ bool xmlgui::Container::touchDown(int x, int y, int id) {
 }
 
 bool xmlgui::Container::touchMoved(int x, int y, int id) {
+	if(!enabled) return;
 	x -= this->x;
 	y -= this->y;
 
@@ -179,6 +185,7 @@ bool xmlgui::Container::touchMoved(int x, int y, int id) {
 
 
 bool xmlgui::Container::touchUp(int x, int y, int id) {
+	if(!enabled) return;
 	x -= this->x;
 	y -= this->y;
 
@@ -300,6 +307,7 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 }
 
 bool xmlgui::Container::keyPressed(int key) {
+	if(!enabled) return;
 	if(keyboardFocusedControl!=NULL) {
 		return keyboardFocusedControl->keyPressed(key);
 	} else {
@@ -429,7 +437,7 @@ void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 	}
 }
 void xmlgui::Container::loadSettings(string file) {
-	//printf("Trying to load %s\n", file.c_str());
+	printf("Trying to load %s\n", file.c_str());
 	this->settingsFile = file;
 	ofxXmlSettings xml;
 	if(!ofFile(file).exists()) {

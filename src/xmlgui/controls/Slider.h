@@ -87,7 +87,20 @@ public:
 			setRGBA(fgColor);
 
 			if(vertical) ofRect(x, y+height-height*val, width, height*val);
-			else ofRect(x, y, width*val, height);
+			else
+            {
+                if (val < 0)
+                {
+                    ofSetColor(0, 0, 0);
+                    ofRect(x, y, width, height);
+                }
+                else if (val > 1)
+                {
+                    ofSetColor(255, 0, 0);
+                    ofRect(x, y, width, height);
+                }
+                else ofRect(x, y, width*val, height);
+            }
 		}
 
 		if(sliderHandle!=NULL) {
@@ -123,7 +136,7 @@ public:
             } catch(int i) {printf("Caught exception in Slider.h"); }
 
 		} else {
-			drawLabel(x, y-3);
+			drawLabel(x, y);
 		}
 		if(sliderBG==NULL) {
 			setRGBA(borderColor);

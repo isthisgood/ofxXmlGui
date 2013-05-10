@@ -34,7 +34,7 @@ namespace xmlgui {
 			xmlgui::SimpleGui g;
 			
 			void setup(xmlgui::Container *gui);
-			void newMidiMessage(ofxMidiEventArgs &e);
+			void newMidiMessage(ofxMidiMessage& e);
 			void controlChanged(xmlgui::Event *e);
 			void setEnabled(bool enabled) { g.setEnabled(enabled); }
 			void toggle() { g.toggle(); }
@@ -44,10 +44,13 @@ namespace xmlgui {
 			void update(ofEventArgs &e);
 			void save(string mappingsPath, string settingsPath);
 			void load(string mappingsPath, string settingsPath);
+            
+            void saveMappings(const string& mappingsPath);
+			void loadMappings(const string& mappingsPath);
+            
+			void setSettingsDir(const string& settingsDir) { this->settingsDir = settingsDir; }
 			
-			void setSettingsDir(string settingsDir) { this->settingsDir = settingsDir; }
-			
-			
+            void setRightX(float rightX) { this->rightX = rightX; }
 			
 		private:
 			
@@ -67,6 +70,7 @@ namespace xmlgui {
 			void refreshMappingList();
 			bool creatingMapping;
 			bool savingToMidiNote;
+            float rightX;
 		};
 
 	}

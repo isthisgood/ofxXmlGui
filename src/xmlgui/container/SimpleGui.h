@@ -44,6 +44,7 @@ namespace xmlgui {
 		virtual void ctrlChanged(xmlgui::Event *e) {
 
 		}
+		
 		void controlChanged(xmlgui::Event *e);
 		Title 		 	*addTitle(string title);
 		RangeSlider		*addRangeSlider(string name, float *value, float min = 0, float max = 1);
@@ -101,9 +102,10 @@ namespace xmlgui {
 		void setAutoLayout(bool autoLayout) { this->autoLayout = autoLayout; }
 		void setCollapse(bool collapsed);
 		vector<xmlgui::Control*> collapsedItems;
-	protected:
+        void redoLayout();
+		
+    protected:
 		xmlgui::Container *gui;
-		void redoLayout();
 		
 	private:
 		

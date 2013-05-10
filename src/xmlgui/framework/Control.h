@@ -20,13 +20,13 @@
 #define faval(A, B) (*(((float*)A)+B))
 #define sval(A) (*((string*)A))
 
-
 namespace xmlgui {
 	class Container;	
 	class Control: public ofRectangle {
 		
 	public:
 		virtual ~Control();
+
 		// human readable name
 		string name;
 		

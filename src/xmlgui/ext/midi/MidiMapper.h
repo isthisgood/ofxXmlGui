@@ -30,6 +30,7 @@ namespace xmlgui {
 		MidiMapper(): SimpleGui() {
 			mustDeleteMidi = false;
 			midi = NULL;
+            rightX = -1;
 		}
 		
 		
@@ -55,6 +56,7 @@ namespace xmlgui {
 			setup(gui, inp);
 		}
 		
+		ofxMidiIn *getMidiInPtr() { return midi; }
 		  
 		
 		/**
@@ -109,7 +111,8 @@ namespace xmlgui {
 		
 		void windowResized(ofResizeEventArgs &e) {
 			showButton->width = 140;
-			showButton->position(e.width - showButton->width, 0);
+			if (rightX == -1) showButton->position(e.width - showButton->width, 0);
+			else showButton->position(rightX - showButton->width, 0);
 			mappingGui.windowResized(e);
 		}
 		void ctrlChanged(xmlgui::Event *e) {
@@ -162,12 +165,26 @@ namespace xmlgui {
 		static vector<string> getMidiPortNames() {
 			ofxMidiIn inp;
 			inp.listPorts();
-			return inp.portNames;
+			return inp.getPortList();
 		}
 		
-		void newMidiMessage(ofxMidiEventArgs &e) {
+		void newMidiMessage(ofxMidiMessage& e) {
 		}
+        
+        void saveMappings(const string& mappingsPath)
+        {
+            mappingGui.saveMappings(mappingsPath);
+        }
+        
+        void loadMappings(const string& mappingsPath)
+        {
+            mappingGui.loadMappings(mappingsPath);
+        }
+        
+        void setRightX(float rightX) { this->rightX = rightX; mappingGui.setRightX(rightX); }
+        
 	private:
+        float rightX;
 		ofxMidiIn *midi;
 		bool mustDeleteMidi;
 		xmlgui::midi::MappingGui mappingGui;

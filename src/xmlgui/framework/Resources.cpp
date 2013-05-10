@@ -8,7 +8,10 @@
 
 #include "xmlgui/framework/Resources.h"
 #include <sys/stat.h>
-
+#include "Container.h"
+#include "LabeledControl.h"
+vector<pair<ofVec2f, string> > LabeledControl::labels;
+int LabeledControl::lastDrawnFrame = 0;
 //#define DEFAULT_FONT "OCRAStd.ttf"
 //#define DEFAULT_FONT_SIZE 12
 #define DEFAULT_FONT "res/mono0755.ttf"
@@ -49,7 +52,7 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 		//printf("Loading font\n");
 		if(f.exists()) {
 			//printf("Cant find font\n
-			ofLogError("Can't find font\n");
+			//ofLogError("Can't find font\n");
 			font = new ofTrueTypeFont();
 			font->loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
 		} else {
@@ -64,3 +67,17 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 	}
 
 }
+
+void xmlgui::Resources::bindFont() {
+	if(font!=NULL && !customFontNotAvailable) {
+		font->bind(); 
+	}
+}
+void xmlgui::Resources::unbindFont() {
+	if(font!=NULL && !customFontNotAvailable) {
+		font->unbind();
+	}
+}
+
+
+
