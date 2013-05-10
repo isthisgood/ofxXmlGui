@@ -72,14 +72,14 @@ namespace xmlgui {
 			for(int i = 0; i < tabs.size(); i++) {
 				if(i==index) {
 					tabs[i].second->position(0, guiYOffset);
-					tabs[i].second->setEnabled(true);
+					tabs[i].second->setActive(true);
 					gui = tabs[i].second;
 					if(ofGetAppPtr()!=NULL)
                         redoLayout();
 				} else {
 					//tabs[i].second->position(-1000, 0);
                     tabs[i].second->position(-ofGetWidth()*10, 0);
-					tabs[i].second->setEnabled(false);
+					tabs[i].second->setActive(false);
 				}
 			}
 		}

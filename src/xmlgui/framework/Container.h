@@ -68,12 +68,10 @@ namespace xmlgui {
 		void print(int indent = 0);
 		void saveSettings(string file = "");
 		void loadSettings(string file);
-		void setEnabled(bool en) { this->enabled = en; }
-		bool isEnabled() { return enabled; }
+
 	protected:
 		bool opaque;
 
-		bool enabled;
 		string bgImageUrl;
 		ofImage *bgImage;
 		// the control currently receiving keyboard events

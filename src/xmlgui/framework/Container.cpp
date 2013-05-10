@@ -19,7 +19,7 @@ xmlgui::Container::Container(): Control() {
 	keyboardFocusedControl = NULL;
 	focusedControl = NULL;
 	opaque = false;
-	enabled = true;
+
 
 }
 
@@ -54,7 +54,7 @@ xmlgui::Container::~Container() {
 }
 void xmlgui::Container::draw() {
 	//glDisable(GL_DEPTH_TEST);
-	if(!enabled) return;
+	if(!active) return;
 	if(bgImage!=NULL) {
 		bgImage->draw(x, y, width, height);
 
@@ -111,11 +111,12 @@ void xmlgui::Container::setKeyboardFocus(Control *keyboardFocusedControl) {
 }
 
 void xmlgui::Container::touchOver(int x, int y, int id) {
-	if(!enabled) return;
+	if(!active) return;
 	x -= this->x;
 	y -= this->y;
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
+		if(!(*it)->active) continue;
 		(*it)->over = (*it)->inside(x, y);
 		(*it)->touchOver(x, y, id);
 	}
@@ -127,11 +128,12 @@ void xmlgui::Container::notifyChange(xmlgui::Event *e) {
 	}
 }
 bool xmlgui::Container::touchDown(int x, int y, int id) {
-	if(!enabled) return;
+	if(!active) return;
 	x -= this->x;
 	y -= this->y;
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
+		if(!(*it)->active) continue;
 		(*it)->over = (*it)->down = (*it)->inside(x, y);
 		// if you're a container, pass the touch down, if you're a control only pass the touch down if you're in the box
 
@@ -148,7 +150,7 @@ bool xmlgui::Container::touchDown(int x, int y, int id) {
 }
 
 bool xmlgui::Container::touchMoved(int x, int y, int id) {
-	if(!enabled) return;
+	if(!active) return;
 	x -= this->x;
 	y -= this->y;
 
@@ -164,6 +166,7 @@ bool xmlgui::Container::touchMoved(int x, int y, int id) {
 #else
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
+		if(!(*it)->active) continue;
 		xmlgui::Control *c = (*it);
 
 		c->over = c->down = c->inside(x, y);
@@ -185,7 +188,7 @@ bool xmlgui::Container::touchMoved(int x, int y, int id) {
 
 
 bool xmlgui::Container::touchUp(int x, int y, int id) {
-	if(!enabled) return;
+	if(!active) return;
 	x -= this->x;
 	y -= this->y;
 
@@ -197,6 +200,7 @@ bool xmlgui::Container::touchUp(int x, int y, int id) {
 #else
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
+		if(!(*it)->active) continue;
 		xmlgui::Control *c = (*it);
 #endif
 		c->over = c->down = false;
@@ -223,6 +227,7 @@ void xmlgui::Container::drawChildren() {
 	glTranslatef(x, y, 0);
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
+		if(!(*it)->active) continue;
 		(*it)->draw();
 	}
 	glPopMatrix();
@@ -307,7 +312,7 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 }
 
 bool xmlgui::Container::keyPressed(int key) {
-	if(!enabled) return;
+	if(!active) return;
 	if(keyboardFocusedControl!=NULL) {
 		return keyboardFocusedControl->keyPressed(key);
 	} else {

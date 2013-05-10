@@ -141,6 +141,7 @@ public:
 			ival(value) = __round((float)val*(max-min) + min);
 
 		}
+		ival(value) = ofClamp(ival(value), min, max);
 		return true;
 	}
 

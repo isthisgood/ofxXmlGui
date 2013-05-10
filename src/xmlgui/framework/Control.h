@@ -53,6 +53,9 @@ namespace xmlgui {
 		// whether the control should be scaleable, this will be false when using images
 		bool scalable;
 		
+		// whether it's drawn, and accepts events
+		bool active;
+		
 		// 
 		ofVec2f getAbsolutePosition();
 		
@@ -63,6 +66,8 @@ namespace xmlgui {
 		Control *size(float width, float height);
 		
 		Control();
+		
+		void setActive(bool active) { this->active = active; }
 		
 		
 		virtual void draw();

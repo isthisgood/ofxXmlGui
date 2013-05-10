@@ -72,27 +72,13 @@ namespace xmlgui {
 	}
 	
 	
-	void SimpleGui::setCollapse(bool collapsed) {
-		if(!collapsed) {
-			//printf("Close\n");
-            ofLogVerbose() << "Collapse close";
-            while (getNumChildren() > 1)
-            {
-                collapsedItems.push_back(getChild(1));
-				removeChild(getChild(1));
-            }
-			/*for(int i = 1; i < getNumChildren(); i++) {
-				collapsedItems.push_back(getChild(i));
-				removeChild(getChild(i));
-			}*/
-		} else {
-			//printf("Open\n");
-			ofLogVerbose() << "Collapse open";
-            for(int i = 0; i < collapsedItems.size(); i++) {
-				addChild(collapsedItems[i]);
-			}
-			collapsedItems.clear();
+	void SimpleGui::setCollapse(bool collapse) {
+		
+		if(getNumChildren()>0) getChild(0)->setValue(!collapse);
+		for(int i = 1; i < getNumChildren(); i++) {
+			getChild(i)->setActive(!collapse);
 		}
+		redoLayout();
 	}
 
 	void SimpleGui::controlChanged(xmlgui::Event *e) {
@@ -104,8 +90,8 @@ namespace xmlgui {
 		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
 			
 			SimpleGui *s = (SimpleGui*) e->control->parent;
-			s->setCollapse(e->control->getBool());
-			redoLayout();
+			s->setCollapse(!e->control->getBool());
+			
 			
 		}
 	}
@@ -162,7 +148,9 @@ namespace xmlgui {
 		xmlgui::Control *st = INSTANTIATE_WITH_ID("sectiontoggle", name+"_sectiontoggle");
 		st->name = name;
 		st->width = SIMPLE_GUI_WIDTH;
+		st->setValue(true);
 		sg->addChild(st);
+		
 		
 		gui->addChild(sg);
         
@@ -324,7 +312,7 @@ namespace xmlgui {
 		ofRectangle r;
 		for(int i = 0; i < gui->getNumChildren(); i++) {
 			Control *c = gui->getChild(i);
-			
+			if(!c->active) continue;
 			if(c->type=="column") {
 				startingPos.y = 0;
 				startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;

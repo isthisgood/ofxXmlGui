@@ -19,6 +19,7 @@ xmlgui::Control::Control() {
 	value = NULL;
 	width = 100;
 	height = 20;
+	active = true;
 }
 
 void xmlgui::Control::draw() {
