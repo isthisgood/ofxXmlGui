@@ -125,7 +125,7 @@ public:
         oss <<  ofToString(faval(value, 0), 9) << "," <<
                 ofToString(faval(value, 1), 9) << "," <<
                 ofToString(faval(value, 2), 9) << "," <<
-                ofToString(faval(value, 3), 9) << ",";
+                ofToString(faval(value, 3), 9);
         return oss.str();
 		/*return ofToString(faval(value, 0), 9)
 		+ "," + ofToString(faval(value, 1), 9);
