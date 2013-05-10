@@ -5,8 +5,11 @@
  * Created by Marek Bereza on 06/07/2011.
  *
  */
-#include "Control.h"
+
 #pragma once
+
+#include "xmlgui/framework/Control.h"
+
 class LabeledControl: public xmlgui::Control {
 public:
 	LabeledControl(): Control() {

@@ -6,7 +6,7 @@
  *
  */
 
-#include "Resources.h"
+#include "xmlgui/framework/Resources.h"
 #include <sys/stat.h>
 
 //#define DEFAULT_FONT "OCRAStd.ttf"

@@ -15,8 +15,8 @@
  *  TabbedGui.h, created by Marek Bereza on 20/03/2013.
  */
 
-#include "SimpleGui.h"
-#include "FPSCounter.h"
+#include "xmlgui/container/SimpleGui.h"
+#include "xmlgui/controls/FPSCounter.h"
 namespace xmlgui {
 	class TabbedGui: public SimpleGui {
 	public:

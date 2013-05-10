@@ -16,6 +16,7 @@
  */
 
 #pragma once
+#include "xmlgui/framework/Control.h"
 
 class HorizontalRule: public xmlgui::Control {
 public:

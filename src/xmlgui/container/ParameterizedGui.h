@@ -15,8 +15,8 @@
  *  ParameterizedGui.h, created by Marek Bereza on 13/11/2012.
  */
 
-#include "SimpleGui.h"
-#include "Parameterized.h"
+#include "xmlgui/container/SimpleGui.h"
+#include "xmlgui/container/Parameterized.h"
 
 namespace xmlgui {
 	class ParameterizedGui: public xmlgui::SimpleGui {

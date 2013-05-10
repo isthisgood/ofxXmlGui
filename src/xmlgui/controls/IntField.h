@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 class IntField: public LabeledControl {
 public:
 	

@@ -5,9 +5,9 @@
  * Created by Marek Bereza on 19/06/2011.
  *
  */
-#include "Gui.h"
+#include "xmlgui/framework/Gui.h"
 #include "ofxXmlSettings.h"
-#include "Instantiator.h"
+#include "xmlgui/framework/Instantiator.h"
 xmlgui::Gui::Gui(): xmlgui::Container() {
 	root = NULL;
 }

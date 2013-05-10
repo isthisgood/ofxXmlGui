@@ -7,7 +7,8 @@
  */
 #pragma once
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
+
 class Toggle: public LabeledControl {
 public:
 

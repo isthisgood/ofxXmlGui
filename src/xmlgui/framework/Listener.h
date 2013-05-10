@@ -6,8 +6,8 @@
  *
  */
 #pragma once
-#include "Control.h"
-#include "Event.h"
+#include "xmlgui/framework/Control.h"
+#include "xmlgui/framework/Event.h"
 
 
 namespace xmlgui {

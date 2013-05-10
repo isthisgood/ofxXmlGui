@@ -12,8 +12,8 @@
  */
 
 #pragma once
-#include "Container.h"
-#include "ofGuiEventDispatcher.h"
+#include "xmlgui/framework/Container.h"
+#include "xmlgui/framework/ofGuiEventDispatcher.h"
 namespace xmlgui {
 	class Gui: public Container, public ofGuiEventDispatcher {
 	public:

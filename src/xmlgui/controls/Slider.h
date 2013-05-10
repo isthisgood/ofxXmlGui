@@ -8,8 +8,7 @@
 
 #pragma once
 
-#include "Control.h"
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 #include <math.h>
 #include <stdlib.h>
 

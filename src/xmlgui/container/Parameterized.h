@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "SimpleGui.h"
+#include "xmlgui/container/SimpleGui.h"
 
 
 namespace xmlgui {

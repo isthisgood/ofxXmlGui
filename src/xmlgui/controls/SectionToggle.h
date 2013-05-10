@@ -15,6 +15,7 @@
  *  SectionToggle.h, created by Marek Bereza on 08/04/2013.
  */
 
+#include "xmlgui/framework/Control.h"
 
 
 class SectionToggle: public xmlgui::Control {

@@ -15,6 +15,8 @@
  *  Event.h, created by Marek Bereza on 16/11/2012.
  */
 
+#pragma once
+#include "xmlgui/framework/Control.h"
 
 
 namespace xmlgui {

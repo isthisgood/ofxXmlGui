@@ -7,7 +7,7 @@
  */
 #pragma once
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 
 class Slider2D: public LabeledControl {
 public:

@@ -5,7 +5,7 @@
  * Created by Marek Bereza on 08/02/2011.
  *
  */
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 #pragma once
 namespace xmlgui {
 	class Drawable: public LabeledControl {

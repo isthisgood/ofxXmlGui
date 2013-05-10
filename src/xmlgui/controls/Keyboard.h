@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Control.h"
+#include "xmlgui/framework/Control.h"
 class Keyboard: public xmlgui::Control {
 public:
 

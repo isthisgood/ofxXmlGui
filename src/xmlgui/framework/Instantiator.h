@@ -8,7 +8,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Control.h"
+#include "xmlgui/framework/Control.h"
 #define INSTANTIATE(A) xmlgui::Instantiator::getInstance()->createControl(A)
 #define INSTANTIATE_WITH_ID(A, B) xmlgui::Instantiator::getInstance()->createControlWithIdAndName(A, B)
 typedef xmlgui::Control* (*controlConstructor)();

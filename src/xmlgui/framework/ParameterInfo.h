@@ -7,7 +7,8 @@
  */
 
 #pragma once
-
+#include <string>
+using namespace std;
 class ParameterInfo {
 public:
 	string name;

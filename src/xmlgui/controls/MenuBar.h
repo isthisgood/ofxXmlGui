@@ -5,8 +5,8 @@
  * Created by Marek Bereza on 27/06/2011.
  *
  */
-#include "Container.h"
-#include "Menu.h"
+#include "xmlgui/framework/Container.h"
+#include "xmlgui/controls/Menu.h"
 class MenuBar: public xmlgui::Container {
 public:
 	MenuBar(): Container() {

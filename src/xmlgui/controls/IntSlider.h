@@ -17,18 +17,11 @@
 
 
 
-/*
- *  GuiSlider.h
- *  Gui
- *
- *  Created by Marek Bereza on 11/02/2010.
- *
- */
-
 #pragma once
 
-#include "Control.h"
-#include "LabeledControl.h"
+#include "xmlgui/framework/Control.h"
+#include "xmlgui/controls/LabeledControl.h"
+
 #include <math.h>
 class IntSlider: public LabeledControl {
 public:

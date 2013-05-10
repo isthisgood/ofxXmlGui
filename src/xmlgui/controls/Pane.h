@@ -6,7 +6,8 @@
  *
  */
 
-#include "Container.h"
+#include "xmlgui/framework/Container.h"
+
 class Pane: public xmlgui::Container {
 public:
 	int bgColor;

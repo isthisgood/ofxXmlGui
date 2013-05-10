@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 class FloatColorPicker: public LabeledControl {
 public:
 	

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 
 #define hexValR(A)  ((A >> 16) & 0xff)
 #define hexValG(A) ((A >> 8) & 0xff)

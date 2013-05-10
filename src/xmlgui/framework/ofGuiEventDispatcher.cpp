@@ -6,8 +6,8 @@
  *
  */
 
-#include "ofGuiEventDispatcher.h"
-#include "Container.h"
+#include "xmlgui/framework/ofGuiEventDispatcher.h"
+#include "xmlgui/framework/Container.h"
 xmlgui::ofGuiEventDispatcher::ofGuiEventDispatcher() {
 	this->enabled = false;
 }

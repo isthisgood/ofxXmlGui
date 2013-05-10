@@ -11,7 +11,8 @@
 
 #pragma once
 
-#include "Slider.h"
+#include "xmlgui/controls/Slider.h"
+
 class Panner: public Slider {
 public:
 

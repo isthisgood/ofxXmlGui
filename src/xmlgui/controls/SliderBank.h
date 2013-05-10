@@ -16,7 +16,7 @@
  */
 
 
-#include "Control.h"
+#include "xmlgui/framework/Control.h"
 
 class SliderBank: public xmlgui::Control {
 public:

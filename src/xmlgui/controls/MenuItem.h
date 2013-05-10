@@ -6,8 +6,8 @@
  *
  */
 #pragma once
-#include "Control.h"
-#include "Resources.h"
+#include "xmlgui/framework/Control.h"
+#include "xmlgui/framework/Resources.h"
 class MenuItem: public xmlgui::Control {
 public:
 	MenuItem(): Control() {

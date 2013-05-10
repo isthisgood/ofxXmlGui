@@ -12,7 +12,7 @@
 #define SCROLL_UP 2
 #define SCROLL_DOWN -2
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 
 #define hexValR(A)  ((A >> 16) & 0xff)
 #define hexValG(A) ((A >> 8) & 0xff)

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "LabeledControl.h"
-#include "PushButton.h"
+#include "xmlgui/controls/LabeledControl.h"
+#include "xmlgui/controls/PushButton.h"
 
 
 

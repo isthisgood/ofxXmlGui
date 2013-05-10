@@ -5,7 +5,7 @@
  * Created by Marek Bereza on 16/06/2011.
  *
  */
-#include "ofGuiEventDispatcher.h"
-#include "Gui.h"
+#include "xmlgui/framework/ofGuiEventDispatcher.h"
+#include "xmlgui/framework/Gui.h"
 
 typedef xmlgui::Gui ofxXmlGui;

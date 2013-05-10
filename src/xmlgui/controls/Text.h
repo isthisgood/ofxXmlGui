@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "Control.h"
+#include "xmlgui/framework/Control.h"
 class Text: public xmlgui::Control {
 public:
 

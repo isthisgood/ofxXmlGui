@@ -6,7 +6,7 @@
  *
  */
 
-#include "Instantiator.h"
+#include "xmlgui/framework/Instantiator.h"
 
 xmlgui::Instantiator::Instantiator() {
 	registerControls();

@@ -5,8 +5,8 @@
  *  Created by Marek Bereza on 05/05/2010.
  *
  */
-#include "Control.h"
-#include "GridSequence.h"
+#include "xmlgui/framework/Control.h"
+#include "xmlgui/framework/GridSequence.h"
 
 class Grid: public xmlgui::Control {
 public:

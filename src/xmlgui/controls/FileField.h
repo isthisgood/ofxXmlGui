@@ -7,7 +7,7 @@
  */
 
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 #define FILE_ICON_WIDTH 20
 class FileField: public LabeledControl {
 public:

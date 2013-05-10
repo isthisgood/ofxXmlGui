@@ -6,9 +6,9 @@
  *
  */
 
-#include "Container.h"
-#include "Gui.h"
-#include "Instantiator.h"
+#include "xmlgui/framework/Container.h"
+#include "xmlgui/framework/Gui.h"
+#include "xmlgui/framework/Instantiator.h"
 
 
 xmlgui::Container::Container(): Control() {

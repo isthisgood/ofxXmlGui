@@ -6,9 +6,9 @@
  *
  */
 #pragma once
-#include "Container.h"
-#include "MenuItem.h"
-#include "Resources.h"
+#include "xmlgui/framework/Container.h"
+#include "xmlgui/controls/MenuItem.h"
+#include "xmlgui/framework/Resources.h"
 #define EDITOR_MENU_HEIGHT 20
 class Menu: public xmlgui::Container {
 public:

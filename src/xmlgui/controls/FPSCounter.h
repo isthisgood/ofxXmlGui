@@ -6,6 +6,10 @@
  *
  */
 
+#pragma once
+
+#include "xmlgui/framework/Control.h"
+
 class FPSCounter: public xmlgui::Control {
 public:
 	

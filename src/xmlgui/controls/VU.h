@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "LabeledControl.h"
+#include "xmlgui/controls/LabeledControl.h"
 
 class VU: public LabeledControl {
 public:

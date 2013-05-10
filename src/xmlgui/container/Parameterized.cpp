@@ -4,8 +4,8 @@
  *  Created by Marek Bereza on 22/11/2012.
  */
 
-#include "Parameterized.h"
-#include "ParameterizedGui.h"
+#include "xmlgui/container/Parameterized.h"
+#include "xmlgui/container/ParameterizedGui.h"
 
 
 

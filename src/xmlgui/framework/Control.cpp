@@ -6,9 +6,9 @@
  *
  */
 
-#include "Control.h"
-#include "Container.h"
-#include "Instantiator.h"
+#include "xmlgui/framework/Control.h"
+#include "xmlgui/framework/Container.h"
+#include "xmlgui/framework/Instantiator.h"
 
 xmlgui::Control::Control() {
 	type = "control";

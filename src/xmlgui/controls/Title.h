@@ -6,6 +6,10 @@
  *
  */
 
+#pragma once
+
+#include "xmlgui/framework/Control.h"
+
 class Title: public xmlgui::Control {
 public:
 	

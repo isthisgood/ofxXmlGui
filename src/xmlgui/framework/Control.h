@@ -11,8 +11,8 @@
 #include "ofMain.h"
 #include "ofxXmlSettings.h"
 
-#include "ParameterInfo.h"
-#include "Resources.h"
+#include "xmlgui/framework/ParameterInfo.h"
+#include "xmlgui/framework/Resources.h"
 #define bval(A) (*((bool*)A))
 #define ival(A) (*((int*)A))
 #define fval(A) (*((float*)A))

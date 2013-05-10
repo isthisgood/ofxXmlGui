@@ -6,8 +6,8 @@
  *
  */
 #pragma once
-#include "Control.h"
-#include "Listener.h"
+#include "xmlgui/framework/Control.h"
+#include "xmlgui/framework/Listener.h"
 #define AUTO_LAYOUT_PADDING 15
 #define XMLGUI_STICKY
 namespace xmlgui {
