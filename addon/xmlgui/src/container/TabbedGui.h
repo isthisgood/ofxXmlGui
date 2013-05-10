@@ -65,19 +65,21 @@ namespace xmlgui {
 			updateTabber();
 			setTab(tabs.size()-1);
 		}
-		
+	
 		static const int guiYOffset = 30;
 		void setTab(int index) {
 			tabIndex = index;
 			for(int i = 0; i < tabs.size(); i++) {
 				if(i==index) {
 					tabs[i].second->position(0, guiYOffset);
+					tabs[i].second->setEnabled(true);
 					gui = tabs[i].second;
 					if(ofGetAppPtr()!=NULL)
                         redoLayout();
 				} else {
 					//tabs[i].second->position(-1000, 0);
-                    tabs[i].second->position(-ofGetWidth(), 0);
+                    tabs[i].second->position(-ofGetWidth()*10, 0);
+					tabs[i].second->setEnabled(false);
 				}
 			}
 		}
@@ -93,6 +95,7 @@ namespace xmlgui {
 
 				tabber->addOption(tabs[i].first);
 			}
+			tabber->width = tabs.size() * 60;
 		}
 	};
 };

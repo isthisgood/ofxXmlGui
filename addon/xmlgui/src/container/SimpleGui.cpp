@@ -332,6 +332,7 @@ namespace xmlgui {
 				if(c->type=="simplegui") {
 					SimpleGui *s = (SimpleGui*)c;
 					s->redoLayout();
+					if(startingPos.y>0) startingPos.y -= AUTO_LAYOUT_PADDING/2;
 				}
 				c->position(startingPos.x, startingPos.y);
 				if(guiY+c->y+c->height>winHeight) {
@@ -340,6 +341,7 @@ namespace xmlgui {
 					c->position(startingPos.x, startingPos.y);
 				}
 				
+
 				startingPos.y += c->height + AUTO_LAYOUT_PADDING;
 				r.growToInclude(*c);
 			}
@@ -386,6 +388,9 @@ namespace xmlgui {
 		c->set(0, 0, 0, 0);
 		gui->addChild(c);
 	}
+	
+
+	
 }
 
 

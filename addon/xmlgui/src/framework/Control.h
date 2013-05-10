@@ -20,12 +20,6 @@
 #define faval(A, B) (*(((float*)A)+B))
 #define sval(A) (*((string*)A))
 
-#ifdef TARGET_WIN32
-float round(float number) {
-		return number < 0.0 ? ceil(number - 0.5) : floor(number + 0.5);
-	}
-#endif
-
 namespace xmlgui {
 	class Container;	
 	class Control: public ofRectangle {

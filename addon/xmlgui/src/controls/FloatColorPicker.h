@@ -66,12 +66,13 @@ public:
 		c = faval(value, 3);
 		ofLine(x + width*c, y+h4*3, x + width*c, y+height);
 		ofFill();
-		
-		xmlgui::Resources::drawString("red", x+3, y+h4-5);
-		xmlgui::Resources::drawString("green", x+3, y+h4*2 - 5);
-		xmlgui::Resources::drawString("blue", x+3, y+h4*3 - 5);
-		xmlgui::Resources::drawString("alpha", x+3, y+height - 5);
+		xmlgui::Resources::bindFont();
+		xmlgui::Resources::drawString("R", x+3, y+h4-3);
+		xmlgui::Resources::drawString("G", x+3, y+h4*2 - 3);
+		xmlgui::Resources::drawString("B", x+3, y+h4*3 - 3);
+		xmlgui::Resources::drawString("A", x+3, y+height - 3);
 		drawLabel(x+3, y-2);
+		xmlgui::Resources::unbindFont();
 		
 			
 	}

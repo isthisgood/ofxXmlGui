@@ -56,6 +56,7 @@ namespace xmlgui {
 			setup(gui, inp);
 		}
 		
+		ofxMidiIn *getMidiInPtr() { return midi; }
 		  
 		
 		/**

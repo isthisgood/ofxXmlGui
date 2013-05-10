@@ -44,6 +44,7 @@ namespace xmlgui {
 		virtual void ctrlChanged(xmlgui::Event *e) {
 
 		}
+		
 		void controlChanged(xmlgui::Event *e);
 		Title 		 	*addTitle(string title);
 		RangeSlider		*addRangeSlider(string name, float *value, float min = 0, float max = 1);

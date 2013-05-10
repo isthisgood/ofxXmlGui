@@ -5,7 +5,7 @@
  *  Created by Marek Bereza on 17/01/2011.
  *
  */
-
+#include "LabeledControl.h"
 class Title: public xmlgui::Control {
 public:
 	

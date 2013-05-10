@@ -137,7 +137,7 @@ public:
             } catch(int i) {printf("Caught exception in Slider.h"); }
 
 		} else {
-			drawLabel(x, y-3);
+			drawLabel(x, y);
 		}
 		if(sliderBG==NULL) {
 			setRGBA(borderColor);
