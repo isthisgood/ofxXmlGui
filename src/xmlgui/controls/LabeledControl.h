@@ -59,25 +59,19 @@ public:
 	}
 
 	void drawCustomLabel(string label, float x, float y) {
-<<<<<<< HEAD:src/xmlgui/controls/LabeledControl.h
-=======
-		//drawLabelsIfNeeded();
->>>>>>> origin/dev:addon/xmlgui/src/controls/LabeledControl.h
+
 		if(drawingLabel) {
 			if(parent->isOpaque()) {
 				ofSetColor(0, 0, 0, 150);
 				ofRect( x, y-10, width, 14);
 			}
-<<<<<<< HEAD:src/xmlgui/controls/LabeledControl.h
+
 			setRGBA(labelColor);
 			xmlgui::Resources::drawString(label, x, y);
 
-=======
-////			setRGBA(labelColor);
-			xmlgui::Resources::drawString(label, x, y);
 //			ofVec2f p = parent->getAbsolutePosition();
 //			labels.push_back(make_pair(ofVec2f(x,y)+p, label));
->>>>>>> origin/dev:addon/xmlgui/src/controls/LabeledControl.h
+
 		}
 	}
 
@@ -90,7 +84,3 @@ public:
 	bool drawingLabel;
 	int labelColor;
 };
-<<<<<<< HEAD:src/xmlgui/controls/LabeledControl.h
-=======
-
->>>>>>> origin/dev:addon/xmlgui/src/controls/LabeledControl.h

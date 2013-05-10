@@ -15,11 +15,9 @@
  *  SectionToggle.h, created by Marek Bereza on 08/04/2013.
  */
 
-<<<<<<< HEAD:src/xmlgui/controls/SectionToggle.h
+#pragma once
+
 #include "xmlgui/framework/Control.h"
-=======
-#include "LabeledControl.h"
->>>>>>> origin/dev:addon/xmlgui/src/controls/SectionToggle.h
 
 
 class SectionToggle: public LabeledControl {
