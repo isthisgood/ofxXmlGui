@@ -132,11 +132,9 @@ public:
 
 
 		if(fval(value)>max) {
-			//printf("Limiting max because %f > max\n", fval(value));
 			fval(value) = max;
 
 		} else if(fval(value)<min) {
-			//printf("Limiting min because %f < min\n", fval(value));
 			fval(value) = min;
 		}
 

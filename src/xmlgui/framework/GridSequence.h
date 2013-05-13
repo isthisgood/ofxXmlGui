@@ -104,7 +104,7 @@ public:
 			if(vals.size()==3) {
 				set(atoi(vals[0].c_str()), atoi(vals[1].c_str()), atoi(vals[2].c_str()), true);
 			} else {
-				printf("Problem parsing grid, has %d values instead of 3\n", vals.size());
+				ofLogError() << "Problem parsing grid, has "<<vals.size()<<" values instead of 3";
 			}
 		}
 	}

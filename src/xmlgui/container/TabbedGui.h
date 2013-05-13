@@ -50,7 +50,6 @@ namespace xmlgui {
 				tabs[0].first = name;
 				alreadyAdded = true;
 			} else {
-				printf("Adding new tab: '%s'\n", name.c_str());
 				tabs.push_back(make_pair(name, new xmlgui::Container()));
 				tabs.back().second->setLayoutType(xmlgui::LayoutType_vertical);
 				tabs.back().second->name = name;

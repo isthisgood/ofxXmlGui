@@ -30,7 +30,7 @@ ofImage *xmlgui::Resources::getImage(string path) {
 	struct stat stFileInfo;
 
 	if(stat(ofToDataPath(path, true).c_str(),&stFileInfo)!=0) {
-		printf("Can't find the file %s\n", (path).c_str());
+		ofLogError() << "Can't find the file "<<path;
 		return NULL;
 	}
 
@@ -49,14 +49,13 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 	if(font==NULL && !customFontNotAvailable) {
 		// try to load font
 		ofFile f(DEFAULT_FONT);
-		//printf("Loading font\n");
+		
 		if(f.exists()) {
-			//printf("Cant find font\n
-			//ofLogError("Can't find font\n");
+		
 			font = new ofTrueTypeFont();
 			font->loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
 		} else {
-			printf("Couldn't find font at %s\n", ofToDataPath(DEFAULT_FONT, true).c_str());
+			ofLogError() << "Couldn't find font at " << ofToDataPath(DEFAULT_FONT, true);
 			customFontNotAvailable = true;
 		}
 	}

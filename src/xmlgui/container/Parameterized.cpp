@@ -42,7 +42,7 @@ void xmlgui::Parameterized::loadFromFile(string path) {
 	}
 
 	ParameterizedGui *oldParent = parent;
-//	printf("trying to save here\n");
+
 		parent = new ParameterizedGui();
 
 

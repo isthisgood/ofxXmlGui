@@ -70,17 +70,17 @@ namespace xmlgui {
 			for(int i = 0; i < names.size(); i++) {
 				int f = ofToLower(names[i]).find(nameSearchString);
 				if(f>-1) {
-					printf("Found midi port '%s'\n", nameSearchString.c_str());
+					ofLogNotice() << "Found midi port " << nameSearchString;
 					setup(gui, i);
 					return;
 				}
 			}
 			// if couldn't find favourite midi port.
 			if(names.size()>0) {
-				printf("Can't find midi port '%s'. Opening default (%s).\n", nameSearchString.c_str(), names[0].c_str());
+				ofLogError() << "Can't find midi port '"<<nameSearchString << "'. Opening default ("<<names[0]<<").";
 				setup(gui);
 			} else {
-				printf("Can't set up - no midi port available.\n");
+				ofLogError() << "Can't set up - no midi port available.";
 			}
 		}
 		

@@ -248,7 +248,7 @@ xmlgui::Control *xmlgui::Container::hitTest(float x, float y) {
 }
 
 void xmlgui::Container::saveToXmlObject(ofxXmlSettings &xml) {
-	printf("Saving a %s with %d children\n", type.c_str(), children.size());
+	//("Saving a %s with %d children\n", type.c_str(), children.size());
 	// this adds a tag of name 'type'
 	Control::saveToXmlObject(xml);
 	int which = xml.getNumTags(type) - 1;
@@ -295,7 +295,7 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 		bgImageUrl = _bgImageUrl;
 		if(bgImageUrl!="") { // sometimes it's blank
             bgImage = xmlgui::Resources::getImage(bgImageUrl);
-            if(bgImage==NULL) printf("Image '%s' couldn't be loaded\n", _bgImageUrl);
+            if(bgImage==NULL) ofLogError() "Image '"<<_bgImageUrl <<"' couldn't be loaded";
 		}
 	}
 	// now we've loaded this container, load the children
@@ -442,11 +442,11 @@ void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 	}
 }
 void xmlgui::Container::loadSettings(string file) {
-	printf("Trying to load %s\n", file.c_str());
+	//printf("Trying to load %s\n", file.c_str());
 	this->settingsFile = file;
 	ofxXmlSettings xml;
 	if(!ofFile(file).exists()) {
-		printf("Warning: Couldn't load %s\n", file.c_str());
+		ofLogError() << "Warning: Couldn't load "<<file;
 		return;
 	}
 	xml.loadFile(file);

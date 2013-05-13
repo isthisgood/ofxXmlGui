@@ -46,7 +46,7 @@ float xmlgui::GuiServer::getControlRange(xmlgui::Control *c) {
 		return p->max - p->min;
 
 	} else {
-		printf("Asking for the range of something that isn't a slider or a panner in GuiServer!\n");
+		ofLogError("Asking for the range of something that isn't a slider or a panner in GuiServer!\n");
 		return -1;
 	}
 }
@@ -106,7 +106,8 @@ void xmlgui::GuiServer::addGui(xmlgui::Container *gui) {
 }
 
 void xmlgui::GuiServer::httpGet(string url) {
-	printf("GET %s\n", url.c_str());
+	//printf("GET %s\n", url.c_str());
+	ofLogNotice() << "GET " << url;
 	if(url=="/") {
 
 		ofxXmlSettings xml;
@@ -144,5 +145,5 @@ void xmlgui::GuiServer::httpGet(string url) {
 }
 
 void xmlgui::GuiServer::httpPost(string url, char *data, int dataLength) {
-	printf("POST %s\n", url.c_str());
+	ofLogNotice() << "POST " << url;
 }

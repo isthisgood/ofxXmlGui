@@ -44,7 +44,6 @@ namespace xmlgui {
 			for(int i = 0; i < gui->getNumChildren(); i++) {
 				xmlgui::Control *c = gui->getChild(i);
 				if(c->type!="title") {
-					printf("%s = %s\n",c->id.c_str(), c->valueToString().c_str());
 					snapshot.addTag("control");
 					snapshot.addAttribute("control", "id", c->id, pos);
 					snapshot.addAttribute("control", "value", c->valueToString(), pos);
@@ -110,7 +109,7 @@ namespace xmlgui {
 					if(learnControl!=NULL) {
 
 						midiMapping[ccNum] = learnControl->id;
-						printf("Assigned %s to midi controller %d\n", learnControl->id.c_str(), eventArgs.byteOne);
+						ofLogNotice() << "Assigned "<<learnControl->id" to midi controller " << eventArgs.byteOne);
 						save(string("mapping-") + gui->name + ".xml");
 					}
 				}
@@ -163,7 +162,7 @@ namespace xmlgui {
 			}
 
 			xml.saveFile(where);
-			printf("Saved xml\n");
+			ofLogNotice() <<"Saved xml";
 		}
 
 		void load(string where) {

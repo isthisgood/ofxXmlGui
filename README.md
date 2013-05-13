@@ -1,4 +1,4 @@
-# xmlgui #
+# ofxXmlGui #
 openframeworks-based gui with lots of interesting extensions like web-based clients and midi learning.
 
 ## Notes: ##

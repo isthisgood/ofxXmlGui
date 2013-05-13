@@ -74,7 +74,7 @@ public:
 
 
 	void draw() {
-		//printf("%f %f %f %f\n", x, y, width, height);
+
 		if(sliderBG!=NULL) {
 			ofSetHexColor(0xFFFFFF);
 			sliderBG->draw(x, y);
@@ -171,6 +171,5 @@ public:
 
 	void valueFromString(string inp) {
 		ival(value) = atoi(inp.c_str());
-		//printf("Got value from string %s: %f\n", controlId.c_str(), fval(value));
 	}
 };

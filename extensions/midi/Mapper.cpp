@@ -83,7 +83,7 @@ void Mapper::load(string path) {
 			if(c!=NULL) {
 			mappings.push_back(new FloatMap(xml, i, sourceGui, targetGui));
 			} else {
-				printf("Error broken mapping: %s\n", xml.getAttribute("mapping", "from", "", i).c_str());
+				ofLogError() << "Error broken mapping " <<  xml.getAttribute("mapping", "from", "", i);
 			}
 		}
 	}

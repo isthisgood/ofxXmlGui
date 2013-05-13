@@ -102,12 +102,12 @@ void MappingGui::controlChanged(xmlgui::Event *e) {
 					deleteMapping(selectedIndex);
 					selectMapping(&dummyMap);
 					refreshMappingList();
-					printf("Parent %x\n", e->control->parent->parent);
+					//printf("Parent %x\n", e->control->parent->parent);
 				}
 			}
 		} else {
 			if(creatingMapping && (e->control->type=="slider" || e->control->type=="panner")) {
-				printf("Setting dest control\n");
+				//printf("Setting dest control\n");
 				destControl = e->control;
 			}
 		}
@@ -127,7 +127,7 @@ void MappingGui::deleteMapping(int index) {
 			}
 			
 		}
-		printf("deleteing ampping\n");
+//		printf("deleteing ampping\n");
 		delete _map;
 	}
 }
@@ -141,7 +141,7 @@ void MappingGui::createMidiMapping(int ccNum, string id) {
 		midiMappings[ccNum] = new MidiMap(ccNum, c);
 		allMaps.push_back(midiMappings[ccNum]);
 	} else {
-		printf("Couldn't make the midi mapping\n");
+		ofLogError() <<"Couldn't make the midi mapping";
 	}
 	save("mappings.xml", "settings.xml");
 	
@@ -172,12 +172,12 @@ void MappingGui::loadMappings(const string& mappingsPath)
 	allMaps.clear();
 	midiMappings.clear();
 	mappingList->clearItems();
-	printf("load\n");
+	//printf("load\n");
 	
 	ofxXmlSettings xml;
 	if(!xml.loadFile(mappingsPath)) {
 		// ignore files that don't exist
-		printf("Can't load %s\n", mappingsPath.c_str());
+		ofLogError() << "Can't load " << mappingsPath;
 		return;
 	}
 	
@@ -213,12 +213,12 @@ void MappingGui::load(string mappingsPath, string settingsPath) {
 	allMaps.clear();
 	midiMappings.clear();
 	mappingList->clearItems();
-	printf("load\n");
+	//("load\n");
 	
 	ofxXmlSettings xml;
 	if(!xml.loadFile(mappingsPath)) {
 		// ignore files that don't exist
-		printf("Can't load %s\n", mappingsPath.c_str());
+		ofLogError() << "Can't load " << mappingsPath;
 		return;
 	}
 	
@@ -241,7 +241,7 @@ void MappingGui::load(string mappingsPath, string settingsPath) {
 			//}
 		}
 	}
-	printf("Got here\n");
+
 	gui->loadSettings(settingsPath);
 	
 	refreshMappingList();

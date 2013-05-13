@@ -166,7 +166,7 @@ void xmlgui::Editor::touchOver(int x, int y, int id) {
 		pos += ofVec2f(ctrl->width, ctrl->height);
 		pos -= ofVec2f(x, y);
 		if(pos.x<5 && pos.y<5) {
-			printf("Corner\n");
+
 		}
 
 	} else {
@@ -183,7 +183,6 @@ bool xmlgui::Editor::touchDown(int x, int y, int id) {
 	Control *ctrl = root->hitTest(x, y);
 	focusedControl = ctrl;
 	if(focusedControl!=NULL) {
-		printf("Hit control: %s\n", ctrl->id.c_str());
 		inspector.setControl(focusedControl);
 		lastMousePosition = ofVec2f(x, y);
 

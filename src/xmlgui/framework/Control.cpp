@@ -87,7 +87,7 @@ void xmlgui::Control::loadFromXmlObject(TiXmlElement *xml) {
 //			printf("val: %s\n", val.c_str());
 			c->valueFromString(string(xml->Attribute(parameterInfo[i].xmlName.c_str())));
 		} else {
-			printf("No default value for %s in %s\n", parameterInfo[i].name.c_str(), name.c_str());
+			ofLogError() <<"No default value for "<<parameterInfo[i].name<<" in "<<name;
 		}
 		delete c;
 	}
