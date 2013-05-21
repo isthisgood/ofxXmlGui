@@ -128,7 +128,7 @@ void xmlgui::Container::notifyChange(xmlgui::Event *e) {
 	}
 }
 bool xmlgui::Container::touchDown(int x, int y, int id) {
-	if(!active) return;
+	if(!active) return false;
 	x -= this->x;
 	y -= this->y;
 	deque<Control*>::iterator it;
@@ -150,7 +150,7 @@ bool xmlgui::Container::touchDown(int x, int y, int id) {
 }
 
 bool xmlgui::Container::touchMoved(int x, int y, int id) {
-	if(!active) return;
+	if(!active) return false;
 	x -= this->x;
 	y -= this->y;
 
@@ -188,7 +188,7 @@ bool xmlgui::Container::touchMoved(int x, int y, int id) {
 
 
 bool xmlgui::Container::touchUp(int x, int y, int id) {
-	if(!active) return;
+	if(!active) return false;
 	x -= this->x;
 	y -= this->y;
 
@@ -295,7 +295,7 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 		bgImageUrl = _bgImageUrl;
 		if(bgImageUrl!="") { // sometimes it's blank
             bgImage = xmlgui::Resources::getImage(bgImageUrl);
-            if(bgImage==NULL) ofLogError() "Image '"<<_bgImageUrl <<"' couldn't be loaded";
+            if(bgImage==NULL) ofLogError() <<"Image '"<<_bgImageUrl <<"' couldn't be loaded";
 		}
 	}
 	// now we've loaded this container, load the children
@@ -312,7 +312,7 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 }
 
 bool xmlgui::Container::keyPressed(int key) {
-	if(!active) return;
+	if(!active) return false;
 	if(keyboardFocusedControl!=NULL) {
 		return keyboardFocusedControl->keyPressed(key);
 	} else {
@@ -391,7 +391,7 @@ void xmlgui::Container::print(int indent) {
 
 void xmlgui::Container::saveSettings(ofxXmlSettings &xml) {
 	for(int i = 0; i < children.size(); i++) {
-		
+
 		xml.addTag("setting");
 		xml.addAttribute("setting", "id", children[i]->id, i);
 		xml.addAttribute("setting", "value", children[i]->valueToString(), i);
@@ -416,29 +416,35 @@ void xmlgui::Container::saveSettings(string file) {
 	xml.addTag("settings");
 	xml.pushTag("settings");
 	saveSettings(xml);
-	
-	
+
+
 	xml.saveFile(settingsFile);
 }
 
 void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 	int numTags = xml.getNumTags("setting");
+	printf("num setting tags: %d\n", numTags);
 	for(int i = 0; i < numTags; i++) {
 		string id = xml.getAttribute("setting", "id", "", i);
 		string value = xml.getAttribute("setting", "value", "", i);
+		printf("Name is %s\n", id.c_str());
 		xmlgui::Control *c = getControlById(id);
 		if(c!=NULL) {
 			c->valueFromString(value);
-			//printf("Setting %s to %s\n", c->id.c_str(), value.c_str());
+			printf("Setting %s to %s\n", c->id.c_str(), value.c_str());
 			if(c->isContainer()) {
+
+			    printf("%s is a container: \n", c->id.c_str(), value.c_str());
 				xml.pushTag("setting", i);
-				loadSettings(xml);
+				xmlgui::Container *cont = (xmlgui::Container*)c;
+				cont->loadSettings(xml);
+				xml.popTag();
 			}
 		} else {
-			
+
 			ofLogError() << "Could not find control named '" << id << "'";
 		}
-		
+
 	}
 }
 void xmlgui::Container::loadSettings(string file) {
@@ -450,7 +456,7 @@ void xmlgui::Container::loadSettings(string file) {
 		return;
 	}
 	xml.loadFile(file);
-	
+
 	xml.pushTag("settings");
 	loadSettings(xml);
 }
