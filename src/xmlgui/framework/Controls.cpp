@@ -41,6 +41,7 @@
 #include "xmlgui/controls/RangeSlider.h"
 #include "xmlgui/controls/IntSlider.h"
 #include "xmlgui/controls/SectionToggle.h"
+#include "xmlgui/controls/Graph.h"
 
 #define REGISTER_CONTROL(A, B) addControlConstructor(ControlInstantiator<A>, B);
 
@@ -74,6 +75,7 @@ void xmlgui::Instantiator::registerControls() {
 	REGISTER_CONTROL(Drawable,		"drawable");
 	REGISTER_CONTROL(List,			"list");
 
+    REGISTER_CONTROL(Graph,         "graph");
 	REGISTER_CONTROL(DoubleField,	"doublefield");
 	REGISTER_CONTROL(TextField,		"textfield");
 	REGISTER_CONTROL(Text,			"text");

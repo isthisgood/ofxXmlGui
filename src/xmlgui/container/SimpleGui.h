@@ -20,6 +20,7 @@
 #include "xmlgui/controls/FloatField.h"
 #include "xmlgui/controls/Title.h"
 #include "xmlgui/controls/HexColorPicker.h"
+#include "xmlgui/controls/Graph.h"
 
 
 //#include "SliderBank.h"
@@ -29,7 +30,7 @@
 
 namespace xmlgui {
 
-	
+
 	class SimpleGui: public xmlgui::Container, public xmlgui::Listener {
 	public:
 
@@ -44,7 +45,7 @@ namespace xmlgui {
 		virtual void ctrlChanged(xmlgui::Event *e) {
 
 		}
-		
+
 		void controlChanged(xmlgui::Event *e);
 		Title 		 	*addTitle(string title);
 		RangeSlider		*addRangeSlider(string name, float *value, float min = 0, float max = 1);
@@ -56,7 +57,7 @@ namespace xmlgui {
 		HexColorPicker	*addHexColorPicker(string name, int &value);
 		FloatColorPicker*addColorPicker(string name, ofFloatColor &value);
 		HorizontalRule	*addHR();
-
+        Graph           *addGraph(string name, float &value, float min = 0, float max = 1, int updatePeriod = 1);
 		Meter			*addMeter(string name, float &value, float min = 0, float max = 1);
 		Panner			*addPanner(string name, float &value, float min=-1, float max=1);
 		Toggle			*addToggle(string name, bool &value);
@@ -70,7 +71,7 @@ namespace xmlgui {
 		TextField		*addTextField(string name, string &value);
 		Control			*addControl(Control *c);
 		SimpleGui			*addSection(string name);
-		
+
 
 		void addColumn();
 		xmlgui::ofGuiEventDispatcher events;
@@ -97,18 +98,18 @@ namespace xmlgui {
 		void enableInteraction();
 		void disableInteraction();
 		void setAutoSave(bool autosave) { this->autosave = autosave; }
-		
+
 		void windowResized(ofResizeEventArgs &e);
 		void setAutoLayout(bool autoLayout) { this->autoLayout = autoLayout; }
 		void setCollapsed(bool collapsed);
 		vector<xmlgui::Control*> collapsedItems;
         void redoLayout();
-		
+
     protected:
 		xmlgui::Container *gui;
-		
+
 	private:
-		
+
 		bool autoLayout;
 		bool autosave;
 		bool enabled;

@@ -423,18 +423,18 @@ void xmlgui::Container::saveSettings(string file) {
 
 void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 	int numTags = xml.getNumTags("setting");
-	printf("num setting tags: %d\n", numTags);
+	//printf("num setting tags: %d\n", numTags);
 	for(int i = 0; i < numTags; i++) {
 		string id = xml.getAttribute("setting", "id", "", i);
 		string value = xml.getAttribute("setting", "value", "", i);
-		printf("Name is %s\n", id.c_str());
+		//printf("Name is %s\n", id.c_str());
 		xmlgui::Control *c = getControlById(id);
 		if(c!=NULL) {
 			c->valueFromString(value);
-			printf("Setting %s to %s\n", c->id.c_str(), value.c_str());
+			//printf("Setting %s to %s\n", c->id.c_str(), value.c_str());
 			if(c->isContainer()) {
 
-			    printf("%s is a container: \n", c->id.c_str(), value.c_str());
+			    //printf("%s is a container: \n", c->id.c_str(), value.c_str());
 				xml.pushTag("setting", i);
 				xmlgui::Container *cont = (xmlgui::Container*)c;
 				cont->loadSettings(xml);

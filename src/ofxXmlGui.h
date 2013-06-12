@@ -7,4 +7,6 @@
  */
 #include "xmlgui/container/TabbedGui.h"
 
-typedef xmlgui::TabbedGui ofxXmlGui;
+typedef xmlgui::TabbedGui	ofxXmlGui;
+typedef xmlgui::Listener	ofxXmlGuiListener;
+typedef xmlgui::Event		ofxXmlGuiEvent;

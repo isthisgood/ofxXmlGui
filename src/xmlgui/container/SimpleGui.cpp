@@ -4,7 +4,6 @@
  *  Created by Marek Bereza on 13/11/2012.
  */
 
-#pragma once
 
 #include "xmlgui/container/SimpleGui.h"
 #include "xmlgui/framework/Container.h"
@@ -38,7 +37,7 @@ namespace xmlgui {
 	SimpleGui::SimpleGui(): xmlgui::Container() {
 		gui = this;
 		addListener(this);
-		
+
 		setLayoutType(xmlgui::LayoutType_vertical);
 		x = 10;
 		y = 20;
@@ -47,7 +46,7 @@ namespace xmlgui {
 		autosave = true;
 		autoLayout = true;
 		type = "simplegui";
-		
+
 	}
 
 	void SimpleGui::setEnabled(bool enabled) {
@@ -70,10 +69,10 @@ namespace xmlgui {
 	void SimpleGui::windowResized(ofResizeEventArgs &e) {
 		redoLayout();
 	}
-	
-	
+
+
 	void SimpleGui::setCollapsed(bool collapse) {
-		
+
 		if(getNumChildren()>0) getChild(0)->setValue(!collapse);
 		for(int i = 1; i < getNumChildren(); i++) {
 			getChild(i)->setActive(!collapse);
@@ -88,11 +87,11 @@ namespace xmlgui {
 			saveSettings();
 		}
 		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
-			
+
 			SimpleGui *s = (SimpleGui*) e->control->parent;
 			s->setCollapsed(!e->control->getBool());
-			
-			
+
+
 		}
 	}
 
@@ -123,40 +122,40 @@ namespace xmlgui {
 		return drawable;
 
 	}
-	
+
 	HexColorPicker	*SimpleGui::addHexColorPicker(string name, int &value) {
 		HexColorPicker *cp = (HexColorPicker*)INSTANTIATE_WITH_ID("hexcolorpicker", name);
 		cp->pointToValue(&value);
 		cp->width = SIMPLE_GUI_WIDTH;
-		
+
 		gui->addChild(cp);
 		return cp;
 	}
-	
+
 	FloatColorPicker	*SimpleGui::addColorPicker(string name, ofFloatColor &value) {
 		FloatColorPicker *cp = (FloatColorPicker*)INSTANTIATE_WITH_ID("floatcolorpicker", name);
 		cp->pointToValue(&value);
 		cp->width = SIMPLE_GUI_WIDTH;
-		
+
 		gui->addChild(cp);
 		return cp;
 	}
 	SimpleGui *SimpleGui::addSection(string name) {
 		SimpleGui *sg = new SimpleGui();
 		sg->name = name;
-        
+
 		xmlgui::Control *st = INSTANTIATE_WITH_ID("sectiontoggle", name+"_sectiontoggle");
 		st->name = name;
 		st->width = SIMPLE_GUI_WIDTH;
 		st->setValue(true);
 		sg->addChild(st);
-		
-		
+
+
 		gui->addChild(sg);
-        
+
 		return sg;
 	}
-	
+
 	IntSlider *SimpleGui::addSlider(string name, int &value, int min, int max) {
 		IntSlider *slider = (IntSlider*)INSTANTIATE_WITH_ID("intslider", name);
 		slider->pointToValue(&value);
@@ -174,7 +173,7 @@ namespace xmlgui {
 		Slider *slider = (Slider*)INSTANTIATE_WITH_ID("slider", name);
 		if(value<min) value = min;
 		if(value>max) value = max;
-		
+
 		slider->pointToValue(&value);
 		slider->min = min;
 		slider->max = max;
@@ -186,6 +185,7 @@ namespace xmlgui {
 	}
 
 
+
 	Slider2D *SimpleGui::addSlider2D(string name, float *value, float minX, float maxX, float minY, float maxY) {
 		Slider2D *s2d = (Slider2D*) INSTANTIATE_WITH_ID("slider2d", name);
 		s2d->pointToValue(value);
@@ -193,19 +193,30 @@ namespace xmlgui {
 		s2d->minY = minY;
 		s2d->maxX = maxX;
 		s2d->maxY = maxY;
-		
+
 		s2d->width = SIMPLE_GUI_WIDTH;
 		s2d->height = SIMPLE_GUI_WIDTH;
 		s2d->showValue = true;
 		gui->addChild(s2d);
 		return s2d;
-		
+
 	}
-	
+
 	Slider2D *SimpleGui::addSlider2D(string name, ofVec2f &pos, float minX, float maxX, float minY, float maxY) {
 		return addSlider2D(name, &pos.x, minX, maxX, minY, maxY);
 	}
 
+
+    Graph  *SimpleGui::addGraph(string name, float &value, float min, float max, int updatePeriod) {
+		Graph *r = (Graph*)INSTANTIATE_WITH_ID("graph", name);
+		r->pointToValue(&value);
+        r->minValue = min;
+        r->maxValue = max;
+        r->width = SIMPLE_GUI_WIDTH;
+        r->updatePeriod = updatePeriod;
+        gui->addChild(r);
+        return r;
+    }
 
 
 	HorizontalRule *SimpleGui::addHR() {
@@ -216,7 +227,7 @@ namespace xmlgui {
 		return r;
 	}
 
-	
+
 	Meter *SimpleGui::addMeter(string name, float &value, float min, float max) {
 		Meter *slider = (Meter*)INSTANTIATE_WITH_ID("meter", name);
 		slider->pointToValue(&value);
@@ -272,7 +283,7 @@ namespace xmlgui {
 	List *SimpleGui::addList(string name, int &value, string options) {
 		vector<string> opts = ofSplitString(options, "|");
 		if(options=="") opts.clear();
-		
+
 		return addList(name, value, opts);
 	}
 
@@ -328,7 +339,7 @@ namespace xmlgui {
 					startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
 					c->position(startingPos.x, startingPos.y);
 				}
-				
+
 
 				startingPos.y += c->height + AUTO_LAYOUT_PADDING;
 				r.growToInclude(*c);
@@ -353,7 +364,7 @@ namespace xmlgui {
 		gui->addChild(c);
 		return c;
 	}
-	
+
 
 
 
@@ -366,7 +377,7 @@ namespace xmlgui {
 		events.disableInteraction();
 	}
 	void SimpleGui::addColumn() {
-		
+
 		// adds an invisible "column" control (doesn't actually do anything except identify
 		// itself as of type "column"
 		Control *c = new Control();
@@ -376,9 +387,9 @@ namespace xmlgui {
 		c->set(0, 0, 0, 0);
 		gui->addChild(c);
 	}
-	
 
-	
+
+
 }
 
 

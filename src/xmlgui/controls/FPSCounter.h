@@ -14,17 +14,39 @@ class FPSCounter: public xmlgui::Control {
 public:
 	
 	float fps;
+	float counterWidth;
+	const static int HISTORY_SIZE = 100;
+	float maxFps;
 	FPSCounter(): Control() {
-		fps = 10;
+		counterWidth = 30;
+		fps = 0;
+		maxFps = 0;
 		height = 25;
-		width = 60;
+		width = counterWidth + HISTORY_SIZE;
 	}
-	
+	deque<float> history;
+
 	void draw() {
-		fps = ofGetFrameRate() * 0.05 + fps * 0.95;
+		
+		if(fps==0) fps = ofGetFrameRate();
+		else fps = ofGetFrameRate() * 0.05 + fps * 0.95;
+		history.push_front(fps);
+		if(fps>maxFps) {
+			maxFps = fps;
+		}
+		while(history.size()>HISTORY_SIZE) history.pop_back();		
 		ofSetColor(0, 100, 0);
 		ofRect(x, y, width, height);
 		ofSetColor(255, 255, 255);
 		xmlgui::Resources::drawString(ofToString(fps, 1), x+3, y+14);
+		glBegin(GL_LINE_STRIP);
+		int i = 0;
+		glColor3f(1,1,1);
+		deque<float>::iterator it = history.begin();
+		for(; it != history.end(); it++) {
+			glVertex2f(x+counterWidth+i, y + height - height * ((*it)/maxFps));		
+			i++;		
+		}		
+		glEnd();
 	}
 };

@@ -45,13 +45,18 @@ ofImage *xmlgui::Resources::getImage(string path) {
 	return images[path];
 }
 
-void xmlgui::Resources::drawString(string str, int x, int y) {
-	if(font==NULL && !customFontNotAvailable) {
+int xmlgui::Resources::getFontCharWidth() {
+    checkFontLoaded();
+    if(customFontNotAvailable) return 8;  // oF bitmap font width
+    else return font->stringWidth("A");
+}
+void xmlgui::Resources::checkFontLoaded() {
+    if(font==NULL && !customFontNotAvailable) {
 		// try to load font
 		ofFile f(DEFAULT_FONT);
-		
+
 		if(f.exists()) {
-		
+
 			font = new ofTrueTypeFont();
 			font->loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
 		} else {
@@ -59,6 +64,9 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 			customFontNotAvailable = true;
 		}
 	}
+}
+void xmlgui::Resources::drawString(string str, int x, int y) {
+	checkFontLoaded();
 	if(customFontNotAvailable) {
 		ofDrawBitmapString(str, x, y);
 	} else {
@@ -69,7 +77,7 @@ void xmlgui::Resources::drawString(string str, int x, int y) {
 
 void xmlgui::Resources::bindFont() {
 	if(font!=NULL && !customFontNotAvailable) {
-		font->bind(); 
+		font->bind();
 	}
 }
 void xmlgui::Resources::unbindFont() {

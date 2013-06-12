@@ -17,8 +17,10 @@ namespace xmlgui {
 		static ofImage *getImage(string path);
 		static void bindFont();
 		static void unbindFont();
+		static int getFontCharWidth();
 	private:
 		static bool customFontNotAvailable;
 		static map<string,ofImage*> images;
+		static void checkFontLoaded();
 	};
 };
