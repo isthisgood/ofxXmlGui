@@ -14,7 +14,7 @@ xmlgui::Instantiator::Instantiator() {
 
 xmlgui::Control *xmlgui::Instantiator::createControl(string type) {
 	controlConstructor c = registry[type];
-	//printf("type: %s\n", type.c_str());
+	printf("type: %s\n", type.c_str());
 	if(registry.find(type)!=registry.end()) {
 		Control *cc = c();
 		cc->type = type;

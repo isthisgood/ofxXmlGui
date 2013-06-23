@@ -235,8 +235,8 @@ public:
 
 	void getParameterInfo(vector<ParameterInfo> &params) {
 		LabeledControl::getParameterInfo(params);
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("FG Color", "fgColor", "colourpicker", &fgColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("FG Color", "fgColor", "hexcolorpicker", &fgColor));
 		params.push_back(ParameterInfo("Options", "options","textfield",&options));
 	}
 

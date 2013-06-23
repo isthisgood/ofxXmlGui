@@ -111,9 +111,9 @@ public:
 		params.push_back(ParameterInfo("Options", "options","textfield",&options));
 		params.push_back(ParameterInfo("Value", "value","intfield",value));
 		params.push_back(ParameterInfo("vertical", "vertical", "toggle", &vertical));
-		params.push_back(ParameterInfo("Border Color", "borderColor", "colourpicker", &borderColor));
-		params.push_back(ParameterInfo("Selected Color", "fgColor", "colourpicker", &fgColor));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
+		params.push_back(ParameterInfo("Border Color", "borderColor", "hexcolorpicker", &borderColor));
+		params.push_back(ParameterInfo("Selected Color", "fgColor", "hexcolorpicker", &fgColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
 
 	}
 

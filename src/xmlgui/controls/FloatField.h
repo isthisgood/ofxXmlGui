@@ -84,7 +84,7 @@ public:
         -4 = 0.0001
         */
         for(int i = -5; i < 10; i++) {
-            if(fval(value)>=pow(10, i) && fval(value)<=pow(10, i+1)) {
+            if(fval(value)>=powf(10, i) && fval(value)<=powf(10, i+1)) {
                 return i;
             }
 
@@ -94,7 +94,7 @@ public:
     float getUnit(int pos) {
         int p = 3+getPowerOf10() - pos;
         if(p<-1) p+= 1;
-        return pow(10, p);
+        return powf(10, p);
     }
 
 	bool keyPressed(int key) {
@@ -155,8 +155,8 @@ public:
 	void getParameterInfo(vector<ParameterInfo> &params) {
 		LabeledControl::getParameterInfo(params);
 		params.push_back(ParameterInfo("Value","value", "floatfield", value));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("FG Color", "fgColor", "colourpicker", &fgColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("FG Color", "fgColor", "hexcolorpicker", &fgColor));
 	}
 
 	string valueToString() { return ofToString(fval(value)); }

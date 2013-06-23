@@ -115,9 +115,9 @@ public:
 		LabeledControl::getParameterInfo(params);
 		params.push_back(ParameterInfo("Value","value", "toggle",value));
 
-		params.push_back(ParameterInfo("Off Color", "offColor", "colourpicker", &offColor));
-		params.push_back(ParameterInfo("On Color", "onColor", "colourpicker", &onColor));
-		params.push_back(ParameterInfo("Stroke Color", "strokeColor", "colourpicker", &strokeColor));
+		params.push_back(ParameterInfo("Off Color", "offColor", "hexcolorpicker", &offColor));
+		params.push_back(ParameterInfo("On Color", "onColor", "hexcolorpicker", &onColor));
+		params.push_back(ParameterInfo("Stroke Color", "strokeColor", "hexcolorpicker", &strokeColor));
 		params.push_back(ParameterInfo("Toggle On", "toggleOnUrl", "file", &toggleOnUrl));
 		params.push_back(ParameterInfo("Toggle Off", "toggleOffUrl", "file", &toggleOffUrl));
 		params.push_back(ParameterInfo("Toggle Down", "toggleDownUrl", "file", &toggleDownUrl));

@@ -30,7 +30,7 @@ public:
 
 	void getParameterInfo(vector<ParameterInfo> &params) {
 		params.push_back(ParameterInfo("Value", "value","text",value));
-		params.push_back(ParameterInfo("Text Color", "color", "colourpicker", &color));
+		params.push_back(ParameterInfo("Text Color", "color", "hexcolorpicker", &color));
 	}
 
 	string valueToString() { return sval(value); }

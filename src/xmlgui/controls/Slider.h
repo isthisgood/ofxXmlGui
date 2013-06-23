@@ -179,9 +179,9 @@ public:
 		params.push_back(ParameterInfo("Stepped", "stepped", "toggle", &stepped));
 		params.push_back(ParameterInfo("Value", "value", "floatfield", value));
 		params.push_back(ParameterInfo("Show Value", "showvalue", "toggle", &showValue));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("Slider Color", "fgColor", "colourpicker", &fgColor));
-		params.push_back(ParameterInfo("Border Color", "borderColor", "colourpicker", &borderColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("Slider Color", "fgColor", "hexcolorpicker", &fgColor));
+		params.push_back(ParameterInfo("Border Color", "borderColor", "hexcolorpicker", &borderColor));
 		params.push_back(ParameterInfo("Slider BG", "sliderBGUrl", "file", &sliderBGUrl));
 		params.push_back(ParameterInfo("Slider FG", "sliderFGUrl", "file", &sliderFGUrl));
 		params.push_back(ParameterInfo("Slider Handle", "sliderHandleUrl", "file", &sliderHandleUrl));

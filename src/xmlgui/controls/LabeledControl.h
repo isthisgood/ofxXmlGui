@@ -78,7 +78,7 @@ public:
 
 	void getParameterInfo(vector<ParameterInfo> &params) {
 		params.push_back(ParameterInfo("Draw Label", "drawlabel", "toggle", &drawingLabel));
-		params.push_back(ParameterInfo("Label Color", "labelColor", "colourpicker", &labelColor));
+		params.push_back(ParameterInfo("Label Color", "labelColor", "hexcolorpicker", &labelColor));
 	}
 	
 	bool drawingLabel;

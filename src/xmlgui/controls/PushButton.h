@@ -72,9 +72,9 @@ public:
 		LabeledControl::getParameterInfo(params);
 		params.push_back(ParameterInfo("Button Up", "upImgUrl", "file", &upImgUrl));
 		params.push_back(ParameterInfo("Button Down", "downImgUrl", "file", &downImgUrl));
-		params.push_back(ParameterInfo("Up Color", "upColor", "colourpicker", &upColor));
-		params.push_back(ParameterInfo("Down Color", "downColor", "colourpicker", &downColor));
-		params.push_back(ParameterInfo("over Color", "overColor", "colourpicker", &overColor));
+		params.push_back(ParameterInfo("Up Color", "upColor", "hexcolorpicker", &upColor));
+		params.push_back(ParameterInfo("Down Color", "downColor", "hexcolorpicker", &downColor));
+		params.push_back(ParameterInfo("over Color", "overColor", "hexcolorpicker", &overColor));
 
 	}
 };

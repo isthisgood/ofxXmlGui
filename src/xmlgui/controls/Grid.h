@@ -127,9 +127,9 @@ public:
 	void getParameterInfo(vector<ParameterInfo> &params) {
 		params.push_back(ParameterInfo("notes", "notes", "intfield", &notes));
 		params.push_back(ParameterInfo("steps", "steps", "intfield", &steps));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("Line Color", "lineColor", "colourpicker", &lineColor));
-		params.push_back(ParameterInfo("Note Color", "noteColor", "colourpicker", &noteColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("Line Color", "lineColor", "hexcolorpicker", &lineColor));
+		params.push_back(ParameterInfo("Note Color", "noteColor", "hexcolorpicker", &noteColor));
 		params.push_back(ParameterInfo("BG Image", "bg", "file", &bgImgUrl));
 	}
 

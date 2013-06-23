@@ -219,8 +219,8 @@ public:
 
 	virtual void getParameterInfo(vector<ParameterInfo> &params) {
 		LabeledControl::getParameterInfo(params);
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("Point Color", "pointColor", "colourpicker", &pointColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("Point Color", "pointColor", "hexcolorpicker", &pointColor));
 		params.push_back(ParameterInfo("BG Image", "bgImgUrl", "file", &bgImgUrl));
 		params.push_back(ParameterInfo("Point Image", "pointImgUrl", "file", &pointImgUrl));
 		params.push_back(ParameterInfo("Point Down Image", "pointDownImgUrl", "file", &pointDownImgUrl));

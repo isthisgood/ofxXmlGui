@@ -116,8 +116,8 @@ public:
 		params.push_back(ParameterInfo("Pivot X", "pivotX", "intfield", &pivotX));
 		params.push_back(ParameterInfo("Pivot Y", "pivotY", "intfield", &pivotY));
 		params.push_back(ParameterInfo("Radius", "radius", "intfield", &radius));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("Dial Color", "fgColor", "colourpicker", &fgColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("Dial Color", "fgColor", "hexcolorpicker", &fgColor));
 		params.push_back(ParameterInfo("Background Image", "bgImage", "file", &bgImageUrl));
 		params.push_back(ParameterInfo("Needle Image", "needleImage", "file", &needleImageUrl));
 	}

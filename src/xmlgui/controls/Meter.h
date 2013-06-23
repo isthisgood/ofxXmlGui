@@ -153,9 +153,9 @@ public:
 		params.push_back(ParameterInfo("Vertical", "vertical", "toggle", &vertical));
 		params.push_back(ParameterInfo("Min", "min", "floatfield", &min));
 		params.push_back(ParameterInfo("Max", "max", "floatfield", &max));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("Top Color", "fgTopColor", "colourpicker", &fgTopColor));
-		params.push_back(ParameterInfo("Bottom Color", "fgBottomColor", "colourpicker", &fgBottomColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("Top Color", "fgTopColor", "hexcolorpicker", &fgTopColor));
+		params.push_back(ParameterInfo("Bottom Color", "fgBottomColor", "hexcolorpicker", &fgBottomColor));
 		params.push_back(ParameterInfo("BG Image", "bgUrl", "file", &bgUrl));
 		params.push_back(ParameterInfo("Meter Image", "fgUrl", "file", &fgUrl));
 	}

@@ -189,8 +189,8 @@ public:
 		params.push_back(ParameterInfo("Value", "value", "floatfield", value));
 		params.push_back(ParameterInfo("Min Angle", "minAngle", "floatfield", &minAngle));
 		params.push_back(ParameterInfo("Max Angle", "maxAngle", "floatfield", &maxAngle));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "colourpicker", &bgColor));
-		params.push_back(ParameterInfo("Dial Color", "fgColor", "colourpicker", &fgColor));
+		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(ParameterInfo("Dial Color", "fgColor", "hexcolorpicker", &fgColor));
 		params.push_back(ParameterInfo("Background Image", "bgImage", "file", &bgImageUrl));
 		params.push_back(ParameterInfo("Needle Image", "needleImage", "file", &needleImageUrl));
 	}

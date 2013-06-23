@@ -51,10 +51,10 @@ public:
 		}
 	}
 	void getParameterInfo(vector<ParameterInfo> &params) {
-		params.push_back(ParameterInfo("Colour", "bgColor", "colourpicker", &bgColor));
+		params.push_back(ParameterInfo("Colour", "bgColor", "hexcolorpicker", &bgColor));
 		params.push_back(ParameterInfo("Background Image", "bgImage", "file", &bgImageUrl));
 		params.push_back(ParameterInfo("Show Label", "showLabel", "toggle", &drawingLabel));
-		params.push_back(ParameterInfo("Label Colour", "labelColor", "colourpicker", &labelColor));
+		params.push_back(ParameterInfo("Label Colour", "labelColor", "hexcolorpicker", &labelColor));
 	}
 
 

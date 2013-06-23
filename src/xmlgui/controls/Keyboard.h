@@ -124,10 +124,10 @@ public:
 
 
 	void getParameterInfo(vector<ParameterInfo> &params) {
-		params.push_back(ParameterInfo("Black Key Color", "blackColor", "colourpicker", &blackColor));
-		params.push_back(ParameterInfo("White Key Color", "whiteColor", "colourpicker", &whiteColor));
-		params.push_back(ParameterInfo("Black Active Color", "blackActiveColor", "colourpicker", &blackActiveColor));
-		params.push_back(ParameterInfo("White Active Color", "whiteActiveColor", "colourpicker", &whiteActiveColor));
+		params.push_back(ParameterInfo("Black Key Color", "blackColor", "hexcolorpicker", &blackColor));
+		params.push_back(ParameterInfo("White Key Color", "whiteColor", "hexcolorpicker", &whiteColor));
+		params.push_back(ParameterInfo("Black Active Color", "blackActiveColor", "hexcolorpicker", &blackActiveColor));
+		params.push_back(ParameterInfo("White Active Color", "whiteActiveColor", "hexcolorpicker", &whiteActiveColor));
 		params.push_back(ParameterInfo("Note Offset", "noteOffset", "intfield", &offset));
 		params.push_back(ParameterInfo("Key Count", "numberOfKeys", "intfield", &keys));
 		params.push_back(ParameterInfo("Vertical", "vertical", "toggle", &vertical));
