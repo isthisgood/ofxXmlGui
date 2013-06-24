@@ -1,0 +1,149 @@
+
+body {
+	background-color:#999999;
+	color:white;
+	font-family:"Lucida Grande", sans-serif;
+
+}
+h1, h2, h3 {
+color:#333333;
+font-family:helvetica, sans-serif;
+font-weight:900;
+}
+
+h1, h2 {
+	text-transform:uppercase;
+	letter-spacing:-1px;
+}
+
+h1 {
+	font-size:1.5em;
+
+}
+h2 {
+	font-size:1.2em;
+	padding-top:0.6em;
+	margin-left:15px;
+}
+
+h3 .val {
+	font-weight:normal;
+	color:#999999;
+}
+h3 {
+	font-weight:bold;
+	font-size:0.6em;
+	margin-top:1em;
+	margin-bottom:0.4em;
+}
+
+.control {
+	background-color:#777777;
+	cursor:pointer;
+	border-radius:3px;
+}
+
+.section {
+	background-color:#DDDDDD;
+	width:235px;
+	border-radius:10px;
+	padding-bottom:1em;
+	box-shadow: 3px 3px 10px #666666;
+}
+	
+.SliderInt, .SliderFloat, .Slider2d, .Slider3d, .ColorPicker {
+	width:200px;
+	
+}
+
+.SliderInt, .SliderFloat, .Toggle, .Button {
+	height:30px;
+	box-shadow:inset 0 0 10px #444444;
+}
+.Slider2D {
+	height:200px;
+}
+
+.Slider3D {
+	height:90px;
+}
+	
+	
+.xHandle,
+.yHandle,
+.zHandle,
+.Slider2dHandle,
+.SliderHandle {
+	background-color:#5599CC;
+	border-radius:3px;
+}
+xHandle:hover,
+.yHandle:hover,
+.zHandle:hover,
+.Slider2dHandle:hover,
+.SliderHandle:hover {
+	background-color:#5599FF;
+
+}
+
+.ColorPicker {
+	height: 120px;
+}
+.Toggle, .Button {
+	width:20px;
+	height: 20px;
+	padding:5px;
+}
+
+.Toggle .tick {
+	width:20px;
+	height:20px;
+	border-radius:3px;
+	background-color:#5599CC;
+}
+
+
+.xHandle,
+.yHandle,
+.zHandle,
+.rHandle,
+.gHandle,
+.bHandle,
+.aHandle,
+.sliderHandle {
+	height:30px;
+	position:absolute;
+	width:4px;
+}
+
+.slider2DHandle {
+	height:4px;
+	position:absolute;
+	width:4px;
+}
+
+.rHandle { background-color:#FF0000; }
+.gHandle { background-color:#00FF00; margin-top:30px;}
+.bHandle { background-color:#0000FF; margin-top:60px;}
+.aHandle { background-color:#FFFFFF; margin-top:90px;}
+
+.yHandle { margin-top:30px;}
+.zHandle { margin-top:60px;}
+
+.Title {
+	border:none;
+}
+
+
+ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+li {
+list-style:none;
+}
+li ul li {
+	padding-left:1em;
+}
+
