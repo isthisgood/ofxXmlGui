@@ -19,16 +19,16 @@ public:
 	int bgColor;
 	int fgColor;
 	bool stepped;
-	bool direct;
-	float touchAngle;
 	float minAngle;
 	float maxAngle;
 	string bgImageUrl, needleImageUrl;
 	ofImage *bgImage, *needleImage;
-
+	bool touching;
+	ofVec2f touch;
 	Knob(): LabeledControl() {
-		direct = false;
-		touchAngle = 0;
+		
+		touching = false;
+		
 		height = 80;
 		width = 80;
 		stepped = false;
@@ -37,9 +37,11 @@ public:
 		min = 0;
 		max = 1;
 		bgColor = 0x505050;
-		fgColor = 0x960000;
-		maxAngle = 330;
-		minAngle = 30;
+		fgColor = 0xCCCCCC;
+		//maxAngle = 330;
+		//minAngle = 30;
+		minAngle = 120;
+		maxAngle = 420;
 		bgImageUrl = needleImageUrl = "";
 		bgImage = needleImage = NULL;
 	}
@@ -90,8 +92,13 @@ public:
 			needleImage->draw(0,0, width, height);
 			glPopMatrix();
 		} else {
+			glPushMatrix();
+			glTranslatef(x + radius, y+radius, 0);
+			glRotatef(angle, 0, 0, 1);
 			setRGBA(fgColor);
-			ofLine(center.x, center.y, center.x + radius*cos(ofDegToRad(angle)), center.y + radius*sin(ofDegToRad(angle)));
+			ofRect(0, -2, radius, 4);
+//			ofLine(center.x, center.y, center.x + radius*cos(ofDegToRad(angle)), center.y + radius*sin(ofDegToRad(angle)));
+			glPopMatrix();
 			ofSetColor(255, 255, 255);
 		}
 		drawLabel();
@@ -100,15 +107,7 @@ public:
 
 
 
-	bool touchDown(int _x, int _y, int touchId) {
-
-		ofPoint fromCenter = ofPoint((_x-x)-(width/2), (_y-y)-(width/2));
-		touchAngle = atan2(fromCenter.y, fromCenter.x);
-		if(direct) {
-			directControl(touchAngle);
-		}
-		return true;
-	}
+	
 
 
 		// round() not supported in vs2010
@@ -146,37 +145,33 @@ public:
 
 	}
 
+	
+	bool touchDown(int _x, int _y, int touchId) {
+		if(inside(_x, _y)) {
+			touching = true;
+			touch.set(_x, _y);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	virtual bool touchUp(int x, int y, int id){ touching = false; }
+
 	bool touchMoved(int _x, int _y, int touchId) {
-		ofPoint fromCenter = ofPoint((_x-x)-(width/2), (_y-y)-(width/2));
-		float newTouchAngle = ofRadToDeg(atan2(fromCenter.y, fromCenter.x));
-
-		if(direct) {
-			directControl(newTouchAngle);
-		} else {
-			float diff = newTouchAngle-touchAngle;
-			diff /= maxAngle - minAngle; // this is the normalized version of how much the value has changed
-			diff *= max - min; // this is the value scaled version.
-
-
-			// this stops that weird jump thing happening from atan2 wrapping
-			if(newTouchAngle>0 && touchAngle<0 || newTouchAngle<0 && touchAngle>0) {
-				touchAngle = newTouchAngle;
-				return true;
+		if(touching) {
+			float dy =  touch.y - _y;
+			fval(value) += dy*(max-min)*0.01;
+			if(fval(value)>max) {
+				fval(value) = max;
+			} else if(fval(value)<min) {
+				fval(value) = min;
 			}
-			fval(value) += diff;
-
-			if(fval(value)>max) fval(value) = max;
-			else if(fval(value)<min) fval(value) = min;
-
-			touchAngle = newTouchAngle;
-
-
-			if(stepped) {
-				fval(value) = __round(fval(value));
-			}
+			touch.set(_x, _y);
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 		// round() not supported in vs2010
 
@@ -185,7 +180,6 @@ public:
 		params.push_back(ParameterInfo("Min", "min", "floatfield", &min));
 		params.push_back(ParameterInfo("Max", "max", "floatfield", &max));
 		params.push_back(ParameterInfo("Stepped", "stepped", "toggle", &stepped));
-		params.push_back(ParameterInfo("Direct Control", "direct", "toggle", &direct));
 		params.push_back(ParameterInfo("Value", "value", "floatfield", value));
 		params.push_back(ParameterInfo("Min Angle", "minAngle", "floatfield", &minAngle));
 		params.push_back(ParameterInfo("Max Angle", "maxAngle", "floatfield", &maxAngle));

@@ -21,6 +21,7 @@
 #include "xmlgui/controls/Title.h"
 #include "xmlgui/controls/HexColorPicker.h"
 #include "xmlgui/controls/Graph.h"
+#include "xmlgui/controls/Knob.h"
 
 
 //#include "SliderBank.h"
@@ -69,9 +70,11 @@ namespace xmlgui {
 		IntField		*addIntField(string name, int &value);
 		FloatField		*addFloatField(string name, float &value);
 		TextField		*addTextField(string name, string &value);
+		Knob			*addKnob(string name, float &value, float min = 0, float max = 1);
 		Control			*addControl(Control *c);
+		
 		SimpleGui			*addSection(string name);
-
+		
 
 		void addColumn();
 		xmlgui::ofGuiEventDispatcher events;

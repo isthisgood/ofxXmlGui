@@ -131,6 +131,7 @@ namespace xmlgui {
 		gui->addChild(cp);
 		return cp;
 	}
+	
 
 	FloatColorPicker	*SimpleGui::addColorPicker(string name, ofFloatColor &value) {
 		FloatColorPicker *cp = (FloatColorPicker*)INSTANTIATE_WITH_ID("floatcolorpicker", name);
@@ -184,7 +185,20 @@ namespace xmlgui {
 
 	}
 
-
+	Knob *SimpleGui::addKnob(string name, float &value, float min, float max) {
+		Knob *k = (Knob*)INSTANTIATE_WITH_ID("knob", name);
+		if(value<min) value = min;
+		if(value>max) value = max;
+		
+		k->pointToValue(&value);
+		k->min = min;
+		k->max = max;
+		k->width = SIMPLE_GUI_WIDTH;
+		k->height = SIMPLE_GUI_WIDTH;
+		//k->showValue = true;
+		gui->addChild(k);
+		return k;
+	}
 
 	Slider2D *SimpleGui::addSlider2D(string name, float *value, float minX, float maxX, float minY, float maxY) {
 		Slider2D *s2d = (Slider2D*) INSTANTIATE_WITH_ID("slider2d", name);
