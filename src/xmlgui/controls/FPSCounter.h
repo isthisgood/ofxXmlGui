@@ -39,14 +39,18 @@ public:
 		ofRect(x, y, width, height);
 		ofSetColor(255, 255, 255);
 		xmlgui::Resources::drawString(ofToString(fps, 1), x+3, y+14);
-		glBegin(GL_LINE_STRIP);
+		ofNoFill();
+		ofBeginShape();
+		//glBegin(GL_LINE_STRIP);
 		int i = 0;
-		glColor3f(1,1,1);
+		glColor4f(1,1,1,1);
 		deque<float>::iterator it = history.begin();
 		for(; it != history.end(); it++) {
-			glVertex2f(x+counterWidth+i, y + height - height * ((*it)/maxFps));		
+			ofVertex(x+counterWidth+i, y + height - height * ((*it)/maxFps));		
 			i++;		
 		}		
-		glEnd();
+		//glEnd();
+		ofEndShape();
+		ofFill();
 	}
 };

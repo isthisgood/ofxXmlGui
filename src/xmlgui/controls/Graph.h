@@ -47,18 +47,21 @@ public:
 		ofSetColor(50, 50, 50);
 		ofRect(x, y, width, height);
 		ofSetColor(255, 255, 255);
-		glBegin(GL_LINE_STRIP);
+		//glBegin(GL_LINE_STRIP);
+		ofNoFill();
+		ofBeginShape();
 		int i = 0;
-		glColor3f(1,1,1);
+		glColor4f(1,1,1,1);
 		deque<float>::iterator it = history.begin();
 		for(; it != history.end(); it++) {
-			glVertex2f(x+i,
+			ofVertex(x+i,
               ofMap((*it), minValue, maxValue, y+height, y));
 
 			i++;
 		}
-		glEnd();
-
+		//glEnd();
+		ofEndShape();
+		ofFill();
         string lab = name + "  " + ofToString((int)fval(value));
         drawCustomLabel(lab, x, y-3);
 
