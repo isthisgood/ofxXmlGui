@@ -156,7 +156,7 @@ public:
 		return false;
 	}
 	
-	virtual bool touchUp(int x, int y, int id){ touching = false; }
+	virtual bool touchUp(int x, int y, int id){ touching = false; return false; }
 
 	bool touchMoved(int _x, int _y, int touchId) {
 		if(touching) {

@@ -62,7 +62,7 @@ public:
 		//glEnd();
 		ofEndShape();
 		ofFill();
-        string lab = name + "  " + ofToString((int)fval(value));
+        string lab = name + "  " + ofToString(fval(value), 3);
         drawCustomLabel(lab, x, y-3);
 
 	}
