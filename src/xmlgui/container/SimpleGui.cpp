@@ -150,7 +150,7 @@ namespace xmlgui {
 		st->width = SIMPLE_GUI_WIDTH;
 		st->setValue(true);
 		sg->addChild(st);
-
+		
 
 		gui->addChild(sg);
 

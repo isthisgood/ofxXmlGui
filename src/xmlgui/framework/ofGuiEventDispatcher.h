@@ -26,6 +26,8 @@ namespace xmlgui {
 		bool isEnabled();
 		void setEnabled(bool enabled);
 		
+		void setManualDraw(bool manualDraw);
+
 		void draw(ofEventArgs &e);	
 		
 		void mousePressed(ofMouseEventArgs &e);
@@ -42,5 +44,7 @@ namespace xmlgui {
 	private:
 		xmlgui::Container *root;
 		bool enabled;
+		bool manualDraw;
+
 	};
 };

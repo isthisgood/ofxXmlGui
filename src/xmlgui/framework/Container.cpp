@@ -161,7 +161,7 @@ bool xmlgui::Container::touchMoved(int x, int y, int id) {
 		return false;
 	} else {
 		c->over = c->inside(x, y);
-		c->down = true;
+		c->down = c->over;
 		if(c->touchMoved(x, y, id)) {
 #else
 	deque<Control*>::iterator it;

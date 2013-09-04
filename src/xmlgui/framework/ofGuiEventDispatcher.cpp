@@ -1,6 +1,6 @@
 /**
  * ofGuiEventDispatcher.cpp
- * emptyExample
+ * emptyExample 
  *
  * Created by Marek Bereza on 16/06/2011.
  *
@@ -10,12 +10,14 @@
 #include "xmlgui/framework/Container.h"
 xmlgui::ofGuiEventDispatcher::ofGuiEventDispatcher() {
 	this->enabled = false;
+	this->manualDraw = false;
 }
 
 void xmlgui::ofGuiEventDispatcher::setup(Container *root) {
 	this->root = root;
 }
 void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
+	if(manualDraw) return;
 	root->draw();
 }
 
@@ -117,4 +119,8 @@ void xmlgui::ofGuiEventDispatcher::setEnabled(bool enabled) {
 		}
 	}
 	this->enabled = enabled;
+}
+
+void xmlgui::ofGuiEventDispatcher::setManualDraw(bool manualDraw) {
+	this->manualDraw = manualDraw;
 }
