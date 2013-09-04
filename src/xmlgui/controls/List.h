@@ -217,7 +217,7 @@ public:
 			if(i>=0 && i < items.size()) {
 				ival(value) = i;
 
-#pragma warning this was uncommented code before I imported the widgets to the new ofxXmlGui
+//#pragma warning this was uncommented code before I imported the widgets to the new ofxXmlGui
 				if(parent!=NULL) {
 					xmlgui::Event e(this, xmlgui::Event::TOUCH_UP);
 					for(int i = 0; i < parent->listeners.size(); i++) {
