@@ -38,12 +38,24 @@ public:
 	
 	TextField();
 	
-	void draw() {
-	}
-	
-	
+	void draw();
+	bool touchDown(int x, int y, int id);
+	bool touchMoved(int x, int y, int id);
+	bool touchUp(int x, int y, int id);
+				
+	bool keyPressed(int key);
+	bool keyReleased(int key);
 	
 protected:
+	virtual bool isKeyAllowed(int key);
+	void getCursorCoords(int pos, int &cursorX);
+	string getTextFieldValue();
+	void setTextFieldValue(string v);
+	
+	string displayString;
+	void beginEditing();
+	void endEditing();
+	
 	float lastTimeCursorMoved;
 	int VERTICAL_PADDING;
 	int HORIZONTAL_PADDING;
@@ -54,4 +66,8 @@ protected:
 	bool	mouseDownInRect;
 	bool isShifted, isCommand;
 	static map<int, char> shiftMap;
+	int getCursorPositionFromMouse(int x);
+	
+	string valueToString() { return sval(value); }
+	void valueFromString(string inp) { sval(value) = inp; }
 };
