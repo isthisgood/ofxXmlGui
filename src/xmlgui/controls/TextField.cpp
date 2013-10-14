@@ -8,7 +8,7 @@
 #include "xmlgui/framework/Container.h"
 
 map<int, char> TextField::shiftMap;
-
+xmlgui::ofxTextInput::FontRenderer* TextField::fontRef = NULL;
 
 TextField::TextField(): LabeledControl() {
 	
@@ -54,7 +54,14 @@ TextField::TextField(): LabeledControl() {
 
 	mouseDownInRect = false;
 	
-	fontRef = new xmlgui::ofxTextInput::BitmapFontRenderer();
+	if(fontRef==NULL) {
+		ofTrueTypeFont *f = xmlgui::Resources::getFont();
+		if(f!=NULL) {
+			fontRef = new xmlgui::ofxTextInput::TypedFontRenderer(f);
+		} else {
+			fontRef = new xmlgui::ofxTextInput::BitmapFontRenderer();
+		}
+	}
 
 	
 	VERTICAL_PADDING = 3;
@@ -219,7 +226,7 @@ bool TextField::touchDown(int x, int y, int id){
 
 
 bool TextField::touchMoved(int x, int y, int id) {
-	if(inside(x, y)) {
+	if(inside(x, y) || selecting) {
 		int pos = getCursorPositionFromMouse(x);
 		if(pos!=cursorPosition) {
 			selecting = true;
@@ -407,12 +414,14 @@ bool TextField::keyPressed(int key) {
 
 bool TextField::keyReleased(int key)
 {
+	
+	printf("Bogggie!!\n");
     
     if(key == 4352) {
         isCommand = false;
     }
 	
-    if(key == OF_KEY_SHIFT) {
+    if(key == OF_KEY_SHIFT || key== OF_KEY_LEFT_SHIFT || key==OF_KEY_RIGHT_SHIFT) {
         isShifted = false;
     }
 	return true;

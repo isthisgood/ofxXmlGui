@@ -59,7 +59,7 @@ protected:
 	float lastTimeCursorMoved;
 	int VERTICAL_PADDING;
 	int HORIZONTAL_PADDING;
-	xmlgui::ofxTextInput::FontRenderer* fontRef;
+	static xmlgui::ofxTextInput::FontRenderer* fontRef;
 	
     bool 	isEnabled;
 	bool	isEditing;
