@@ -94,6 +94,9 @@ namespace xmlgui {
 
 		}
 	}
+	
+
+
 
 	Title *SimpleGui::addTitle(string title) {
 		Title *t = (Title*) INSTANTIATE_WITH_ID("title", title);
@@ -366,6 +369,14 @@ namespace xmlgui {
 
 	TextField *SimpleGui::addTextField(string name, string &value) {
 		TextField *field = (TextField*)INSTANTIATE_WITH_ID("textfield", name);
+		field->pointToValue(&value);
+		field->width = SIMPLE_GUI_WIDTH;
+		gui->addChild(field);
+		return field;
+	}
+	
+	FileField *SimpleGui::addFileField(string name, string &value) {
+		FileField *field = (FileField*)INSTANTIATE_WITH_ID("file", name);
 		field->pointToValue(&value);
 		field->width = SIMPLE_GUI_WIDTH;
 		gui->addChild(field);

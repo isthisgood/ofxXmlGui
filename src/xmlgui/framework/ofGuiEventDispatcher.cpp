@@ -22,42 +22,42 @@ void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
 }
 
 
-void xmlgui::ofGuiEventDispatcher::mousePressed(ofMouseEventArgs &e) {
+bool xmlgui::ofGuiEventDispatcher::mousePressed(ofMouseEventArgs &e) {
 
-	root->touchDown(e.x, e.y, e.button);
+	return root->touchDown(e.x, e.y, e.button);
 }
 
 void xmlgui::ofGuiEventDispatcher::mouseMoved(ofMouseEventArgs &e) {
 	root->touchOver(e.x, e.y, e.button);
 }
 
-void xmlgui::ofGuiEventDispatcher::mouseDragged(ofMouseEventArgs &e) {
-	root->touchMoved(e.x, e.y, e.button);
+bool xmlgui::ofGuiEventDispatcher::mouseDragged(ofMouseEventArgs &e) {
+	return root->touchMoved(e.x, e.y, e.button);
 }
 
-void xmlgui::ofGuiEventDispatcher::mouseReleased(ofMouseEventArgs &e) {
-	root->touchUp(e.x, e.y, e.button);
+bool xmlgui::ofGuiEventDispatcher::mouseReleased(ofMouseEventArgs &e) {
+	return root->touchUp(e.x, e.y, e.button);
 }
 
-void xmlgui::ofGuiEventDispatcher::keyPressed(ofKeyEventArgs &e) {
-	root->keyPressed(e.key);
+bool xmlgui::ofGuiEventDispatcher::keyPressed(ofKeyEventArgs &e) {
+	return root->keyPressed(e.key);
 }
 
-void xmlgui::ofGuiEventDispatcher::keyReleased(ofKeyEventArgs &e) {
-	root->keyReleased(e.key);
+bool xmlgui::ofGuiEventDispatcher::keyReleased(ofKeyEventArgs &e) {
+	return root->keyReleased(e.key);
 }
 
 
-void xmlgui::ofGuiEventDispatcher::touchDown(ofTouchEventArgs &e) {
-	root->touchDown(e.x, e.y, e.id);
+bool xmlgui::ofGuiEventDispatcher::touchDown(ofTouchEventArgs &e) {
+	return root->touchDown(e.x, e.y, e.id);
 }
 
-void xmlgui::ofGuiEventDispatcher::touchMoved(ofTouchEventArgs &e) {
-	root->touchMoved(e.x, e.y, e.id);
+bool xmlgui::ofGuiEventDispatcher::touchMoved(ofTouchEventArgs &e) {
+	return root->touchMoved(e.x, e.y, e.id);
 }
 
-void xmlgui::ofGuiEventDispatcher::touchUp(ofTouchEventArgs &e) {
-	root->touchUp(e.x, e.y, e.id);
+bool xmlgui::ofGuiEventDispatcher::touchUp(ofTouchEventArgs &e) {
+	return root->touchUp(e.x, e.y, e.id);
 }
 
 void xmlgui::ofGuiEventDispatcher::enableInteraction() {

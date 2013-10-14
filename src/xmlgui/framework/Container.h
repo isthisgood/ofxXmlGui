@@ -25,7 +25,7 @@ namespace xmlgui {
 		Container();
 		~Container();
 		virtual void draw() ;
-		void clear();
+		virtual void clear();
 		void addChild(Control *child);
 		bool removeChild(Control *child);
 		virtual void touchOver(int x, int y, int id);
@@ -69,6 +69,10 @@ namespace xmlgui {
 		void saveSettings(string file = "");
 		void loadSettings(string file);
 
+		// recursive settings load/save function
+		void saveSettings(ofxXmlSettings &xml);
+		void loadSettings(ofxXmlSettings &xml);
+		
 	protected:
 		bool opaque;
 
@@ -83,9 +87,7 @@ namespace xmlgui {
 		deque<Control*> children;
 		string settingsFile;
 		
-		// recursive settings load/save function
-		void saveSettings(ofxXmlSettings &xml);
-		void loadSettings(ofxXmlSettings &xml);
+		
 	};
 
 };

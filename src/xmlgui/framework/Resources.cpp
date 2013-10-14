@@ -22,6 +22,11 @@ ofTrueTypeFont *xmlgui::Resources::font = NULL;
 bool xmlgui::Resources::customFontNotAvailable = false;
 map<string,ofImage*> xmlgui::Resources::images;
 
+ofTrueTypeFont *xmlgui::Resources::getFont() {
+	checkFontLoaded();
+	return font;
+}
+
 ofImage *xmlgui::Resources::getImage(string path) {
 
 

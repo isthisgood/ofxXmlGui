@@ -30,17 +30,17 @@ namespace xmlgui {
 
 		void draw(ofEventArgs &e);	
 		
-		void mousePressed(ofMouseEventArgs &e);
-		void mouseMoved(ofMouseEventArgs &e);	
-		void mouseDragged(ofMouseEventArgs &e);
-		void mouseReleased(ofMouseEventArgs &e);
+		bool mousePressed(ofMouseEventArgs &e);
+		void mouseMoved(ofMouseEventArgs &e);
+		bool mouseDragged(ofMouseEventArgs &e);
+		bool mouseReleased(ofMouseEventArgs &e);
 		
-		void keyPressed(ofKeyEventArgs &e);
-		void keyReleased(ofKeyEventArgs &e);
+		bool keyPressed(ofKeyEventArgs &e);
+		bool keyReleased(ofKeyEventArgs &e);
 		
-		void touchDown(ofTouchEventArgs &e);
-		void touchMoved(ofTouchEventArgs &e);
-		void touchUp(ofTouchEventArgs &e);
+		bool touchDown(ofTouchEventArgs &e);
+		bool touchMoved(ofTouchEventArgs &e);
+		bool touchUp(ofTouchEventArgs &e);
 	private:
 		xmlgui::Container *root;
 		bool enabled;

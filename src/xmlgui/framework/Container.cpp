@@ -48,6 +48,7 @@ void xmlgui::Container::clear() {
 		}
 	}
 	children.clear();
+	keyboardFocusedControl = NULL;
 }
 xmlgui::Container::~Container() {
 	clear();
@@ -330,6 +331,12 @@ bool xmlgui::Container::keyPressed(int key) {
 	 */
 }
 void xmlgui::Container::addListener(Listener *listener) {
+	for(int i = 0; i < listeners.size(); i++) {
+		if(listeners[i]==listener) {
+			ofLogWarning() << "xmlgui:: listener already added to container";
+			return;
+		}
+	}
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
 		if((*it)->isContainer()) {
@@ -427,7 +434,7 @@ void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 	for(int i = 0; i < numTags; i++) {
 		string id = xml.getAttribute("setting", "id", "", i);
 		string value = xml.getAttribute("setting", "value", "", i);
-		//printf("Name is %s\n", id.c_str());
+		//printf("%s = %s\n", id.c_str(), value.c_str());
 		xmlgui::Control *c = getControlById(id);
 		if(c!=NULL) {
 			c->valueFromString(value);

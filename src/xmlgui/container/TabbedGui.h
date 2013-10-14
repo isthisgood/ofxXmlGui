@@ -98,6 +98,11 @@ namespace xmlgui {
 			}
 			tabber->width = tabs.size() * 60;
 		}
+		
+		void clear() {
+			tabber->options.clear();
+			gui->clear();
+		}
 	};
 };
 
