@@ -63,8 +63,8 @@ TextField::TextField(): LabeledControl() {
 		}
 	}
 
-	
-	VERTICAL_PADDING = 3;
+	// this should be 3 if using a bitmapfontrenderer?
+	VERTICAL_PADDING = 5;
 	HORIZONTAL_PADDING = 3;
 	lastTimeCursorMoved = ofGetElapsedTimef();
 }
@@ -170,7 +170,6 @@ void TextField::draw() {
 		// calculate this every loop.
 		int cursorX;
         getCursorCoords(cursorPosition, cursorX);
-		printf("CursorX: %d\n", cursorX);
 		//	printf("Pos: %d    X: %d   Y: %d\n", cursorPosition, cursorX, cursorY);
 		int cursorPos = HORIZONTAL_PADDING + fontRef->stringWidth(text.substr(0,cursorX));
         
@@ -257,10 +256,9 @@ bool TextField::isKeyAllowed(int key) {
 }
 
 bool TextField::keyPressed(int key) {
-
 	if(key==330) key = '.';
 	if(key>=320 && key <=329) {
-		key = '0' + 320 - key;
+		key = '0' + key - 320;
 	}
 	//ew: add charachter (non unicode sorry!)
 	//jg: made a step closer to this with swappable renderers and ofxFTGL -- but need unicode text input...
