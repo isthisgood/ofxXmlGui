@@ -413,8 +413,6 @@ bool TextField::keyPressed(int key) {
 bool TextField::keyReleased(int key)
 {
 	
-	printf("Bogggie!!\n");
-    
     if(key == 4352) {
         isCommand = false;
     }

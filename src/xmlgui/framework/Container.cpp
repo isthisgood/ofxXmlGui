@@ -319,16 +319,15 @@ bool xmlgui::Container::keyPressed(int key) {
 	} else {
 		return false;
 	}
+}
 
-	/*
-	deque<Control*>::iterator it;
-	for(it = children.begin(); it != children.end(); it++) {
-		if((*it)->keyPressed(key)) {
-			return true;
-		}
+bool xmlgui::Container::keyReleased(int key) {
+	if(!active) return false;
+	if(keyboardFocusedControl!=NULL) {
+		return keyboardFocusedControl->keyReleased(key);
+	} else {
+		return false;
 	}
-	return false;
-	 */
 }
 void xmlgui::Container::addListener(Listener *listener) {
 	for(int i = 0; i < listeners.size(); i++) {

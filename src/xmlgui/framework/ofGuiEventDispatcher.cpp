@@ -13,7 +13,8 @@ xmlgui::ofGuiEventDispatcher::ofGuiEventDispatcher() {
 	this->manualDraw = false;
 }
 
-void xmlgui::ofGuiEventDispatcher::setup(Container *root) {
+void xmlgui::ofGuiEventDispatcher::setup(Container *root, int prio) {
+	this->priority = prio;
 	this->root = root;
 }
 void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
@@ -24,7 +25,11 @@ void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
 
 bool xmlgui::ofGuiEventDispatcher::mousePressed(ofMouseEventArgs &e) {
 
-	return root->touchDown(e.x, e.y, e.button);
+	bool res = root->touchDown(e.x, e.y, e.button);
+	if(res==true) {
+		printf("ofGuiEventDispatcher did it\n");
+	}
+	return res;
 }
 
 void xmlgui::ofGuiEventDispatcher::mouseMoved(ofMouseEventArgs &e) {
@@ -79,7 +84,7 @@ void xmlgui::ofGuiEventDispatcher::enableEvents() {
 
 	enableInteraction();
 	
-	ofAddListener(ofEvents().draw, this, &xmlgui::ofGuiEventDispatcher::draw);
+	ofAddListener(ofEvents().draw, this, &xmlgui::ofGuiEventDispatcher::draw, priority);
 	
 
 	

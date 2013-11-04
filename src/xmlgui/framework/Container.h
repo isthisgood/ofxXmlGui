@@ -34,6 +34,7 @@ namespace xmlgui {
 		virtual bool touchUp(int x, int y, int id);
 
 		virtual bool keyPressed(int key);
+		virtual bool keyReleased(int key);
 		virtual Control *hitTest(float x, float y);
 		void saveToXmlObject(ofxXmlSettings &xml);
 		virtual void saveToXml(string file = "");
