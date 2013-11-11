@@ -53,7 +53,7 @@ TextField::TextField(): LabeledControl() {
 	drawCursor = false;
 
 	mouseDownInRect = false;
-	
+	isShifted = false;
 	if(fontRef==NULL) {
 		ofTrueTypeFont *f = xmlgui::Resources::getFont();
 		if(f!=NULL) {
@@ -152,7 +152,7 @@ void TextField::draw() {
 				   endX - startX, fontRef->getLineHeight());
 
 		ofPopStyle();
-		
+
 		
 		//draw cursor line
     } else if(drawCursor) {
@@ -160,7 +160,7 @@ void TextField::draw() {
 		// cursor should only blink when its been idle, and animation
 		// should be a clipped sine wave
         float timeFrac = 0.5 * ofClamp(cos(6.0f * (ofGetElapsedTimef()-lastTimeCursorMoved))*4, -1, 1) + 0.5;
-        
+
         ofColor col = ofGetStyle().color;
 		ofSetColor(col.r * timeFrac, col.g * timeFrac, col.b * timeFrac);
 		
@@ -185,7 +185,9 @@ void TextField::draw() {
         ofLine(cursorPos, cursorTop,
 			   cursorPos, cursorBottom);
         ofPopStyle();
-    }
+    } else {
+		//printf("Boogs\n");
+	}
 	
 	fontRef->drawString(text, HORIZONTAL_PADDING, fontRef->getLineHeight()+VERTICAL_PADDING);
 	
@@ -213,6 +215,7 @@ int TextField::getCursorPositionFromMouse(int x) {
 
 
 bool TextField::touchDown(int x, int y, int id){
+
 	mouseDownInRect = inside(x, y);
 	if(mouseDownInRect) {
 		cursorPosition = getCursorPositionFromMouse(x);
@@ -225,6 +228,7 @@ bool TextField::touchDown(int x, int y, int id){
 
 
 bool TextField::touchMoved(int x, int y, int id) {
+
 	if(inside(x, y) || selecting) {
 		int pos = getCursorPositionFromMouse(x);
 		if(pos!=cursorPosition) {
@@ -236,18 +240,21 @@ bool TextField::touchMoved(int x, int y, int id) {
 			selecting = false;
 		}
 	}
+	return inside(x, y);
 }
 
 bool TextField::touchUp(int x, int y, int id){
-	
+
     if(inside(x, y)) {
         if(!isEditing && mouseDownInRect){
 	        beginEditing();
+			return true;
         }
     }
     else if(isEditing){
 		endEditing();
 	}
+	return false;
 }
 
 
@@ -277,13 +284,13 @@ bool TextField::keyPressed(int key) {
     if(key == 'c' && isCommand ) {
         setClipboard(text.substr(selectionBegin, selectionEnd - selectionBegin));
 		setTextFieldValue(text);
-        return;
+        return true;
     }
 	
     if(key == 'v' && isCommand ) {
         text.insert(cursorPosition, getClipboard());
 		setTextFieldValue(text);
-        return;
+        return true;
     }
 #endif
     
@@ -301,7 +308,7 @@ bool TextField::keyPressed(int key) {
 	if (key == OF_KEY_RETURN) {
 		endEditing();
 		setTextFieldValue(text);
-		return;
+		return true;
 	}
 	
 	if ((key >=32 && key <=126) || key=='\t') {
@@ -405,7 +412,7 @@ bool TextField::keyPressed(int key) {
 			
 		}
 	}
-	
+	printf("Keyed\n");
 	setTextFieldValue(text);
 	return true;
 }

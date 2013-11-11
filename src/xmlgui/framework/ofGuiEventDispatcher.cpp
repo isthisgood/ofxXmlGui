@@ -24,12 +24,7 @@ void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
 
 
 bool xmlgui::ofGuiEventDispatcher::mousePressed(ofMouseEventArgs &e) {
-
-	bool res = root->touchDown(e.x, e.y, e.button);
-	if(res==true) {
-		printf("ofGuiEventDispatcher did it\n");
-	}
-	return res;
+	return root->touchDown(e.x, e.y, e.button);
 }
 
 void xmlgui::ofGuiEventDispatcher::mouseMoved(ofMouseEventArgs &e) {
@@ -69,12 +64,12 @@ void xmlgui::ofGuiEventDispatcher::enableInteraction() {
 	ofAddListener(ofEvents().mousePressed, this, &xmlgui::ofGuiEventDispatcher::mousePressed);
 	ofAddListener(ofEvents().mouseMoved, this, &xmlgui::ofGuiEventDispatcher::mouseMoved);
 	ofAddListener(ofEvents().mouseDragged, this, &xmlgui::ofGuiEventDispatcher::mouseDragged);
+	ofAddListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased);
 	
 	ofAddListener(ofEvents().touchDown, this, &xmlgui::ofGuiEventDispatcher::touchDown);
 	ofAddListener(ofEvents().touchUp, this, &xmlgui::ofGuiEventDispatcher::touchUp);
 	ofAddListener(ofEvents().touchMoved, this, &xmlgui::ofGuiEventDispatcher::touchMoved);
 	
-	ofAddListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased);
 	ofAddListener(ofEvents().keyPressed, this, &xmlgui::ofGuiEventDispatcher::keyPressed);
 	ofAddListener(ofEvents().keyReleased, this, &xmlgui::ofGuiEventDispatcher::keyReleased);
 }
@@ -94,12 +89,12 @@ void xmlgui::ofGuiEventDispatcher::disableInteraction() {
 	ofRemoveListener(ofEvents().mousePressed, this, &xmlgui::ofGuiEventDispatcher::mousePressed);
 	ofRemoveListener(ofEvents().mouseMoved, this, &xmlgui::ofGuiEventDispatcher::mouseMoved);
 	ofRemoveListener(ofEvents().mouseDragged, this, &xmlgui::ofGuiEventDispatcher::mouseDragged);
+	ofRemoveListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased);
 	
 	ofRemoveListener(ofEvents().touchDown, this, &xmlgui::ofGuiEventDispatcher::touchDown);
 	ofRemoveListener(ofEvents().touchUp, this, &xmlgui::ofGuiEventDispatcher::touchUp);
 	ofRemoveListener(ofEvents().touchMoved, this, &xmlgui::ofGuiEventDispatcher::touchMoved);
 	
-	ofRemoveListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased);
 	ofRemoveListener(ofEvents().keyPressed, this, &xmlgui::ofGuiEventDispatcher::keyPressed);
 	ofRemoveListener(ofEvents().keyReleased, this, &xmlgui::ofGuiEventDispatcher::keyReleased);
 }
@@ -129,3 +124,9 @@ void xmlgui::ofGuiEventDispatcher::setEnabled(bool enabled) {
 void xmlgui::ofGuiEventDispatcher::setManualDraw(bool manualDraw) {
 	this->manualDraw = manualDraw;
 }
+
+
+
+
+
+
