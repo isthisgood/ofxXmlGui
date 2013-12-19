@@ -20,6 +20,7 @@ void xmlgui::ofGuiEventDispatcher::setup(Container *root, int prio) {
 void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
 	if(manualDraw) return;
 	root->draw();
+	xmlgui::Resources::drawAllDeferredStrings();
 }
 
 

@@ -19,6 +19,7 @@ void testApp::setup() {
 	gui.addSlider("e", e);
 	gui.addSlider("f", f);
 	
+	gui.setOpaque(true);
 	
 	// pass in the gui to point to and the name
 	// of the midi device you want to use.
@@ -31,8 +32,6 @@ void testApp::setup() {
 	// (there are quite a lot!)
 	midi.setSettingsDir("settings");
 	gui.setEnabled(true);
-
-	
 }
 
 //--------------------------------------------------------------
@@ -42,7 +41,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	ofBackground(0);
+	ofBackground(255, 255, 0);
 }
 
 //--------------------------------------------------------------

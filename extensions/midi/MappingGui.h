@@ -16,7 +16,7 @@
  */
 
 #pragma once
-#include "SimpleGui.h"
+#include "xmlgui/container/SimpleGui.h"
 #include "Map.h"
 #include "ofxMidi.h"
 namespace xmlgui {

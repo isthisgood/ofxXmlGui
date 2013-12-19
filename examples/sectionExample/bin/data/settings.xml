@@ -3,13 +3,13 @@
     <setting id="height" value="33.200000763"></setting>
     <setting id="" value="">
         <setting id="bumballs_sectiontoggle" value="true"></setting>
-        <setting id="Pos" value="-100.000000000,-100.000000000"></setting>
-        <setting id="Stroke" value="true"></setting>
+        <setting id="Pos" value="4.000000000,21.333335876"></setting>
+        <setting id="Stroke" value="false"></setting>
         <setting id="Rect Colour" value="871133"></setting>
     </setting>
     <setting id="" value="">
         <setting id="bumballs 2_sectiontoggle" value="true"></setting>
-        <setting id="BG Colour" value="1.000000000,1.000000000"></setting>
+        <setting id="BG Colour" value="1.000000000,1.000000000,1.000000000,1.000000000"></setting>
         <setting id="Range" value="0.000000000"></setting>
         <setting id="Textfield" value="t"></setting>
     </setting>

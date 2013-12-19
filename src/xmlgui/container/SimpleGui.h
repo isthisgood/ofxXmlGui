@@ -79,7 +79,7 @@ namespace xmlgui {
 		void addColumn();
 		xmlgui::ofGuiEventDispatcher events;
 
-
+		void loadFromUrl(const string &url);
 
 		void toggle() {
 			setEnabled(!enabled);

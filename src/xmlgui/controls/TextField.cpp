@@ -7,10 +7,10 @@
 #include "TextField.h"
 #include "xmlgui/framework/Container.h"
 
-map<int, char> TextField::shiftMap;
-xmlgui::ofxTextInput::FontRenderer* TextField::fontRef = NULL;
+map<int, char> xmlgui::TextField::shiftMap;
+xmlgui::ofxTextInput::FontRenderer* xmlgui::TextField::fontRef = NULL;
 
-TextField::TextField(): LabeledControl() {
+xmlgui::TextField::TextField(): LabeledControl() {
 	
 	height = 20;
 	width = 70;
@@ -69,21 +69,21 @@ TextField::TextField(): LabeledControl() {
 	lastTimeCursorMoved = ofGetElapsedTimef();
 }
 
-void TextField::beginEditing() {
+void xmlgui::TextField::beginEditing() {
     if(!isEditing){
         isEditing = true;
         drawCursor = true;
     }
 }
 
-void TextField::endEditing() {
+void xmlgui::TextField::endEditing() {
     if(isEditing){
         isEditing = false;
         drawCursor = false;
     }
 }
 
-string TextField::getTextFieldValue() {
+string xmlgui::TextField::getTextFieldValue() {
 	if(displayString=="") {
 		displayString = valueToString();
 	}
@@ -91,7 +91,7 @@ string TextField::getTextFieldValue() {
 	return displayString;
 }
 
-void TextField::setTextFieldValue(string v) {
+void xmlgui::TextField::setTextFieldValue(string v) {
 	displayString = v;
 	valueFromString(v);
 }
@@ -101,7 +101,7 @@ string displayString;
 
 
 
-void TextField::getCursorCoords(int pos, int &cursorX) {
+void xmlgui::TextField::getCursorCoords(int pos, int &cursorX) {
 
 	string text = getTextFieldValue();
 	
@@ -110,7 +110,7 @@ void TextField::getCursorCoords(int pos, int &cursorX) {
 }
 
 
-void TextField::draw() {
+void xmlgui::TextField::draw() {
 	if(!focus) {
 		selecting = false;
 		drawCursor = false;
@@ -200,7 +200,7 @@ void TextField::draw() {
 
 
 
-int TextField::getCursorPositionFromMouse(int x) {
+int xmlgui::TextField::getCursorPositionFromMouse(int x) {
 	int cursorX = 0;
 	float pos = 0;
 
@@ -214,7 +214,7 @@ int TextField::getCursorPositionFromMouse(int x) {
 
 
 
-bool TextField::touchDown(int x, int y, int id){
+bool xmlgui::TextField::touchDown(int x, int y, int id){
 
 	mouseDownInRect = inside(x, y);
 	if(mouseDownInRect) {
@@ -227,7 +227,7 @@ bool TextField::touchDown(int x, int y, int id){
 }
 
 
-bool TextField::touchMoved(int x, int y, int id) {
+bool xmlgui::TextField::touchMoved(int x, int y, int id) {
 
 	if(inside(x, y) || selecting) {
 		int pos = getCursorPositionFromMouse(x);
@@ -243,7 +243,7 @@ bool TextField::touchMoved(int x, int y, int id) {
 	return inside(x, y);
 }
 
-bool TextField::touchUp(int x, int y, int id){
+bool xmlgui::TextField::touchUp(int x, int y, int id){
 
     if(inside(x, y)) {
         if(!isEditing && mouseDownInRect){
@@ -258,11 +258,11 @@ bool TextField::touchUp(int x, int y, int id){
 }
 
 
-bool TextField::isKeyAllowed(int key) {
+bool xmlgui::TextField::isKeyAllowed(int key) {
 	return true;
 }
 
-bool TextField::keyPressed(int key) {
+bool xmlgui::TextField::keyPressed(int key) {
 	if(key==330) key = '.';
 	if(key>=320 && key <=329) {
 		key = '0' + key - 320;
@@ -417,7 +417,7 @@ bool TextField::keyPressed(int key) {
 	return true;
 }
 
-bool TextField::keyReleased(int key)
+bool xmlgui::TextField::keyReleased(int key)
 {
 	
     if(key == 4352) {

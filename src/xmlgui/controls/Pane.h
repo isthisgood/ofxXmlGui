@@ -47,7 +47,7 @@ public:
 
 		if(drawingLabel) {
 			setRGBA(labelColor);
-			xmlgui::Resources::drawString(name, x+3, y+14);
+			xmlgui::Resources::drawString(this, name, x+3, y+14);
 		}
 	}
 	void getParameterInfo(vector<ParameterInfo> &params) {

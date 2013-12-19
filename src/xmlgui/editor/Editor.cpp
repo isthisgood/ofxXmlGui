@@ -299,6 +299,6 @@ void xmlgui::Editor::draw() {
 			c = c->parent;
 		}
 		ofSetHexColor(0xFFFFFF);
-		xmlgui::Resources::drawString(path, 3, ofGetHeight()-4);
+		xmlgui::Resources::drawString(this, path, 3, ofGetHeight()-4);
 	}
 }

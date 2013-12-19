@@ -67,8 +67,8 @@ namespace xmlgui {
 		bool isOpaque();
 		void setOpaque(bool opaque);
 		void print(int indent = 0);
-		void saveSettings(string file = "");
-		void loadSettings(string file);
+		virtual void saveSettings(string file = "");
+		virtual void loadSettings(string file);
 
 		// recursive settings load/save function
 		void saveSettings(ofxXmlSettings &xml);

@@ -19,46 +19,47 @@
 
 #include "xmlgui/framework/Control.h"
 
-
-class SectionToggle: public LabeledControl {
-public:
-	
-	
-	SectionToggle(): LabeledControl() {
-		height = 12;
-		width = 110;
-		value = new bool[1];
-		bval(value) = false;
-	}
-	
-	
-	
-	void draw() {
-
-		ofSetHexColor(0x333333);
-		ofRect(*this);
+namespace xmlgui {
+	class SectionToggle: public LabeledControl {
+	public:
 		
-		ofSetHexColor(0xFFFFFF);
 		
-		string action = "<";
-		if(bval(value)) action = "v";
-		drawLabel(x+3,y+9);
-		drawCustomLabel(action, x+width-6, y + 9);
-/*		xmlgui::Resources::bindFont();
-		xmlgui::Resources::drawString(name, x+3, y + 9);
-		xmlgui::Resources::drawString(action, x+width-6, y + 9);
-		xmlgui::Resources::unbindFont();
- */
-
-
+		SectionToggle(): LabeledControl() {
+			height = 12;
+			width = 110;
+			value = new bool[1];
+			bval(value) = false;
+		}
 		
-	//	ofLine(x, y+height, x+width, y+height);
+		
+		
+		void draw() {
 
-	}
-	
-	bool touchDown(int _x, int _y, int button) {
-		bval(value) ^= true;
-		return true;
-	}
-	string valueToString() { return bval(value)?"true":"false"; }
-};
+			ofSetHexColor(0x333333);
+			ofRect(*this);
+			
+			ofSetHexColor(0xFFFFFF);
+			
+			string action = "<";
+			if(bval(value)) action = "v";
+			drawLabel(x+3,y+9);
+			drawCustomLabel(action, x+width-6, y + 9);
+	/*		xmlgui::Resources::bindFont();
+			xmlgui::Resources::drawString(name, x+3, y + 9);
+			xmlgui::Resources::drawString(action, x+width-6, y + 9);
+			xmlgui::Resources::unbindFont();
+	 */
+
+
+			
+		//	ofLine(x, y+height, x+width, y+height);
+
+		}
+		
+		bool touchDown(int _x, int _y, int button) {
+			bval(value) ^= true;
+			return true;
+		}
+		string valueToString() { return bval(value)?"true":"false"; }
+	};
+}

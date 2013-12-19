@@ -37,7 +37,7 @@ namespace xmlgui {
 			m.addStringArg(e->control->id);
 			m.addStringArg(e->control->valueToString());
 			guiOsc.sendMessage(m);
-//			printf("Sent /gui %s %s %s\n", gui->id.c_str(), e->control->id.c_str(), e->control->valueToString().c_str());
+			printf("Sent /gui %s %s %s\n", gui->id.c_str(), e->control->id.c_str(), e->control->valueToString().c_str());
 		}
 
 		ofxOscSender guiOsc;

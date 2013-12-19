@@ -9,25 +9,26 @@
 
 
 
-LabeledControl::LabeledControl(): Control() {
+xmlgui::LabeledControl::LabeledControl(): Control() {
 	lastDrawnFrame = 0;
 	labelColor = 0xFFFFFF;
 	drawingLabel = true;
 	
 }
 
-void LabeledControl::drawAllLabels() {
+// I don't think this is being used at the moment.
+void xmlgui::LabeledControl::drawAllLabels() {
 	xmlgui::Resources::bindFont();
 	setRGBA(0xFFFFFF);
 	for(int i = 0; i < labels.size(); i++) {
-		xmlgui::Resources::drawString(labels[i].second,labels[i].first.x, labels[i].first.y);
+		//xmlgui::Resources::drawString(this, labels[i].second,labels[i].first.x, labels[i].first.y);
 	}
 	xmlgui::Resources::unbindFont();
 	labels.clear();
 }
 
 
-void LabeledControl::drawLabel(float x, float y) {
+void xmlgui::LabeledControl::drawLabel(float x, float y) {
 	//drawLabelsIfNeeded();
 	
 	
@@ -37,14 +38,14 @@ void LabeledControl::drawLabel(float x, float y) {
 			y = this->y - 3;
 		}
 		setRGBA(labelColor);
-		xmlgui::Resources::drawString(name, x, y);
+		xmlgui::Resources::drawString(this, name, x, y);
 		//			ofVec2f p = parent->getAbsolutePosition();
 		//			labels.push_back(make_pair(ofVec2f(x,y)+p, name));
 	}
 	
 }
 
-void LabeledControl::drawCustomLabel(string label, float x, float y) {
+void xmlgui::LabeledControl::drawCustomLabel(string label, float x, float y) {
 	
 	if(drawingLabel) {
 		if(parent->isOpaque()) {
@@ -53,7 +54,7 @@ void LabeledControl::drawCustomLabel(string label, float x, float y) {
 		}
 		
 		setRGBA(labelColor);
-		xmlgui::Resources::drawString(label, x, y);
+		xmlgui::Resources::drawString(this, label, x, y);
 		
 		//			ofVec2f p = parent->getAbsolutePosition();
 		//			labels.push_back(make_pair(ofVec2f(x,y)+p, label));
@@ -62,7 +63,7 @@ void LabeledControl::drawCustomLabel(string label, float x, float y) {
 }
 
 
-void LabeledControl::getParameterInfo(vector<ParameterInfo> &params) {
+void xmlgui::LabeledControl::getParameterInfo(vector<ParameterInfo> &params) {
 	params.push_back(ParameterInfo("Draw Label", "drawlabel", "toggle", &drawingLabel));
 	params.push_back(ParameterInfo("Label Color", "labelColor", "hexcolorpicker", &labelColor));
 }

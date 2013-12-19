@@ -30,36 +30,40 @@
  *
  */
 #include "Control.h"
-
-class MicroButton : public xmlgui::Control
-{
-public:
-	
-	
-	MicroButton(): Control() {
-		height = 24;
-		width = 110;
-		value = new bool[1];
-		bval(value) = true;
-	}
-	
-	
-	
-	void draw() {
-		ofSetHexColor(0xFFFFFF);
+namespace xmlgui {
+	class MicroButton : public xmlgui::Control
+	{
+	public:
 		
-		string action = "<";
-		if(bval(value)) action = "v";
-		xmlgui::Resources::drawString(name, x+3, y+14);
-		xmlgui::Resources::drawString(action, x+width-6, y+14);
 		
-		ofLine(x, y+height-5, x+width, y+height-5);
+		MicroButton(): Control() {
+			height = 24;
+			width = 110;
+			value = new bool[1];
+			bval(value) = true;
+		}
+		
+		
+		
+		void draw() {
+			ofSetHexColor(0xFFFFFF);
+			
+			string action = "<";
+			if(bval(value)) action = "v";
+			xmlgui::Resources::drawString(name, x+3, y+14);
+			xmlgui::Resources::drawString(action, x+width-6, y+14);
+			
+			ofLine(x, y+height-5, x+width, y+height-5);
 
-	}
-	
-	bool touchDown(int _x, int _y, int button) {
-		bval(value) ^= true;
-		return true;
-	}
-	string valueToString() { return bval(value)?"true":"false"; }
-};
+		}
+		
+		bool touchDown(int _x, int _y, int button) {
+			bval(value) ^= true;
+			return true;
+		}
+		string valueToString() { return bval(value)?"true":"false"; }
+	};
+
+}
+
+

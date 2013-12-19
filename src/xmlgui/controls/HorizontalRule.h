@@ -17,20 +17,21 @@
 
 #pragma once
 #include "xmlgui/framework/Control.h"
-
-class HorizontalRule: public xmlgui::Control {
-public:
-	
-	
-	HorizontalRule(): Control() {
-		height = 24;
-		width = 110;
-	}
-	
-	
-	
-	void draw() {
-		ofSetHexColor(0xFFFFFF);
-		ofLine(x, y+height/2, x+width, y+height/2);
-	}
-};
+namespace xmlgui {
+	class HorizontalRule: public xmlgui::Control {
+	public:
+		
+		
+		HorizontalRule(): Control() {
+			height = 24;
+			width = 110;
+		}
+		
+		
+		
+		void draw() {
+			ofSetHexColor(0xFFFFFF);
+			ofLine(x, y+height/2, x+width, y+height/2);
+		}
+	};
+}

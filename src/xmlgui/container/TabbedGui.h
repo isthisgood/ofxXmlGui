@@ -26,8 +26,11 @@ namespace xmlgui {
 		vector<pair<string,xmlgui::Container*> > tabs;
 		SegmentedControl *tabber;
 		FPSCounter *fps;
+		PushButton *saveAllButton, *saveThisTabButton, *revertThisTabButton;
 		int tabIndex;
+		
 		TabbedGui(): SimpleGui() {
+			setAutoLayout(false);
 			tabIndex = 0;
 			tabber = (SegmentedControl*)INSTANTIATE_WITH_ID("segmented", "tabber");
 			tabber->name = ""; // we need to mute the name otherwise it'll be drawn
@@ -36,12 +39,34 @@ namespace xmlgui {
 			//tabber->opts = options;
 			addChild(tabber);
 			fps = (FPSCounter*)INSTANTIATE_WITH_ID("fps", "fps");
+			saveAllButton = (PushButton*)INSTANTIATE_WITH_ID("pushbutton", "save all");
+			saveThisTabButton = (PushButton*)INSTANTIATE_WITH_ID("pushbutton", "save this");
+			revertThisTabButton = (PushButton*)INSTANTIATE_WITH_ID("pushbutton", "revert");
 			
+			//setPosition(100, 100);
+			addChild(saveAllButton);
+			addChild(saveThisTabButton);
+			addChild(revertThisTabButton);
 			addChild(fps);
-//			fps->setPosition(ofGetWidth() - fps->width - AUTO_LAYOUT_PADDING, 0);
 			fps->setPosition(500, 0);
-			addTab("default");
+			fps->height = saveAllButton->height;
 			
+			saveThisTabButton->width = saveAllButton->width = revertThisTabButton->width = 60;
+			
+			saveAllButton->x = fps->x + fps->width + AUTO_LAYOUT_PADDING;
+			saveThisTabButton->x = saveAllButton->x + saveAllButton->width + AUTO_LAYOUT_PADDING;
+			revertThisTabButton->x = saveThisTabButton->x + saveThisTabButton->width + AUTO_LAYOUT_PADDING;
+			
+			saveAllButton->y = saveThisTabButton->y = revertThisTabButton->y = 0;
+			
+			
+			
+//			fps->setPosition(ofGetWidth() - fps->width - AUTO_LAYOUT_PADDING, 0);
+
+			addTab("default");
+			x = 10;
+			y = 10;
+
 		}
 		void addTab(string name) {
 			bool alreadyAdded = false;
@@ -50,6 +75,8 @@ namespace xmlgui {
 			// the first tab and not re-add it to the container
 			if(tabs.size()==1 && tabs[0].first=="default") {
 				tabs[0].first = name;
+				tabs[0].second->name = name;
+				tabs[0].second->id = name;
 				alreadyAdded = true;
 			} else {
 				tabs.push_back(make_pair(name, new xmlgui::Container()));
@@ -67,7 +94,13 @@ namespace xmlgui {
 			setTab(tabs.size()-1);
 		}
 	
-		static const int guiYOffset = 30;
+		static const int guiYOffset = 60;
+		
+		xmlgui::Container *getCurrTab() {
+			return tabs[tabIndex].second;
+		}
+		
+		
 		void setTab(int index) {
 			tabIndex = index;
 			for(int i = 0; i < tabs.size(); i++) {
@@ -84,9 +117,42 @@ namespace xmlgui {
 				}
 			}
 		}
+		
+		void nextTab() {
+			if(tabIndex<tabs.size()-1) {
+				setTab(tabIndex+1);
+			} else {
+				setTab(0);
+			}
+		}
+		
+		
 		void ctrlChanged(xmlgui::Event *e) {
 			if(e->control->id=="tabber") {
 				setTab(tabIndex);
+			} else if(e->control->id=="save all") {
+				printf("Saving settings\n");
+				saveSettings();
+			} else if(e->control->id=="save this") {
+				if(!ofFile("settings").exists()) {
+					ofDirectory().createDirectory("settings");
+				}
+				tabs[tabIndex].second->saveSettings("settings/" + tabs[tabIndex].second->name + ".xml");
+			} else if(e->control->id=="revert") {
+				tabs[tabIndex].second->loadSettings("settings/" + tabs[tabIndex].second->name + ".xml");
+			}
+		}
+		void saveSettings() {
+			if(!ofFile("settings").exists()) {
+				ofDirectory().createDirectory("settings");
+			}
+			for(int i =0 ; i < tabs.size(); i++) {
+				tabs[i].second->saveSettings("settings/" + tabs[i].second->name + ".xml");
+			}
+		}
+		void loadSettings() {
+			for(int i =0 ; i < tabs.size(); i++) {
+				tabs[i].second->loadSettings("settings/" + tabs[i].second->name + ".xml");
 			}
 		}
 		

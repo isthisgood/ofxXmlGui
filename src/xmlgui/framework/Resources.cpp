@@ -10,8 +10,8 @@
 #include <sys/stat.h>
 #include "Container.h"
 #include "LabeledControl.h"
-vector<pair<ofVec2f, string> > LabeledControl::labels;
-int LabeledControl::lastDrawnFrame = 0;
+vector<pair<ofVec2f, string> > xmlgui::LabeledControl::labels;
+int xmlgui::LabeledControl::lastDrawnFrame = 0;
 //#define DEFAULT_FONT "OCRAStd.ttf"
 //#define DEFAULT_FONT_SIZE 12
 #define DEFAULT_FONT "res/mono0755.ttf"
@@ -21,6 +21,8 @@ int LabeledControl::lastDrawnFrame = 0;
 ofTrueTypeFont *xmlgui::Resources::font = NULL;
 bool xmlgui::Resources::customFontNotAvailable = false;
 map<string,ofImage*> xmlgui::Resources::images;
+
+ofMesh stringMeshes;
 
 ofTrueTypeFont *xmlgui::Resources::getFont() {
 	checkFontLoaded();
@@ -70,14 +72,39 @@ void xmlgui::Resources::checkFontLoaded() {
 		}
 	}
 }
-void xmlgui::Resources::drawString(string str, int x, int y) {
+void xmlgui::Resources::drawStringImmediate(string str, int x, int y) {
 	checkFontLoaded();
 	if(customFontNotAvailable) {
 		ofDrawBitmapString(str, x, y);
 	} else {
 		font->drawString(str, x, y);
 	}
+}
 
+void xmlgui::Resources::drawString(xmlgui::Control *caller, string str, int x, int y, ofFloatColor color) {
+	checkFontLoaded();
+	if(customFontNotAvailable) {
+		ofDrawBitmapString(str, x, y);
+	} else {
+//		font->drawString(str, x, y);
+		ofVec2f pos = caller->parent->getAbsolutePosition();
+		ofMesh m =font->getStringMesh(str, pos.x + x, pos.y + y);
+		vector<ofFloatColor> colors(m.getNumVertices(), color);
+		m.addColors(colors);
+		stringMeshes.append(m);
+		
+	}
+
+}
+
+void xmlgui::Resources::drawAllDeferredStrings() {
+	if(font!=NULL) {
+		font->bind();
+		stringMeshes.setMode(OF_PRIMITIVE_TRIANGLES);
+		stringMeshes.draw();
+		stringMeshes.clear();
+		font->unbind();
+	}
 }
 
 void xmlgui::Resources::bindFont() {

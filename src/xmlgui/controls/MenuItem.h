@@ -25,7 +25,7 @@ public:
 		ofRect(x, y, width, height);
 		/*if(down) ofSetHexColor(0xFFFFFF);
 		else */ofSetHexColor(0);
-		xmlgui::Resources::drawString(name, x + 3, y + 14);
+		xmlgui::Resources::drawString(this, name, x + 3, y + 14);
 	}
 	
 };

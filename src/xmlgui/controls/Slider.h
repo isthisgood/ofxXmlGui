@@ -11,188 +11,207 @@
 #include "xmlgui/controls/LabeledControl.h"
 #include <math.h>
 #include <stdlib.h>
+namespace xmlgui {
+	class Slider: public LabeledControl {
+	public:
 
-class Slider: public LabeledControl {
-public:
-
-	bool vertical;
-	float min;
-	float max;
-	int bgColor;
-	int fgColor;
-	int borderColor;
-	bool stepped;
-	bool showValue;
-
-	string sliderBGUrl;
-	string sliderFGUrl;
-	string sliderHandleUrl;
-	ofImage *sliderBG, *sliderFG, *sliderHandle;
-	Slider(): LabeledControl() {
-		sliderBG = sliderFG = sliderHandle = NULL;
-		vertical = false;
-		height = 20;
-		width = 100;
-		stepped = false;
-		value = new float[1];
-		fval(value) = 0.5;
-		min = 0;
-		max = 1;
-		bgColor = 0x505050;
-		fgColor = 0x960000;
-		borderColor = 0xFFFFFF;
-		sliderBGUrl = "";
-		sliderFGUrl = "";
-		sliderHandleUrl = "";
-		showValue = false;
-	}
-
-	void load() {
-		if(fval(value)<min) fval(value) = min;
-		if(fval(value)>max) fval(value) = max;
-		sliderBG = xmlgui::Resources::getImage(sliderBGUrl);
-		sliderFG = xmlgui::Resources::getImage(sliderFGUrl);
-		sliderHandle = xmlgui::Resources::getImage(sliderHandleUrl);
-		if(sliderBG!=NULL) {
-			scalable = false;
-			width = sliderBG->getWidth();
-			height = sliderBG->getHeight();
+		bool vertical;
+		float min;
+		float max;
+		int bgColor;
+		int fgColor;
+		int borderColor;
+		bool stepped;
+		bool showValue;
+		float lastTimePressed;
+		
+		string sliderBGUrl;
+		string sliderFGUrl;
+		string sliderHandleUrl;
+		ofImage *sliderBG, *sliderFG, *sliderHandle;
+		Slider(): LabeledControl() {
+			lastTimePressed = 0;
+			sliderBG = sliderFG = sliderHandle = NULL;
+			vertical = false;
+			height = 20;
+			width = 100;
+			stepped = false;
+			value = new float[1];
+			fval(value) = 0.5;
+			min = 0;
+			max = 1;
+			bgColor = 0x505050;
+			fgColor = 0x960000;
+			borderColor = 0xFFFFFF;
+			sliderBGUrl = "";
+			sliderFGUrl = "";
+			sliderHandleUrl = "";
+			showValue = false;
 		}
 
-	}
+		void load() {
+			if(fval(value)<min) fval(value) = min;
+			if(fval(value)>max) fval(value) = max;
+			sliderBG = xmlgui::Resources::getImage(sliderBGUrl);
+			sliderFG = xmlgui::Resources::getImage(sliderFGUrl);
+			sliderHandle = xmlgui::Resources::getImage(sliderHandleUrl);
+			if(sliderBG!=NULL) {
+				scalable = false;
+				width = sliderBG->getWidth();
+				height = sliderBG->getHeight();
+			}
 
-
-
-	void draw() {
-		//printf("%f %f %f %f\n", x, y, width, height);
-		if(sliderBG!=NULL) {
-			ofSetHexColor(0xFFFFFF);
-			sliderBG->draw(x, y);
-		} else {
-			setRGBA(bgColor);
-			ofRect(x, y, width, height);
 		}
 
-		float val = (fval(value)-min)/(max-min);
 
-		if(sliderFG!=NULL) {
-			ofSetHexColor(0xFFFFFF);
-			ofVec2f abs = getAbsolutePosition();
-			if(vertical) maskOn(abs.x, abs.y + height-height*val, width, height*val);
-			else maskOn(abs.x, abs.y, width*val, height);
-			sliderFG->draw(x, y);
-			//ofRect(0, 0, ofGetWidth(), ofGetHeight());
-			maskOff();
-		} else {
-			setRGBA(fgColor);
 
-			if(vertical) ofRect(x, y+height-height*val, width, height*val);
-			else
-            {
-                if (val < 0)
-                {
-                    ofSetColor(0, 0, 0);
-                    ofRect(x, y, width, height);
-                }
-                else if (val > 1)
-                {
-                    ofSetColor(255, 0, 0);
-                    ofRect(x, y, width, height);
-                }
-                else ofRect(x, y, width*val, height);
-            }
+		void draw() {
+			//printf("%f %f %f %f\n", x, y, width, height);
+			if(sliderBG!=NULL) {
+				ofSetHexColor(0xFFFFFF);
+				sliderBG->draw(x, y);
+			} else {
+				setRGBA(bgColor);
+				ofRect(x, y, width, height);
+			}
+
+			float val = (fval(value)-min)/(max-min);
+
+			if(sliderFG!=NULL) {
+				ofSetHexColor(0xFFFFFF);
+				ofVec2f abs = getAbsolutePosition();
+				if(vertical) maskOn(abs.x, abs.y + height-height*val, width, height*val);
+				else maskOn(abs.x, abs.y, width*val, height);
+				sliderFG->draw(x, y);
+				//ofRect(0, 0, ofGetWidth(), ofGetHeight());
+				maskOff();
+			} else {
+				setRGBA(fgColor);
+
+				if(vertical) ofRect(x, y+height-height*val, width, height*val);
+				else
+				{
+					if (val < 0)
+					{
+						ofSetColor(0, 0, 0);
+						ofRect(x, y, width, height);
+					}
+					else if (val > 1)
+					{
+						ofSetColor(255, 0, 0);
+						ofRect(x, y, width, height);
+					}
+					else ofRect(x, y, width*val, height);
+				}
+			}
+
+			if(sliderHandle!=NULL) {
+				ofSetHexColor(0xFFFFFF);
+				if(vertical) {
+
+					sliderHandle->draw(x, y + (1.f - val)*(height - sliderHandle->getHeight()));
+				} else {
+					sliderHandle->draw(x+val*(width-sliderHandle->getWidth()), y);
+				}
+			}
+			ofSetColor(255, 255, 255);
+			if(showValue && value) {
+	//		    printf("->%s\n",  name.c_str());
+				try {
+				if(stepped) {
+					
+	#ifdef _WIN32
+					char s[512];
+					itoa((int)fval(value), s, 10);
+
+					string lab = name + "  " + s;// ofToString((int)__round(fval(value)));
+	#else
+					string lab = name + "  " + ofToString((int)fval(value));
+	#endif
+					drawCustomLabel(lab, x, y-3);
+				} else {
+					char s[512];
+					sprintf(s, "%.2f", fval(value));
+					string lab = name + "  " + s;//ofToString(fval(value), 3);
+					drawCustomLabel(lab, x, y-3);
+				}
+				} catch(int i) {printf("Caught exception in Slider.h"); }
+
+			} else {
+				drawLabel(x, y);
+			}
+			if(sliderBG==NULL) {
+				setRGBA(borderColor);
+				ofNoFill();
+				ofRect(*this);
+				ofFill();
+			}
+		}
+		// round() not supported in vs2010
+		float __round(float number) {
+			return number < 0.0 ? ceil(number - 0.5) : floor(number + 0.5);
 		}
 
-		if(sliderHandle!=NULL) {
-			ofSetHexColor(0xFFFFFF);
+		bool rangeIncludesZero() {
+			return (min>=0 && max<=0) || (min<=0 && max>=0);
+		}
+		
+		bool touchDown(int _x, int _y, int touchId) {
+			if(ofGetElapsedTimef()-lastTimePressed<0.2 && rangeIncludesZero()) {
+				fval(value) = 0;
+				return true;
+			}
+			
+			float val = 0;
 			if(vertical) {
-
-				sliderHandle->draw(x, y + (1.f - val)*(height - sliderHandle->getHeight()));
+				val = 1 - (_y-y)/height;
 			} else {
-				sliderHandle->draw(x+val*(width-sliderHandle->getWidth()), y);
+				val = (_x-x)/width;
 			}
-		}
-		ofSetColor(255, 255, 255);
-		if(showValue && value) {
-//		    printf("->%s\n",  name.c_str());
-            try {
+
+			fval(value) = ofMap(val, 0, 1, min, max, true);
 			if(stepped) {
-			    
-#ifdef _WIN32
-				char s[512];
-			    itoa((int)fval(value), s, 10);
-
-				string lab = name + "  " + s;// ofToString((int)__round(fval(value)));
-#else
-				string lab = name + "  " + ofToString((int)fval(value));
-#endif
-				drawCustomLabel(lab, x, y-3);
-			} else {
-			    char s[512];
-                sprintf(s, "%.2f", fval(value));
-				string lab = name + "  " + s;//ofToString(fval(value), 3);
-				drawCustomLabel(lab, x, y-3);
+				fval(value) = __round(fval(value));
 			}
-            } catch(int i) {printf("Caught exception in Slider.h"); }
 
-		} else {
-			drawLabel(x, y);
-		}
-		if(sliderBG==NULL) {
-			setRGBA(borderColor);
-			ofNoFill();
-			ofRect(*this);
-			ofFill();
-		}
-	}
-	// round() not supported in vs2010
-	float __round(float number) {
-		return number < 0.0 ? ceil(number - 0.5) : floor(number + 0.5);
-	}
-
-	bool touchDown(int _x, int _y, int touchId) {
-		float val = 0;
-		if(vertical) {
-			val = 1 - (_y-y)/height;
-		} else {
-			val = (_x-x)/width;
+			return true;
 		}
 
-		fval(value) = ofMap(val, 0, 1, min, max, true);
-		if(stepped) {
-			fval(value) = __round(fval(value));
+		bool touchMoved(int _x, int _y, int touchId) {
+			touchDown(_x, _y, touchId);
+			return true;
+		}
+		bool touchUp(int _x, int _y, int touchId) {
+			if(inside(_x, _y)) {
+				lastTimePressed = ofGetElapsedTimef();
+				return true;
+			}
+			return false;
 		}
 
-		return true;
-	}
+		void getParameterInfo(vector<ParameterInfo> &params) {
+			LabeledControl::getParameterInfo(params);
+			params.push_back(ParameterInfo("Vertical", "vertical", "toggle", &vertical));
+			params.push_back(ParameterInfo("Min", "min", "floatfield", &min));
+			params.push_back(ParameterInfo("Max", "max", "floatfield", &max));
+			params.push_back(ParameterInfo("Stepped", "stepped", "toggle", &stepped));
+			params.push_back(ParameterInfo("Value", "value", "floatfield", value));
+			params.push_back(ParameterInfo("Show Value", "showvalue", "toggle", &showValue));
+			params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
+			params.push_back(ParameterInfo("Slider Color", "fgColor", "hexcolorpicker", &fgColor));
+			params.push_back(ParameterInfo("Border Color", "borderColor", "hexcolorpicker", &borderColor));
+			params.push_back(ParameterInfo("Slider BG", "sliderBGUrl", "file", &sliderBGUrl));
+			params.push_back(ParameterInfo("Slider FG", "sliderFGUrl", "file", &sliderFGUrl));
+			params.push_back(ParameterInfo("Slider Handle", "sliderHandleUrl", "file", &sliderHandleUrl));
+		}
 
-	bool touchMoved(int _x, int _y, int touchId) {
-		touchDown(_x, _y, touchId);
-		return true;
-	}
+		string valueToString() {
+			return ofToString(fval(value), 9);
+		}
 
-	void getParameterInfo(vector<ParameterInfo> &params) {
-		LabeledControl::getParameterInfo(params);
-		params.push_back(ParameterInfo("Vertical", "vertical", "toggle", &vertical));
-		params.push_back(ParameterInfo("Min", "min", "floatfield", &min));
-		params.push_back(ParameterInfo("Max", "max", "floatfield", &max));
-		params.push_back(ParameterInfo("Stepped", "stepped", "toggle", &stepped));
-		params.push_back(ParameterInfo("Value", "value", "floatfield", value));
-		params.push_back(ParameterInfo("Show Value", "showvalue", "toggle", &showValue));
-		params.push_back(ParameterInfo("BG Color", "bgColor", "hexcolorpicker", &bgColor));
-		params.push_back(ParameterInfo("Slider Color", "fgColor", "hexcolorpicker", &fgColor));
-		params.push_back(ParameterInfo("Border Color", "borderColor", "hexcolorpicker", &borderColor));
-		params.push_back(ParameterInfo("Slider BG", "sliderBGUrl", "file", &sliderBGUrl));
-		params.push_back(ParameterInfo("Slider FG", "sliderFGUrl", "file", &sliderFGUrl));
-		params.push_back(ParameterInfo("Slider Handle", "sliderHandleUrl", "file", &sliderHandleUrl));
-	}
-
-	string valueToString() {
-		return ofToString(fval(value), 9);
-	}
-
-	void valueFromString(string inp) {
-		fval(value) = atof(inp.c_str());
-		//printf("Got value from string %s: %f\n", controlId.c_str(), fval(value));
-	}
-};
+		void valueFromString(string inp) {
+			fval(value) = atof(inp.c_str());
+			//printf("Got value from string %s: %f\n", controlId.c_str(), fval(value));
+		}
+	};
+}

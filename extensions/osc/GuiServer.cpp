@@ -57,7 +57,7 @@ void xmlgui::GuiServer::update() {
 		if(m.getAddress()=="/gui") {
 			string name = m.getArgAsString(0);
 			for(int i = 0; i < guis.size(); i++) {
-				if(guis[i]->name==name) {
+				if(guis[i]->name==name || (guis[i]->name=="default" && name=="")) {
 
 					xmlgui::Control *c = guis[i]->getControlById(m.getArgAsString(1));
 					if(c!=NULL) {
@@ -102,6 +102,9 @@ void xmlgui::GuiServer::update() {
 }
 
 void xmlgui::GuiServer::addGui(xmlgui::Container *gui) {
+	if(gui->name=="") {
+		gui->name = "default";
+	}
 	guis.push_back(gui);
 }
 
@@ -118,6 +121,9 @@ void xmlgui::GuiServer::httpGet(string url) {
 		//	printf("%s\n", guis[i]->name.c_str());
 			xml.addTag("gui");
 			xml.setAttribute("gui", "name", guis[i]->name, i);
+			//xml.pushTag("gui", i);
+			//guis[i]->saveToXmlObject(xml);
+			//xml.popTag();
 		}
 		string xmlStr = "";
 		xml.copyXmlToString(xmlStr);

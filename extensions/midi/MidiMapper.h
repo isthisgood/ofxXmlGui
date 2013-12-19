@@ -16,7 +16,7 @@
  */
 
 #pragma once
-#include "Container.h"
+#include "xmlgui/container/Container.h"
 #include "SimpleGui.h"
 #include "ofxMidi.h"
 #include "Map.h"

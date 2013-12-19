@@ -10,91 +10,94 @@
 #pragma once
 
 #include "xmlgui/controls/TextField.h"
-class FloatField: public TextField {
-public:
+namespace xmlgui {
+	class FloatField: public TextField {
+	public:
 
-	virtual bool isKeyAllowed(int key) {
-		printf("%d\n", key);
+		virtual bool isKeyAllowed(int key) {
+			printf("%d\n", key);
 
-		if(key==OF_KEY_BACKSPACE) return true;
-		if(key>='0' && key<='9') return true;
-		if(key=='.') {
-			return true;
-		}
-		if(key=='-') {
-			return true;
-		}
-		return false;
-	}
-	
-	
-	string getNumString() {
-
-	    string u = " ";
-	    if(fval(value)<0) u = "";
-		return u+ofToString(fval(value),3);
-	}
-    int getPowerOf10() {
-        /*0 = 1
-        -1 = 0.1
-        -2 = 0.01
-        -3 = 0.001
-        -4 = 0.0001
-        */
-        for(int i = -5; i < 10; i++) {
-            if(fval(value)>=powf(10, i) && fval(value)<=powf(10, i+1)) {
-                return i;
-            }
-
-        }
-        return 0;
-    }
-	
-    float getUnit(int pos) {
-        int p = 3+getPowerOf10() - pos;
-        if(p<-1) p+= 1;
-        return powf(10, p);
-    }
-
-	/*
-	bool touchUp(int x, int y, int id) {
-        scrolling = false;
-		if(inside(x, y)) {
-            parent->setKeyboardFocus(this);
-			return true;
-		} else {
+			if(key==OF_KEY_BACKSPACE) return true;
+			if(key>='0' && key<='9') return true;
+			if(key=='.') {
+				return true;
+			}
+			if(key=='-') {
+				return true;
+			}
 			return false;
 		}
-	}
+		
+		
+		string getNumString() {
 
-	bool touchDown(int x, int y, int id) {
-        if(inside(x,y)) {
+			string u = " ";
+			if(fval(value)<0) u = "";
+			return u+ofToString(fval(value),3);
+		}
+		int getPowerOf10() {
+			/*0 = 1
+			-1 = 0.1
+			-2 = 0.01
+			-3 = 0.001
+			-4 = 0.0001
+			*/
+			for(int i = -5; i < 10; i++) {
+				if(fval(value)>=powf(10, i) && fval(value)<=powf(10, i+1)) {
+					return i;
+				}
 
-            scrolling = true;
-            int off = x - textPadding;
-            off /= numberSpacing;
-            incrementUnit = getUnit(off);
-            printf("start scroll %f     - %d\n", incrementUnit, off);
-            originalNumber = fval(value);
-            originalYOffset = y;
-            return true;
-        }
-        return false;
-	}
+			}
+			return 0;
+		}
+		
+		float getUnit(int pos) {
+			int p = 3+getPowerOf10() - pos;
+			if(p<-1) p+= 1;
+			return powf(10, p);
+		}
 
-    bool touchMoved(int x, int y, int id) {
-        if(scrolling) {
-           // printf("Scrolling %f\n", fval(value));
-            fval(value) = originalNumber - incrementUnit*((y - originalYOffset)/10);
-        }
-        return true;
-    }
-*/
-	void getParameterInfo(vector<ParameterInfo> &params) {
-		LabeledControl::getParameterInfo(params);
-		params.push_back(ParameterInfo("Value","value", "floatfield", value));
-	}
+		/*
+		bool touchUp(int x, int y, int id) {
+			scrolling = false;
+			if(inside(x, y)) {
+				parent->setKeyboardFocus(this);
+				return true;
+			} else {
+				return false;
+			}
+		}
 
-	string valueToString() { return ofToString(fval(value)); }
-	void valueFromString(string inp) { fval(value) = atof(inp.c_str()); }
-};
+		bool touchDown(int x, int y, int id) {
+			if(inside(x,y)) {
+
+				scrolling = true;
+				int off = x - textPadding;
+				off /= numberSpacing;
+				incrementUnit = getUnit(off);
+				printf("start scroll %f     - %d\n", incrementUnit, off);
+				originalNumber = fval(value);
+				originalYOffset = y;
+				return true;
+			}
+			return false;
+		}
+
+		bool touchMoved(int x, int y, int id) {
+			if(scrolling) {
+			   // printf("Scrolling %f\n", fval(value));
+				fval(value) = originalNumber - incrementUnit*((y - originalYOffset)/10);
+			}
+			return true;
+		}
+	*/
+		void getParameterInfo(vector<ParameterInfo> &params) {
+			LabeledControl::getParameterInfo(params);
+			params.push_back(ParameterInfo("Value","value", "floatfield", value));
+		}
+
+		string valueToString() { return ofToString(fval(value)); }
+		void valueFromString(string inp) { fval(value) = atof(inp.c_str()); }
+	};
+
+}

@@ -21,7 +21,7 @@
 #define CURVE_SQR	1
 #define CURVE_SQRT	2
 
-#include "SimpleGui.h"
+#include "xmlgui/container/SimpleGui.h"
 #include <math.h>
 #include "ofxXmlSettings.h"
 

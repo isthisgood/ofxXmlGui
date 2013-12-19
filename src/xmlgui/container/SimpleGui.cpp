@@ -250,6 +250,7 @@ namespace xmlgui {
 		slider->pointToValue(&value);
 		slider->min = min;
 		slider->max = max;
+		slider->vertical = false;
 		slider->width = SIMPLE_GUI_WIDTH;
 		gui->addChild(slider);
 		return slider;
@@ -413,7 +414,17 @@ namespace xmlgui {
 		gui->addChild(c);
 	}
 
+	void SimpleGui::loadFromUrl(const string &url) {
+		ofHttpResponse response = ofLoadURL(url);
+		//printf("%s\n", response.data.getText().c_str());
+		ofxXmlSettings xml;
+		xml.loadFromBuffer(response.data.getText());
+		string str;
+		xml.copyXmlToString(str);
+		//printf("hello: %s\n", str.c_str());
+		loadFromXmlObject(xml.doc.RootElement());
 
+	}
 
 }
 

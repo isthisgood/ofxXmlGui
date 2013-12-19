@@ -50,6 +50,7 @@
 
 void xmlgui::Instantiator::registerControls() {
 	REGISTER_CONTROL(Control,		"control");
+	REGISTER_CONTROL(Control,		"column");
 
 	REGISTER_CONTROL(Container,		"container");
 	REGISTER_CONTROL(Pane,			"pane");
