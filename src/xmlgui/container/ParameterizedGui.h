@@ -25,8 +25,8 @@ namespace xmlgui {
 			choice = -1;
 			lastChoice = -2;
 			gui = new xmlgui::SimpleGui();
-			list = addList("list", choice, vector<string>());
-			addChild(gui);
+			//list = addList("list", choice, vector<string>());
+			//addChild(gui);
 		}
 
 

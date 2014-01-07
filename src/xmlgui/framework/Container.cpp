@@ -412,8 +412,15 @@ void xmlgui::Container::saveSettings(ofxXmlSettings &xml) {
 void xmlgui::Container::saveSettings(string file) {
 	if(file=="") {
 		if(this->settingsFile=="") {
-			ofLogError() << "No settings file specified, will not save gui settings";
-			return;
+			if(name=="") {
+				name = "default";
+//				this->settingsFile = "settings/" + name + ".xml";
+//				ofLogError() << "Gui has no name, setting to 'default' - if there's more than one gui with no name, they will overwrite eachother to settings/default.xml";
+				ofLogError() << "No settings file specified, will not save gui settings";
+				return;
+
+				
+			}
 		}
 	} else {
 		this->settingsFile = file;

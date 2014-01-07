@@ -82,8 +82,7 @@ namespace xmlgui {
 
 	void SimpleGui::controlChanged(xmlgui::Event *e) {
 		this->ctrlChanged(e);
-
-		if(settingsFile!="" && autosave) {
+		if(autosave) {
 			saveSettings();
 		}
 		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
