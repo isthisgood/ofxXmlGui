@@ -12,68 +12,55 @@
  *
  *  Description: 
  *				 
- *  TextField.h, created by Marek Bereza on 14/10/2013.
+ *  FloatMapper.h, created by Marek Bereza on 27/12/2013.
  */
 
 #pragma once
+
 #include "xmlgui/controls/LabeledControl.h"
-#include "xmlgui/textfield/TextFieldFontRenderer.h"
+#include "xmlgui/controls/RangeSlider.h"
+#include "xmlgui/framework/Listener.h"
+
 namespace xmlgui {
-	class TextField: public LabeledControl {
+
+	class FloatMapper: public LabeledControl, public xmlgui::Listener {
 	public:
+		float *controlValue;
+		float controlMin;
+		float controlMax;
+		xmlgui::RangeSlider inRange;
+		xmlgui::RangeSlider outRange;
 		
-		bool editable;
+		float outputRange[2];
+		float inputRange[2];
 		
-		//can be set manually or otherwise is controlled by enable/disable
-		bool drawCursor;
+		ofRectangle mapButton;
+		ofRectangle controlPreview;
 		
+		xmlgui::Control *target;
+		bool currentlyMapping;
 		
-		
-		int cursorPosition;
-		
-		int selectionBegin;
-		int selectionEnd;
-		bool selecting;
-		
-		
-		TextField();
-		
+		FloatMapper();
+        void reset();
 		void draw();
-		bool touchDown(int x, int y, int id);
-		bool touchMoved(int x, int y, int id);
-		bool touchUp(int x, int y, int id);
-					
-		bool keyPressed(int key);
-		bool keyReleased(int key);
-		void setTextFieldValue(string v);
+		void settingsLoaded();
 		
-	protected:
-		virtual bool isKeyAllowed(int key);
-		void getCursorCoords(int pos, int &cursorX);
-		string getTextFieldValue();
+		void controlChanged(xmlgui::Event *evt);
+		
+		bool touchDown(int _x, int _y, int button);
 		
 		
-		string displayString;
-		void beginEditing();
-		void endEditing();
+		bool touchMoved(int _x, int _y, int button);
 		
-		float lastTimeCursorMoved;
-		int VERTICAL_PADDING;
-		int HORIZONTAL_PADDING;
-		static xmlgui::ofxTextInput::FontRenderer* fontRef;
+		void updateValue();
+		void stopMapping();
 		
-		bool 	isEnabled;
-		bool	isEditing;
-		bool	mouseDownInRect;
-		bool isShifted, isCommand;
-		static map<int, char> shiftMap;
-		int getCursorPositionFromMouse(int x);
-		
+		void startMapping();
+		static bool updateHookEnabled;
+		bool update(ofEventArgs &args);
 		string valueToString() { return sval(value); }
 		void valueFromString(string inp) { sval(value) = inp; }
-		float lastTimeClicked;
+		static vector<FloatMapper*> mappers;
+		void setVal();
 	};
-
 }
-
-

@@ -10,6 +10,9 @@
 #include <sys/stat.h>
 #include "Container.h"
 #include "LabeledControl.h"
+#include "bitmapTextures.h"
+StripeyRect *diagLines = NULL;
+VerticalLinesRect *verticLines = NULL;
 vector<pair<ofVec2f, string> > xmlgui::LabeledControl::labels;
 int xmlgui::LabeledControl::lastDrawnFrame = 0;
 //#define DEFAULT_FONT "OCRAStd.ttf"
@@ -72,7 +75,7 @@ void xmlgui::Resources::checkFontLoaded() {
 		}
 	}
 }
-void xmlgui::Resources::drawStringImmediate(string str, int x, int y) {
+void xmlgui::Resources::drawString(string str, int x, int y) {
 	checkFontLoaded();
 	if(customFontNotAvailable) {
 		ofDrawBitmapString(str, x, y);
@@ -120,3 +123,19 @@ void xmlgui::Resources::unbindFont() {
 
 
 
+
+void xmlgui::Resources::drawVerticalStripes(const ofRectangle &r) {
+
+	if(verticLines==NULL) {
+		verticLines = new VerticalLinesRect(0x66,0x77);
+	}
+	verticLines->draw(r);
+}
+
+void xmlgui::Resources::drawDiagonalStripes(const ofRectangle &r) {
+
+	if(diagLines==NULL) {
+		diagLines = new StripeyRect(3, 0xCC, 0xFF);
+	}
+	diagLines->draw(r);
+}

@@ -11,10 +11,12 @@ map<int, char> xmlgui::TextField::shiftMap;
 xmlgui::ofxTextInput::FontRenderer* xmlgui::TextField::fontRef = NULL;
 
 xmlgui::TextField::TextField(): LabeledControl() {
-	
+	editable = true;
 	height = 20;
 	width = 70;
 	value = new string;
+	
+	lastTimeClicked = 0;
 	
 	if(shiftMap.size()==0) {
 		shiftMap[44] = '<';
@@ -80,6 +82,7 @@ void xmlgui::TextField::endEditing() {
     if(isEditing){
         isEditing = false;
         drawCursor = false;
+		parent->setKeyboardFocus(NULL);
     }
 }
 
@@ -148,8 +151,8 @@ void xmlgui::TextField::draw() {
 		
 
 		// single line selection
-		ofRect(HORIZONTAL_PADDING + startX, VERTICAL_PADDING,
-				   endX - startX, fontRef->getLineHeight());
+		ofRect(HORIZONTAL_PADDING + startX-1, VERTICAL_PADDING,
+				   1+endX - startX, fontRef->getLineHeight());
 
 		ofPopStyle();
 
@@ -189,8 +192,10 @@ void xmlgui::TextField::draw() {
 		//printf("Boogs\n");
 	}
 	
-	fontRef->drawString(text, HORIZONTAL_PADDING, fontRef->getLineHeight()+VERTICAL_PADDING);
-	
+	ofVec2f p = getAbsolutePosition();
+	maskOn(p.x, p.y, width, height);
+	fontRef->drawString(text, HORIZONTAL_PADDING+2, fontRef->getLineHeight()+VERTICAL_PADDING);
+	maskOff();
 
 	
 	ofPopMatrix();
@@ -215,11 +220,22 @@ int xmlgui::TextField::getCursorPositionFromMouse(int x) {
 
 
 bool xmlgui::TextField::touchDown(int x, int y, int id){
-
+	if(!editable) return false;
 	mouseDownInRect = inside(x, y);
 	if(mouseDownInRect) {
 		cursorPosition = getCursorPositionFromMouse(x);
-		lastTimeCursorMoved = ofGetElapsedTimef();
+		float t = ofGetElapsedTimef();
+		lastTimeCursorMoved = t;
+		
+		if(t - lastTimeClicked<0.2) {
+			selecting = true;
+			// double click, so lets select all
+			selectionBegin = 0;
+			selectionEnd = displayString.size();
+			parent->setKeyboardFocus(this);
+			return true;
+		}
+		
 		selecting = false;
 		parent->setKeyboardFocus(this);
 		return true;
@@ -228,7 +244,7 @@ bool xmlgui::TextField::touchDown(int x, int y, int id){
 
 
 bool xmlgui::TextField::touchMoved(int x, int y, int id) {
-
+	if(!editable) return false;
 	if(inside(x, y) || selecting) {
 		int pos = getCursorPositionFromMouse(x);
 		if(pos!=cursorPosition) {
@@ -244,8 +260,9 @@ bool xmlgui::TextField::touchMoved(int x, int y, int id) {
 }
 
 bool xmlgui::TextField::touchUp(int x, int y, int id){
-
+	if(!editable) return false;
     if(inside(x, y)) {
+		lastTimeClicked = ofGetElapsedTimef();
         if(!isEditing && mouseDownInRect){
 	        beginEditing();
 			return true;
@@ -263,6 +280,7 @@ bool xmlgui::TextField::isKeyAllowed(int key) {
 }
 
 bool xmlgui::TextField::keyPressed(int key) {
+	if(!editable) return false;
 	if(key==330) key = '.';
 	if(key>=320 && key <=329) {
 		key = '0' + key - 320;
@@ -321,9 +339,10 @@ bool xmlgui::TextField::keyPressed(int key) {
             } else {
                 toInsert = key;
             }
-            
+			if(!isKeyAllowed(toInsert)) return;
             text.insert(text.begin()+cursorPosition, toInsert);
         } else {
+			if(!isKeyAllowed(key)) return;
             text.insert(text.begin()+cursorPosition, key);
         }
 		cursorPosition++;
@@ -412,7 +431,6 @@ bool xmlgui::TextField::keyPressed(int key) {
 			
 		}
 	}
-	printf("Keyed\n");
 	setTextFieldValue(text);
 	return true;
 }

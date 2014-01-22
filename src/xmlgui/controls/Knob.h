@@ -24,11 +24,12 @@ namespace xmlgui {
 		string bgImageUrl, needleImageUrl;
 		ofImage *bgImage, *needleImage;
 		bool touching;
+		bool looping;
 		ofVec2f touch;
 		Knob(): LabeledControl() {
 			
 			touching = false;
-			
+			looping = false;
 			height = 80;
 			width = 80;
 			stepped = false;
@@ -161,11 +162,19 @@ namespace xmlgui {
 		bool touchMoved(int _x, int _y, int touchId) {
 			if(touching) {
 				float dy =  touch.y - _y;
-				fval(value) += dy*(max-min)*0.01;
+				fval(value) += dy*(max-min)*0.005;
 				if(fval(value)>max) {
-					fval(value) = max;
+					if(looping) {
+						fval(value) -= (max - min);
+					} else {
+						fval(value) = max;
+					}
 				} else if(fval(value)<min) {
-					fval(value) = min;
+					if(looping) {
+						fval(value) += (max - min);
+					} else {
+						fval(value) = min;
+					}
 				}
 				touch.set(_x, _y);
 				return true;

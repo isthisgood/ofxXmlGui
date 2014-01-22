@@ -1,43 +1,43 @@
 /**
- *  GuiServer.cpp
+ *  OSCServer.cpp
  *
  *  Created by Marek Bereza on 14/11/2012.
  */
 
-#include "GuiServer.h"
+#include "OSCServer.h"
 #include "ofxXmlSettings.h"
 #include "Slider.h"
 #include "Panner.h"
 
-xmlgui::GuiServer::GuiServer() {
+xmlgui::OSCServer::OSCServer() {
 	started = false;
 	extraListener = NULL;
 }
 
 
-void xmlgui::GuiServer::setExtraListener(xmlgui::GuiServerExtraListener *extraListener) {
+void xmlgui::OSCServer::setExtraListener(xmlgui::OSCServerExtraListener *extraListener) {
     this->extraListener = extraListener;
 }
 
 
-xmlgui::GuiServer::~GuiServer() {
+xmlgui::OSCServer::~OSCServer() {
 	if(started) {
 		ws.stop();
 	}
 }
 
-void xmlgui::GuiServer::setup() {
+void xmlgui::OSCServer::setup() {
 	started = true;
 	ws.start();
 	ws.addHandler(this, "*");
 	osc.setup(12345);
 }
 
-void xmlgui::GuiServer::smoothChange(xmlgui::Control *c, float value) {
+void xmlgui::OSCServer::smoothChange(xmlgui::Control *c, float value) {
 	smoothControls[c] = value;
 }
 
-float xmlgui::GuiServer::getControlRange(xmlgui::Control *c) {
+float xmlgui::OSCServer::getControlRange(xmlgui::Control *c) {
 	if(c->type=="slider") {
 		Slider *s = (Slider*)c;
 		return s->max - s->min;
@@ -46,14 +46,13 @@ float xmlgui::GuiServer::getControlRange(xmlgui::Control *c) {
 		return p->max - p->min;
 
 	} else {
-		ofLogError("Asking for the range of something that isn't a slider or a panner in GuiServer!\n");
+		ofLogError("Asking for the range of something that isn't a slider or a panner in OSCServer!\n");
 		return -1;
 	}
 }
-void xmlgui::GuiServer::update() {
+void xmlgui::OSCServer::update() {
 	ofxOscMessage m;
 	while(osc.getNextMessage(&m)) {
-//		printf("%s\n", m.getAddress().c_str());
 		if(m.getAddress()=="/gui") {
 			string name = m.getArgAsString(0);
 			for(int i = 0; i < guis.size(); i++) {
@@ -63,6 +62,8 @@ void xmlgui::GuiServer::update() {
 					if(c!=NULL) {
 						if(c->type=="slider" || c->type=="panner") {
 							smoothChange(c, ofToFloat(m.getArgAsString(2)));
+						} else if(c->type=="multiball") {
+							printf("Multiball!!!\n");
 						} else {
 							c->valueFromString(m.getArgAsString(2));
 							xmlgui::Event e(c, xmlgui::Event::TOUCH_UP);
@@ -73,7 +74,7 @@ void xmlgui::GuiServer::update() {
 				}
 			}
 		} else if(extraListener!=NULL) {
-			extraListener->guiServerExtraMessage(m);
+			extraListener->oscServerExtraMessage(m);
 		}
 	}
 
@@ -101,14 +102,14 @@ void xmlgui::GuiServer::update() {
 	}
 }
 
-void xmlgui::GuiServer::addGui(xmlgui::Container *gui) {
+void xmlgui::OSCServer::addGui(xmlgui::Container *gui) {
 	if(gui->name=="") {
 		gui->name = "default";
 	}
 	guis.push_back(gui);
 }
 
-void xmlgui::GuiServer::httpGet(string url) {
+void xmlgui::OSCServer::httpGet(string url) {
 	//printf("GET %s\n", url.c_str());
 	ofLogNotice() << "GET " << url;
 	if(url=="/") {
@@ -150,6 +151,6 @@ void xmlgui::GuiServer::httpGet(string url) {
 	}
 }
 
-void xmlgui::GuiServer::httpPost(string url, char *data, int dataLength) {
+void xmlgui::OSCServer::httpPost(string url, char *data, int dataLength) {
 	ofLogNotice() << "POST " << url;
 }

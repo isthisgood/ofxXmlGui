@@ -49,6 +49,7 @@ void xmlgui::Container::clear() {
 	}
 	children.clear();
 	keyboardFocusedControl = NULL;
+	focusedControl = NULL;
 }
 xmlgui::Container::~Container() {
 	clear();
@@ -106,7 +107,7 @@ void xmlgui::Container::setKeyboardFocus(Control *keyboardFocusedControl) {
 
 	} else { // we're the root so act upon it
 		if(this->keyboardFocusedControl!=NULL) this->keyboardFocusedControl->focus = false;
-		keyboardFocusedControl->focus = true;
+		if(keyboardFocusedControl!=NULL) keyboardFocusedControl->focus = true;
 		this->keyboardFocusedControl = keyboardFocusedControl;
 	}
 }
@@ -329,6 +330,18 @@ bool xmlgui::Container::keyReleased(int key) {
 		return false;
 	}
 }
+		
+void xmlgui::Container::removeListener(Listener *listener) {
+
+	for(int i = 0; i < listeners.size(); i++) {
+		if(listeners[i]==listener) {
+			listeners.erase(listeners.begin() + i);
+			return;
+		}
+	}
+	ofLogError() << "xmlgui::Container: Could not remove listener, because it wasn't listening";
+}
+		
 void xmlgui::Container::addListener(Listener *listener) {
 	for(int i = 0; i < listeners.size(); i++) {
 		if(listeners[i]==listener) {
@@ -346,6 +359,21 @@ void xmlgui::Container::addListener(Listener *listener) {
 	listeners.push_back(listener);
 }
 
+xmlgui::Control *xmlgui::Container::getControlByIdi(string id) {
+	id = ofToLower(id);
+	deque<Control*>::iterator it;
+	for(it = children.begin(); it != children.end(); it++) {
+		if(ofToLower((*it)->id)==id) {
+			return (*it);
+		} else if((*it)->isContainer()) {
+			xmlgui::Container *cont = (xmlgui::Container*)(*it);
+			xmlgui::Control *c = cont->getControlById(id);
+			if(c!=NULL) return c;
+		}
+	}
+	return NULL;
+
+}
 xmlgui::Control *xmlgui::Container::getControlById(string id) {
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
@@ -459,6 +487,16 @@ void xmlgui::Container::loadSettings(ofxXmlSettings &xml) {
 		}
 
 	}
+    settingsLoaded();
+}
+        
+void xmlgui::Container::settingsLoaded() {
+    // just tell all the non-container types that their settings are loaded - loadSettings does the hierarchy bit
+    for(int i = 0; i < children.size(); i++) {
+        if(!children[i]->isContainer()) {
+            children[i]->settingsLoaded();
+        }
+    }
 }
 void xmlgui::Container::loadSettings(string file) {
 	//printf("Trying to load %s\n", file.c_str());
@@ -472,4 +510,14 @@ void xmlgui::Container::loadSettings(string file) {
 
 	xml.pushTag("settings");
 	loadSettings(xml);
+}
+
+
+bool xmlgui::Container::isKeyboardFocusedOn(Control *ctrl) {
+	if(parent!=NULL) { // propagate down
+		return parent->isKeyboardFocusedOn(ctrl);
+		
+	} else {
+		return this->keyboardFocusedControl==ctrl;
+	}
 }

@@ -8,13 +8,20 @@
 
 #include "xmlgui/framework/ofGuiEventDispatcher.h"
 #include "xmlgui/framework/Container.h"
+int xmlgui::ofGuiEventDispatcher::eventPriorityCounter = 500;
+int xmlgui::ofGuiEventDispatcher::drawPriorityCounter = 500;
+
+
 xmlgui::ofGuiEventDispatcher::ofGuiEventDispatcher() {
+	drawPriorityCounter+=2;
+	eventPriorityCounter-=2;
+	eventPriority  = eventPriorityCounter;
+	drawPriority = drawPriorityCounter;
 	this->enabled = false;
 	this->manualDraw = false;
 }
 
-void xmlgui::ofGuiEventDispatcher::setup(Container *root, int prio) {
-	this->priority = prio;
+void xmlgui::ofGuiEventDispatcher::setup(Container *root) {
 	this->root = root;
 }
 void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
@@ -79,30 +86,31 @@ void xmlgui::ofGuiEventDispatcher::enableInteraction() {
 void xmlgui::ofGuiEventDispatcher::enableEvents() {
 
 	enableInteraction();
-	
-	ofAddListener(ofEvents().draw, this, &xmlgui::ofGuiEventDispatcher::draw, priority);
+
+	ofAddListener(ofEvents().draw, this, &xmlgui::ofGuiEventDispatcher::draw, drawPriority);
 	
 
 	
 }
 
 void xmlgui::ofGuiEventDispatcher::disableInteraction() {
-	ofRemoveListener(ofEvents().mousePressed, this, &xmlgui::ofGuiEventDispatcher::mousePressed);
-	ofRemoveListener(ofEvents().mouseMoved, this, &xmlgui::ofGuiEventDispatcher::mouseMoved);
-	ofRemoveListener(ofEvents().mouseDragged, this, &xmlgui::ofGuiEventDispatcher::mouseDragged);
-	ofRemoveListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased);
+	ofRemoveListener(ofEvents().mousePressed, this, &xmlgui::ofGuiEventDispatcher::mousePressed, eventPriority);
+	ofRemoveListener(ofEvents().mouseMoved, this, &xmlgui::ofGuiEventDispatcher::mouseMoved, eventPriority);
+	ofRemoveListener(ofEvents().mouseDragged, this, &xmlgui::ofGuiEventDispatcher::mouseDragged, eventPriority);
+	ofRemoveListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased, eventPriority);
 	
-	ofRemoveListener(ofEvents().touchDown, this, &xmlgui::ofGuiEventDispatcher::touchDown);
-	ofRemoveListener(ofEvents().touchUp, this, &xmlgui::ofGuiEventDispatcher::touchUp);
-	ofRemoveListener(ofEvents().touchMoved, this, &xmlgui::ofGuiEventDispatcher::touchMoved);
+	ofRemoveListener(ofEvents().touchDown, this, &xmlgui::ofGuiEventDispatcher::touchDown, eventPriority);
+	ofRemoveListener(ofEvents().touchUp, this, &xmlgui::ofGuiEventDispatcher::touchUp, eventPriority);
+	ofRemoveListener(ofEvents().touchMoved, this, &xmlgui::ofGuiEventDispatcher::touchMoved, eventPriority);
 	
-	ofRemoveListener(ofEvents().keyPressed, this, &xmlgui::ofGuiEventDispatcher::keyPressed);
-	ofRemoveListener(ofEvents().keyReleased, this, &xmlgui::ofGuiEventDispatcher::keyReleased);
+	ofRemoveListener(ofEvents().keyPressed, this, &xmlgui::ofGuiEventDispatcher::keyPressed, eventPriority);
+	ofRemoveListener(ofEvents().keyReleased, this, &xmlgui::ofGuiEventDispatcher::keyReleased, eventPriority);
 }
 
 void xmlgui::ofGuiEventDispatcher::disableEvents() {
 	disableInteraction();
-	ofRemoveListener(ofEvents().draw, this, &xmlgui::ofGuiEventDispatcher::draw);
+
+	ofRemoveListener(ofEvents().draw, this, &xmlgui::ofGuiEventDispatcher::draw, drawPriority);
 	
 
 }
@@ -110,6 +118,7 @@ void xmlgui::ofGuiEventDispatcher::disableEvents() {
 bool xmlgui::ofGuiEventDispatcher::isEnabled() {
 	return enabled;
 }
+
 void xmlgui::ofGuiEventDispatcher::setEnabled(bool enabled) {
 
 	if(enabled!=this->enabled) {
@@ -120,13 +129,24 @@ void xmlgui::ofGuiEventDispatcher::setEnabled(bool enabled) {
 		}
 	}
 	this->enabled = enabled;
+	
 }
+
 
 void xmlgui::ofGuiEventDispatcher::setManualDraw(bool manualDraw) {
 	this->manualDraw = manualDraw;
 }
 
 
+
+
+
+
+
+
+int xmlgui::ofGuiEventDispatcher::getDrawPriority() {
+	return drawPriority;
+}
 
 
 

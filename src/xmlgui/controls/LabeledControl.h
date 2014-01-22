@@ -20,7 +20,7 @@ namespace xmlgui {
 		void drawLabel(float x = -1, float y = -1);
 
 		void drawCustomLabel(string label, float x, float y);
-		
+		void drawLabelEitherSide(string left, string right, float dx = 0, float dy = 0);
 		void getParameterInfo(vector<ParameterInfo> &params);
 		
 		bool drawingLabel;

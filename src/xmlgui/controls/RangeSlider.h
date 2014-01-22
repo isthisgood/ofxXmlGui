@@ -93,7 +93,11 @@ namespace xmlgui {
 				setRGBA(bgColor);
 				ofRect(x, y, width, height);
 			}
-
+            
+            // keep making sure the values are clamped
+            faval(value, 0) = ofClamp(faval(value, 0), min, max);
+			faval(value, 1) = ofClamp(faval(value, 1), min, max);
+            
 			float val1 = (faval(value, 0)-min)/(max-min);
 			float val2 = (faval(value, 1)-min)/(max-min);
 
@@ -177,9 +181,11 @@ namespace xmlgui {
 			// make sure they're in order
 			float mn = MIN(faval(value, 0), faval(value, 1));
 			float mx = MAX(faval(value, 0), faval(value, 1));
-			faval(value, 0) = mn;
-			faval(value, 1) = mx;
 
+			faval(value, 0) = ofClamp(mn, min, max);
+			faval(value, 1) = ofClamp(mx, min, max);
+			
+			
 			// whichever one is closest gets it
 			float distToMin = ABS(val - faval(value, 0));
 			float distToMax = ABS(val - faval(value, 1));

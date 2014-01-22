@@ -56,11 +56,18 @@ namespace xmlgui {
 			if(showValue) {
 
 				if(stepped) {
-					string lab = name + "  " + ofToString((int)__round(fval(value)));
-					drawCustomLabel(lab, x, y-3);
+					drawLabelEitherSide(name, ofToString((int)__round(fval(value))), 0, -3);
 				} else {
-					string lab = name + "  " + ofToString(fval(value), 3);
-					drawCustomLabel(lab, x, y-3);
+					float range = (max - min);
+					if(range>1) decimalPlaces = 3;
+					else if(range>0.01) decimalPlaces = 4;
+					else if(range>0.001) decimalPlaces = 5;
+					else if(range>0.001) decimalPlaces = 6;
+					else decimalPlaces = 5;
+					
+					
+					string ss = ofToString(fval(value), decimalPlaces);
+					drawLabelEitherSide(name, ss, 0, -3);
 				}
 			} else {
 				drawLabel(x, y-3);

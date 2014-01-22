@@ -67,3 +67,17 @@ void xmlgui::LabeledControl::getParameterInfo(vector<ParameterInfo> &params) {
 	params.push_back(ParameterInfo("Draw Label", "drawlabel", "toggle", &drawingLabel));
 	params.push_back(ParameterInfo("Label Color", "labelColor", "hexcolorpicker", &labelColor));
 }
+
+
+void xmlgui::LabeledControl::drawLabelEitherSide(string left, string right, float dx, float dy) {
+	string nam = left;
+	if(name.size()>20) {
+		nam = name.substr(0, 19);
+	}
+	
+	
+	string lab = nam;//ofToString(fval(value), 3);
+	drawCustomLabel(lab, x, y-3);
+	drawCustomLabel(right, dx + x + width - right.size()*xmlgui::Resources::getFontCharWidth() - 5, y+dy);
+	
+}

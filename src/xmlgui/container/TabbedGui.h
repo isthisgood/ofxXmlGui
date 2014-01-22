@@ -28,8 +28,11 @@ namespace xmlgui {
 		FPSCounter *fps;
 		PushButton *saveAllButton, *saveThisTabButton, *revertThisTabButton;
 		int tabIndex;
-		
+		string settingsDirectory;
+        
+        
 		TabbedGui(): SimpleGui() {
+            settingsDirectory = "settings";
 			setAutoLayout(false);
 			tabIndex = 0;
 			tabber = (SegmentedControl*)INSTANTIATE_WITH_ID("segmented", "tabber");
@@ -48,7 +51,7 @@ namespace xmlgui {
 			addChild(saveThisTabButton);
 			addChild(revertThisTabButton);
 			addChild(fps);
-			fps->setPosition(500, 0);
+			fps->setPosition(600, 0);
 			fps->height = saveAllButton->height;
 			
 			saveThisTabButton->width = saveAllButton->width = revertThisTabButton->width = 60;
@@ -68,6 +71,12 @@ namespace xmlgui {
 			y = 10;
 
 		}
+        
+        void setSettingsDirectory(string settingsDirectory) {
+            this->settingsDirectory = settingsDirectory;
+        }
+        
+        
 		void addTab(string name) {
 			bool alreadyAdded = false;
 			
@@ -100,6 +109,37 @@ namespace xmlgui {
 			return tabs[tabIndex].second;
 		}
 		
+		
+		void setTab(string name) {
+			for(int i = 0; i < tabs.size(); i++) {
+				if(tabs[i].first==name) {
+					setTab(i);
+					return;
+				}
+			}
+			ofLogError() << "setTab(string): Could not find tab called '" << name <<"'";
+		}
+		
+		xmlgui::Container *getTab(string name) {
+			
+			for(int i = 0; i < tabs.size(); i++) {
+				if(tabs[i].first==name) {
+					return tabs[i].second;
+				}
+			}
+			return NULL;
+		}
+		
+		// case insensitive version of the above
+		xmlgui::Container *getTabi(string name) {
+			name = ofToLower(name);
+			for(int i = 0; i < tabs.size(); i++) {
+				if(ofToLower(tabs[i].first)==name) {
+					return tabs[i].second;
+				}
+			}
+			return NULL;
+		}
 		
 		void setTab(int index) {
 			tabIndex = index;
@@ -134,25 +174,25 @@ namespace xmlgui {
 				printf("Saving settings\n");
 				saveSettings();
 			} else if(e->control->id=="save this") {
-				if(!ofFile("settings").exists()) {
-					ofDirectory().createDirectory("settings");
+				if(!ofFile(settingsDirectory).exists()) {
+					ofDirectory().createDirectory(settingsDirectory, true, true);
 				}
-				tabs[tabIndex].second->saveSettings("settings/" + tabs[tabIndex].second->name + ".xml");
+				tabs[tabIndex].second->saveSettings(settingsDirectory + "/" + tabs[tabIndex].second->name + ".xml");
 			} else if(e->control->id=="revert") {
-				tabs[tabIndex].second->loadSettings("settings/" + tabs[tabIndex].second->name + ".xml");
+				tabs[tabIndex].second->loadSettings(settingsDirectory + "/" + tabs[tabIndex].second->name + ".xml");
 			}
 		}
 		void saveSettings() {
-			if(!ofFile("settings").exists()) {
-				ofDirectory().createDirectory("settings");
+			if(!ofFile(settingsDirectory + "/").exists()) {
+				ofDirectory().createDirectory(settingsDirectory, true, true);
 			}
 			for(int i =0 ; i < tabs.size(); i++) {
-				tabs[i].second->saveSettings("settings/" + tabs[i].second->name + ".xml");
+				tabs[i].second->saveSettings(settingsDirectory + "/" + tabs[i].second->name + ".xml");
 			}
 		}
 		void loadSettings() {
 			for(int i =0 ; i < tabs.size(); i++) {
-				tabs[i].second->loadSettings("settings/" + tabs[i].second->name + ".xml");
+				tabs[i].second->loadSettings(settingsDirectory + "/" + tabs[i].second->name + ".xml");
 			}
 		}
 		

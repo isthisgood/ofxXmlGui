@@ -131,7 +131,7 @@ namespace xmlgui {
 				//else
 				//	setRGBA(fgColor);
 				
-				xmlgui::Resources::drawStringImmediate(items[i], x+5, scrollOffset + y + (i+1)*itemHeight-4);
+				xmlgui::Resources::drawString(items[i], x+5, scrollOffset + y + (i+1)*itemHeight-4);
 				
 				// only draw as much as we need
 				//if((i+1)*itemHeight>height) break;
@@ -142,14 +142,16 @@ namespace xmlgui {
 			maskOff();
 			
 			
-			if(needsScrollbar()) setRGBA(fgColor);
-			else setRGBA(blendColor(fgColor, bgColor, 0.2));
+			int c = 0;
+			if(needsScrollbar()) c = fgColor;
+			else c = blendColor(fgColor, bgColor, 0.2);
+			setRGBA(c);
 			ofLine(x+width-scrollerWidth, y+height/2, x+width, y+height/2);
 			ofLine(x+width-scrollerWidth, y, x+width-scrollerWidth, y+height);
 			
 			xmlgui::Resources::bindFont();
-			xmlgui::Resources::drawString(this, "UP", 4+x+width-scrollerWidth, y+height/2 - 5);
-			xmlgui::Resources::drawString(this, "DN", 4+x+width-scrollerWidth, y+height/2 + 15);
+			xmlgui::Resources::drawString(this, "UP", 4+x+width-scrollerWidth, y+height/2 - 5, hexToFloatColor(c));
+			xmlgui::Resources::drawString(this, "DN", 4+x+width-scrollerWidth, y+height/2 + 15, hexToFloatColor(c));
 			xmlgui::Resources::unbindFont();
 			
 			
@@ -166,7 +168,13 @@ namespace xmlgui {
 
 			return colorFloat255ToHex(r, g, b);
 		}
-
+		ofFloatColor hexToFloatColor(int hex) {
+			float r = hexValR(hex);
+			float g = hexValG(hex);
+			float b = hexValB(hex);
+			return ofFloatColor(r/255.f, g/255.f, b/255.f);
+		}
+		
 		int colorFloat255ToHex(float r, float g, float b) {
 			int rr = r;
 			int gg = g;

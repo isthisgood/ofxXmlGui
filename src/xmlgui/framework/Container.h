@@ -43,7 +43,13 @@ namespace xmlgui {
 		virtual bool isContainer() { return true; };
 
 		void addListener(Listener *listener);
+		void removeListener(Listener *listener);
 		virtual Control *getControlById(string id);
+		
+		// case insensitive version
+		virtual Control *getControlByIdi(string id);
+		
+		
 		void setLayoutType(LayoutType layoutType);
 		void pointToValue(string controlName, void *pointer);
 
@@ -52,12 +58,12 @@ namespace xmlgui {
 		bool getBool(string controlName);
 		string getString(string controlName);
 
-
+        virtual void settingsLoaded();
 		// if you want a control to have keyboard focus, you call
 		// this and it receives keyboard events directly from the
 		// root container
 		void setKeyboardFocus(Control *keyboardFocusedControl);
-
+		bool isKeyboardFocusedOn(Control *ctrl);
 		int getNumChildren();
 		Control *getChild(int index);
 

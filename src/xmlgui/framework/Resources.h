@@ -22,13 +22,18 @@ namespace xmlgui {
 		// the absolute position on the screen.
 		static void drawString(xmlgui::Control *caller, string str, int x, int y, ofFloatColor color = ofFloatColor(1.f,1.f,1.f,1.f));
 		
-		static void drawStringImmediate(string str, int x, int y);
+		
+		// draws the text immediately, slow!
+		static void drawString(string str, int x, int y);
+
 
 		static ofImage *getImage(string path);
 		static void bindFont();
 		static void unbindFont();
 		
-
+		static void drawVerticalStripes(const ofRectangle &r);
+		static void drawDiagonalStripes(const ofRectangle &r);
+		
 		static void drawAllDeferredStrings();
 		static ofTrueTypeFont *getFont();
 		static int getFontCharWidth();

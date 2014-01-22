@@ -27,20 +27,20 @@ namespace xmlgui {
     // basically, if you want to use the guiserver's osc client for any
     // other osc receiving ontop of the gui, implement this, and it will
     // be sent any messages that aren't to do with the gui.
-    class GuiServerExtraListener {
+    class OSCServerExtraListener {
     public:
 
-        virtual void guiServerExtraMessage(ofxOscMessage &m) = 0;
+        virtual void oscServerExtraMessage(ofxOscMessage &m) = 0;
     };
 
 
 
-    class GuiServer: public ofxWSRequestHandler {
+    class OSCServer: public ofxWSRequestHandler {
 
 	public:
 
-		GuiServer();
-		~GuiServer();
+		OSCServer();
+		~OSCServer();
 
 		void setup();
 		void update();
@@ -48,12 +48,12 @@ namespace xmlgui {
 		void httpGet(string url);
 		void httpPost(string url, char *data, int dataLength);
 
-		void setExtraListener(xmlgui::GuiServerExtraListener *extraListener);
+		void setExtraListener(xmlgui::OSCServerExtraListener *extraListener);
 
 
 	private:
 
-        GuiServerExtraListener *extraListener;
+        OSCServerExtraListener *extraListener;
 		ofxWebServer ws;
 		ofxOscReceiver osc;
 		vector<xmlgui::Container*> guis;

@@ -15,7 +15,7 @@ namespace xmlgui {
 	class ofGuiEventDispatcher {
 	public:
 		ofGuiEventDispatcher();
-		void setup(xmlgui::Container *root, int prio = OF_EVENT_ORDER_AFTER_APP);
+		void setup(xmlgui::Container *root);
 		
 		void enableEvents();
 		void disableEvents();
@@ -41,11 +41,18 @@ namespace xmlgui {
 		bool touchDown(ofTouchEventArgs &e);
 		bool touchMoved(ofTouchEventArgs &e);
 		bool touchUp(ofTouchEventArgs &e);
+		int getDrawPriority();
+		
 	private:
 		xmlgui::Container *root;
 		bool enabled;
 		bool manualDraw;
-		int priority;
+
+		int eventPriority;
+		int drawPriority;
+		
+		static int eventPriorityCounter;
+		static int drawPriorityCounter;
 
 	};
 };

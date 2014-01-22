@@ -80,6 +80,10 @@ namespace xmlgui {
 		virtual void load() {}
 
 		
+		// this happens when you just loaded settings
+		virtual void settingsLoaded() {}
+		
+		
 		
 		virtual void touchOver(int x, int y, int id) { }
 		virtual bool touchMoved(int x, int y, int id){ return inside(x, y); }

@@ -21,8 +21,28 @@
 
 #include "xmlgui/framework/Control.h"
 #include "xmlgui/controls/LabeledControl.h"
+#include "Container.h"
 
 #include <math.h>
+
+
+#ifdef TARGET_WIN32
+#define GLUT_BUILDING_LIB
+#include "glut.h"
+#endif
+#ifdef TARGET_OSX
+#include <OpenGL/OpenGL.h>
+#include "../../../libs/glut/lib/osx/GLUT.framework/Versions/A/Headers/glut.h"
+#include <Carbon/Carbon.h>
+#endif
+#ifdef TARGET_LINUX
+#include <GL/glut.h>
+#include "ofIcon.h"
+#include "ofImage.h"
+#include <X11/Xatom.h>
+#endif
+
+
 namespace xmlgui {
 	class IntSlider: public LabeledControl {
 	public:
@@ -34,6 +54,8 @@ namespace xmlgui {
 		int fgColor;
 		int borderColor;
 		bool showValue;
+		
+		bool logarithmic;
 
 		string sliderBGUrl;
 		string sliderFGUrl;
@@ -45,6 +67,7 @@ namespace xmlgui {
 			height = 20;
 			width = 100;
 
+			logarithmic = false;
 			value = new int[1];
 			ival(value) = 0;
 			min = 0;
@@ -80,12 +103,20 @@ namespace xmlgui {
 				ofSetHexColor(0xFFFFFF);
 				sliderBG->draw(x, y);
 			} else {
-				setRGBA(bgColor);
+				if(parent->isKeyboardFocusedOn(this)) {
+					setRGBA(0x777777);
+				} else {
+					setRGBA(bgColor);
+				}
 				ofRect(x, y, width, height);
 			}
 
 			float val = ((float)ival(value)-min)/(float)(max-min);
-
+			
+			if(logarithmic) {
+				val = sqrt(val);
+			}
+			
 			if(sliderFG!=NULL) {
 				ofSetHexColor(0xFFFFFF);
 				ofVec2f abs = getAbsolutePosition();
@@ -96,11 +127,21 @@ namespace xmlgui {
 				maskOff();
 			} else {
 				setRGBA(fgColor);
-
-				if(vertical) ofRect(x, y+height-height*val, width, height*val);
-				else ofRect(x, y, width*val, height);
-			}
-
+                if (val < 0) // out of range indicators
+                {
+                    ofSetColor(0, 0, 0);
+                    ofRect(x, y, width, height);
+                }
+                else if (val > 1)
+                {
+                    ofSetColor(255, 0, 0);
+                    ofRect(x, y, width, height);
+                } else {
+                    if(vertical) ofRect(x, y+height-height*val, width, height*val);
+                    else ofRect(x, y, width*val, height);
+			
+                }
+            }
 			if(sliderHandle!=NULL) {
 				ofSetHexColor(0xFFFFFF);
 				if(vertical) {
@@ -114,9 +155,9 @@ namespace xmlgui {
 			if(showValue) {
 
 
-				string lab = name + "  " + ofToString(ival(value), 3);
-				drawCustomLabel(lab, x, y-3);
-
+//				string lab = name + "  " + ofToString(ival(value), 3);
+//				drawCustomLabel(lab, x, y-3);
+				drawLabelEitherSide(name, ofToString(ival(value)), 0, -3);
 			} else {
 				drawLabel(x, y-3);
 			}
@@ -133,16 +174,24 @@ namespace xmlgui {
 		}
 
 		bool touchDown(int _x, int _y, int touchId) {
-
+			
+			float val = 0;
+			
 			if(vertical) {
-				float val = 1 - (float)(_y-y)/height;
-				ival(value) = __round((float)val*((float)max-min) + min);
+				val = 1 - (float)(_y-y)/height;
 			} else {
-				float val = (float)(_x-x)/width;
-				ival(value) = __round((float)val*(max-min) + min);
-
+				val = (float)(_x-x)/width;
 			}
-			ival(value) = ofClamp(ival(value), min, max);
+
+			
+			val =	ofClamp(val, 0, 1);
+			if(logarithmic) {
+				val = val * val;
+			}
+			
+			ival(value) = __round((float)val*((float)max-min) + min);
+//			ival(value) = __round((float)val*((float)max-min) + min);
+			
 			return true;
 		}
 
@@ -173,6 +222,42 @@ namespace xmlgui {
 		void valueFromString(string inp) {
 			ival(value) = atoi(inp.c_str());
 		}
+		
+		
+		void touchOver(int _x, int _y, int id) {
+			if(inside(_x, _y)) {
+				parent->setKeyboardFocus(this);
+			} else {
+				if(this->focus) {
+					parent->setKeyboardFocus(NULL);
+				}
+			}
+		}
+		
+		
+		bool keyPressed(int key) {
+			float increment = 0;
+			if(key==OF_KEY_LEFT) {
+				increment = -1;
+			} else if(key==OF_KEY_RIGHT) {
+				increment = 1;
+			}
+			
+			if(glutGetModifiers() & GLUT_ACTIVE_SHIFT) {
+				if((max-min)>width) {
+					increment *= (max-min)/width;
+				} else {
+					increment *= 10;
+				}
+			}
+            if(increment!=0) {
+                ival(value) = ofClamp(ival(value)+increment, min, max);
+                return true;
+            }
+            
+            return false;
+		}
+		
 	};
 
 }

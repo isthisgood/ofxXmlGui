@@ -25,6 +25,7 @@
 #include "xmlgui/controls/RangeSlider.h"
 #include "xmlgui/controls/FloatField.h"
 #include "xmlgui/controls/FloatColorPicker.h"
+#include "xmlgui/controls/FloatMapper.h"
 //#include "SliderBank.h"
 
 
@@ -82,7 +83,8 @@ namespace xmlgui {
 
 	void SimpleGui::controlChanged(xmlgui::Event *e) {
 		this->ctrlChanged(e);
-		if(autosave) {
+
+		if(settingsFile!="" && autosave) {
 			saveSettings();
 		}
 		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
@@ -159,20 +161,37 @@ namespace xmlgui {
 		return sg;
 	}
 
-	IntSlider *SimpleGui::addSlider(string name, int &value, int min, int max) {
+	
+
+		
+	FloatMapper *SimpleGui::addFloatMapper(string name, float &value, float controlMin, float controlMax) {
+		FloatMapper *fm = (FloatMapper*)INSTANTIATE_WITH_ID("floatmapper", name);
+		fm->controlMin = controlMin;
+		fm->controlMax = controlMax;
+		fm->controlValue = &value;
+		fm->width = SIMPLE_GUI_WIDTH;
+		gui->addChild(fm);
+		
+		return fm;
+		
+	}
+	
+	IntSlider *SimpleGui::addSlider(string name, int &value, int min, int max, bool logarithmic) {
 		IntSlider *slider = (IntSlider*)INSTANTIATE_WITH_ID("intslider", name);
 		slider->pointToValue(&value);
 		if(value<min) value = min;
 		if(value>max) value = max;
 		slider->min = min;
 		slider->max = max;
+		slider->logarithmic = logarithmic;
 		slider->width = SIMPLE_GUI_WIDTH;
 		slider->showValue = true;
 		gui->addChild(slider);
 		return slider;
 
 	}
-	Slider *SimpleGui::addSlider(string name, float &value, float min, float max) {
+
+	Slider *SimpleGui::addSlider(string name, float &value, float min, float max, bool logarithmic) {
 		Slider *slider = (Slider*)INSTANTIATE_WITH_ID("slider", name);
 		if(value<min) value = min;
 		if(value>max) value = max;
@@ -180,11 +199,11 @@ namespace xmlgui {
 		slider->pointToValue(&value);
 		slider->min = min;
 		slider->max = max;
+		slider->logarithmic = logarithmic;
 		slider->width = SIMPLE_GUI_WIDTH;
 		slider->showValue = true;
 		gui->addChild(slider);
 		return slider;
-
 	}
 
 	Knob *SimpleGui::addKnob(string name, float &value, float min, float max) {
@@ -201,7 +220,36 @@ namespace xmlgui {
 		gui->addChild(k);
 		return k;
 	}
+	
+	
+	
+	
+	
+	Knob *SimpleGui::addAngleKnob(string name, float &value, bool radians) {
+		
+		Knob *k = (Knob*)INSTANTIATE_WITH_ID("knob", name);
+		float min = 0;
+		float max = radians?PI*2:360;
+		k->minAngle = 0;
+		k->maxAngle = 360;
+		k->looping = true;
 
+		if(value<min) value = min;
+		if(value>max) value = max;
+		
+		k->pointToValue(&value);
+		k->min = min;
+		k->max = max;
+		k->width = SIMPLE_GUI_WIDTH;
+		k->height = SIMPLE_GUI_WIDTH;
+		//k->showValue = true;
+		gui->addChild(k);
+		return k;
+	}
+	
+	
+	
+	
 	Slider2D *SimpleGui::addSlider2D(string name, float *value, float minX, float maxX, float minY, float maxY) {
 		Slider2D *s2d = (Slider2D*) INSTANTIATE_WITH_ID("slider2d", name);
 		s2d->pointToValue(value);
@@ -382,6 +430,14 @@ namespace xmlgui {
 		gui->addChild(field);
 		return field;
 	}
+	
+	Multiball		*SimpleGui::addMultiball(string name, xmlgui::MultiballListener *listener) {
+		Multiball *multiball = (Multiball*) INSTANTIATE_WITH_ID("multiball", name);
+		multiball->listener = listener;
+		multiball->width = SIMPLE_GUI_WIDTH;
+		gui->addChild(multiball);
+		return multiball;
+	}
 
 
 	Control			*SimpleGui::addControl(Control *c) {
@@ -424,7 +480,7 @@ namespace xmlgui {
 		loadFromXmlObject(xml.doc.RootElement());
 
 	}
-
+	
 }
 
 
