@@ -33,7 +33,7 @@ namespace xmlgui {
         
 		TabbedGui(): SimpleGui() {
             settingsDirectory = "settings";
-			setAutoLayout(false);
+			//setAutoLayout(false);
 			tabIndex = 0;
 			tabber = (SegmentedControl*)INSTANTIATE_WITH_ID("segmented", "tabber");
 			tabber->name = ""; // we need to mute the name otherwise it'll be drawn

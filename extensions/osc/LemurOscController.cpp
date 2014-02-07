@@ -58,10 +58,11 @@ string LemurOscController::oscify(string inp ) {
 
 
 void LemurOscController::oscReceived(ofxOscMessage &m) {
+    if(gui==NULL) return;
 	string addr = m.getAddress();
 	vector<string> parts = ofSplitString(addr, "/", true);
 	if(parts[0]!="gui") {
-		ofLogError() << "Lemur OSC Controller received a message that was not meant for it (address '"<<addr<<"')";
+		//ofLogError() << "Lemur OSC Controller received a message that was not meant for it (address '"<<addr<<"')";
 		return;
 	}
 	

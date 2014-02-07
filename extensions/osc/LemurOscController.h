@@ -34,10 +34,32 @@
 class LemurOscController {
 public:
 	ofxXmlGui *gui;
-	void setup(ofxXmlGui &gui) {
+    ofxOscReceiver *osc;
+    LemurOscController() {
+        osc = NULL;
+        gui = NULL;
+    }
+    
+    
+    // if you want to use the internal osc receiver, specify a port
+    // else, you need to pass the messages in yourself.
+	void setup(ofxXmlGui &gui, int port=-1) {
 		this->gui = &gui;
+        if(port!=-1) {
+            osc = new ofxOscReceiver();
+            osc->setup(port);
+        }
 	}
+    
 	
+    void update() {
+        if(osc==NULL) return;
+        ofxOscMessage m;
+        while(osc->getNextMessage(&m)) {
+            oscReceived(m);
+        }
+    }
+    
 	
 	void oscReceived(ofxOscMessage &m);
 	

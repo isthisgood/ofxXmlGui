@@ -106,6 +106,9 @@ namespace xmlgui {
 		virtual void saveToXmlObject(ofxXmlSettings &xml);
 		virtual void loadFromXmlObject(TiXmlElement *xml);
 
+        void maskOn(ofRectangle &r) {
+            maskOn(r.x, r.y, r.width, r.height);
+        }
 	
 		// todo: make protected and in the cpp file
 		void maskOn(int _x, int _y, int _w, int _h) {
