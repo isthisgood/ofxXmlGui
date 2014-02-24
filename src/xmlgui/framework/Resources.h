@@ -37,6 +37,7 @@ namespace xmlgui {
 		static void drawAllDeferredStrings();
 		static ofTrueTypeFont *getFont();
 		static int getFontCharWidth();
+		static int stringWidth(const string &s);
 	private:
 		static ofTrueTypeFont *font;
 		static bool customFontNotAvailable;

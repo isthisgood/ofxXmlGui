@@ -83,9 +83,17 @@ namespace xmlgui {
 
 	void SimpleGui::controlChanged(xmlgui::Event *e) {
 		this->ctrlChanged(e);
+		
+		if(autosave) {
 
-		if(settingsFile!="" && autosave) {
+			if(settingsFile=="") {
+				settingsFile = "default.xml";
+				ofLogError() << "Error: No xml file name set for gui even though it's set to autosave - giving a name of default.xml";
+			}
+			
+			
 			saveSettings();
+			
 		}
 		if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->id.find("_sectiontoggle")!=-1) {
 

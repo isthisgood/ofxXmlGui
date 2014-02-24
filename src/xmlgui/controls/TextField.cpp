@@ -339,10 +339,10 @@ bool xmlgui::TextField::keyPressed(int key) {
             } else {
                 toInsert = key;
             }
-			if(!isKeyAllowed(toInsert)) return;
+			if(!isKeyAllowed(toInsert)) return false;
             text.insert(text.begin()+cursorPosition, toInsert);
         } else {
-			if(!isKeyAllowed(key)) return;
+			if(!isKeyAllowed(key)) return false;
             text.insert(text.begin()+cursorPosition, key);
         }
 		cursorPosition++;

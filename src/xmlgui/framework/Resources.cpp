@@ -60,6 +60,11 @@ int xmlgui::Resources::getFontCharWidth() {
     if(customFontNotAvailable) return 8;  // oF bitmap font width
     else return font->stringWidth("A");
 }
+
+int xmlgui::Resources::stringWidth(const string &s) {
+	return s.size() * getFontCharWidth();
+}
+
 void xmlgui::Resources::checkFontLoaded() {
     if(font==NULL && !customFontNotAvailable) {
 		// try to load font

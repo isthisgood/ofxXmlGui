@@ -25,7 +25,8 @@ namespace xmlgui {
 			choice = -1;
 			lastChoice = -2;
 			gui = new xmlgui::SimpleGui();
-			//list = addList("list", choice, vector<string>());
+			list = NULL;
+			//list = gui->addList("list", choice, vector<string>());
 			//addChild(gui);
 		}
 
@@ -45,6 +46,10 @@ namespace xmlgui {
 		}
 
 		void addParameterized(string name, Parameterized *parameterized) {
+			if(list==NULL) {
+				list = gui->addList("list", choice, vector<string>());
+				addChild(gui);
+			}
 			parameterizeds.push_back(make_pair(name, parameterized));
 
 			parameterized->name = name;
@@ -54,7 +59,7 @@ namespace xmlgui {
 			gui->loadSettings("settings/" + name + ".xml");
 
 			gui->clear();
-
+			ofLogError() << "Parameterized doesn't support this feature at the moment\n";
 			list->addItem(name);
 		}
 

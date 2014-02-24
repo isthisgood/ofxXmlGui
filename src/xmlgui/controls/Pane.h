@@ -50,11 +50,11 @@ public:
 			xmlgui::Resources::drawString(this, name, x+3, y+14);
 		}
 	}
-	void getParameterInfo(vector<ParameterInfo> &params) {
-		params.push_back(ParameterInfo("Colour", "bgColor", "hexcolorpicker", &bgColor));
-		params.push_back(ParameterInfo("Background Image", "bgImage", "file", &bgImageUrl));
-		params.push_back(ParameterInfo("Show Label", "showLabel", "toggle", &drawingLabel));
-		params.push_back(ParameterInfo("Label Colour", "labelColor", "hexcolorpicker", &labelColor));
+	void getParameterInfo(vector<xmlgui::ParameterInfo> &params) {
+		params.push_back(xmlgui::ParameterInfo("Colour", "bgColor", "hexcolorpicker", &bgColor));
+		params.push_back(xmlgui::ParameterInfo("Background Image", "bgImage", "file", &bgImageUrl));
+		params.push_back(xmlgui::ParameterInfo("Show Label", "showLabel", "toggle", &drawingLabel));
+		params.push_back(xmlgui::ParameterInfo("Label Colour", "labelColor", "hexcolorpicker", &labelColor));
 	}
 
 

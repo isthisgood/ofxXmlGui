@@ -424,6 +424,7 @@ void xmlgui::Container::print(int indent) {
 }
 
 void xmlgui::Container::saveSettings(ofxXmlSettings &xml) {
+
 	for(int i = 0; i < children.size(); i++) {
 
 		xml.addTag("setting");
@@ -438,17 +439,18 @@ void xmlgui::Container::saveSettings(ofxXmlSettings &xml) {
 	}
 }
 void xmlgui::Container::saveSettings(string file) {
+	printf("yarp\n");
 	if(file=="") {
 		if(this->settingsFile=="") {
 			if(name=="") {
 				name = "default";
-//				this->settingsFile = "settings/" + name + ".xml";
-//				ofLogError() << "Gui has no name, setting to 'default' - if there's more than one gui with no name, they will overwrite eachother to settings/default.xml";
-				ofLogError() << "No settings file specified, will not save gui settings";
-				return;
-
-				
+				ofLogError() << "Gui has no name, setting to 'default' - if there's more than one gui with no name, they will overwrite eachother to settings/default.xml";
 			}
+			
+			this->settingsFile = "settings/" + name + ".xml";
+			ofDirectory().createDirectory("settings");
+				//ofLogError() << "No settings file specified, will not save gui settings";
+				//return;
 		}
 	} else {
 		this->settingsFile = file;
@@ -456,6 +458,7 @@ void xmlgui::Container::saveSettings(string file) {
 	ofxXmlSettings xml;
 	xml.addTag("settings");
 	xml.pushTag("settings");
+	printf("Trying to save to '%s' - '%s'\n", settingsFile.c_str(), file.c_str());
 	saveSettings(xml);
 
 

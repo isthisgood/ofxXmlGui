@@ -182,6 +182,23 @@ namespace xmlgui {
 				tabs[tabIndex].second->loadSettings(settingsDirectory + "/" + tabs[tabIndex].second->name + ".xml");
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		void controlChanged(xmlgui::Event *e) {
+			this->ctrlChanged(e);
+			getCurrTab()->saveSettings();
+		}
+		
+		
+		
+		
+		
 		void saveSettings() {
 			if(!ofFile(settingsDirectory + "/").exists()) {
 				ofDirectory().createDirectory(settingsDirectory, true, true);

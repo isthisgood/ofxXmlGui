@@ -65,6 +65,12 @@ namespace xmlgui {
 				}
 			}
 
+			if(upImg==NULL && downImg==NULL) {
+				float w = xmlgui::Resources::stringWidth(name)+6;
+				if(width<w) {
+					width = w;
+				}
+			}
 			drawLabel(x+3, y+14);
 		}
 
