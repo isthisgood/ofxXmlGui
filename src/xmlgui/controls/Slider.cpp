@@ -18,10 +18,12 @@
 #include <Carbon/Carbon.h>
 #endif
 #ifdef TARGET_LINUX
+#ifndef TARGET_RASPBERRY_PI
 #include <GL/glut.h>
 #include "ofIcon.h"
 #include "ofImage.h"
 #include <X11/Xatom.h>
+#endif
 #endif
 
 
@@ -221,7 +223,9 @@ bool xmlgui::Slider::keyPressed(int key) {
 	} else if(key==OF_KEY_RIGHT) {
 		increment = (max-min)/(width*10.f);
 	}
+#ifndef TARGET_RASPBERRY_PI
 	if(glutGetModifiers() & GLUT_ACTIVE_SHIFT) increment *= 10.f;
+#endif	
 	fval(value) = ofClamp(fval(value)+increment, min, max);
     printf("Got key event\n");
     if(key==OF_KEY_LEFT || key==OF_KEY_RIGHT) return true;
