@@ -143,13 +143,20 @@ namespace xmlgui {
 		gui->addChild(cp);
 		return cp;
 	}
-	
-
-	FloatColorPicker	*SimpleGui::addColorPicker(string name, ofFloatColor &value) {
+	FloatColorPicker	*SimpleGui::addColorPicker(string name, ofVec4f &value, float scale) {
 		FloatColorPicker *cp = (FloatColorPicker*)INSTANTIATE_WITH_ID("floatcolorpicker", name);
 		cp->pointToValue(&value);
 		cp->width = SIMPLE_GUI_WIDTH;
+		cp->scale = scale;
+		gui->addChild(cp);
+		return cp;
+	}
 
+	FloatColorPicker	*SimpleGui::addColorPicker(string name, ofFloatColor &value, float scale) {
+		FloatColorPicker *cp = (FloatColorPicker*)INSTANTIATE_WITH_ID("floatcolorpicker", name);
+		cp->pointToValue(&value);
+		cp->width = SIMPLE_GUI_WIDTH;
+		cp->scale = scale;
 		gui->addChild(cp);
 		return cp;
 	}
