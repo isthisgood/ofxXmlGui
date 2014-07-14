@@ -99,7 +99,7 @@ namespace xmlgui {
 			
 			
 			ofPoint abs = getAbsolutePosition();
-			maskOn(abs.x, abs.y, width - scrollerWidth, height);
+			pushMask(abs.x, abs.y, width - scrollerWidth, height);
 
 
 
@@ -139,7 +139,7 @@ namespace xmlgui {
 			xmlgui::Resources::unbindFont();
 			
 		
-			maskOff();
+			popMask();
 			
 			
 			int c = 0;
@@ -149,10 +149,11 @@ namespace xmlgui {
 			ofLine(x+width-scrollerWidth, y+height/2, x+width, y+height/2);
 			ofLine(x+width-scrollerWidth, y, x+width-scrollerWidth, y+height);
 			
-			xmlgui::Resources::bindFont();
-			xmlgui::Resources::drawString(this, "UP", 4+x+width-scrollerWidth, y+height/2 - 5, hexToFloatColor(c));
-			xmlgui::Resources::drawString(this, "DN", 4+x+width-scrollerWidth, y+height/2 + 15, hexToFloatColor(c));
-			xmlgui::Resources::unbindFont();
+			//xmlgui::Resources::bindFont();
+			ofSetColor(hexToFloatColor(c));
+			xmlgui::Resources::drawString("UP", 4+x+width-scrollerWidth, y+height/2 - 5);//, hexToFloatColor(c));
+			xmlgui::Resources::drawString("DN", 4+x+width-scrollerWidth, y+height/2 + 15);//, hexToFloatColor(c));
+			//xmlgui::Resources::unbindFont();
 			
 			
 			

@@ -334,6 +334,9 @@ namespace xmlgui {
 	PushButton *SimpleGui::addPushButton(string name) {
 		PushButton *tog = (PushButton*)INSTANTIATE_WITH_ID("pushbutton", name);
 		tog->width = 80;
+		if(xmlgui::Resources::getFont()!=NULL) {
+			tog->width = xmlgui::Resources::getFont()->stringWidth(name) + 6;
+		}
 		tog->height = 20;
 		gui->addChild(tog);
 		return tog;
@@ -388,7 +391,6 @@ namespace xmlgui {
 	}
 
 	void SimpleGui::redoLayout() {
-
 		if(!autoLayout) return;
 		ofVec2f startingPos(0,0);
 		float winHeight = ofGetHeight();

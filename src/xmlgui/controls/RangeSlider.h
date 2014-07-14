@@ -108,11 +108,11 @@ namespace xmlgui {
 			if(sliderFG!=NULL) {
 				ofSetHexColor(0xFFFFFF);
 				ofVec2f abs = getAbsolutePosition();
-				if(vertical) maskOn(abs.x, abs.y + height-height*maxVal, width, height*size);
-				else maskOn(abs.x + width*minVal, abs.y, width*size, height);
+				if(vertical) pushMask(abs.x, abs.y + height-height*maxVal, width, height*size);
+				else pushMask(abs.x + width*minVal, abs.y, width*size, height);
 				sliderFG->draw(x, y);
 				//ofRect(0, 0, ofGetWidth(), ofGetHeight());
-				maskOff();
+				popMask();
 			} else {
 				setRGBA(fgColor);
 

@@ -14,7 +14,6 @@ namespace xmlgui {
 	class Title: public xmlgui::Control {
 	public:
 		
-		
 		Title(): Control() {
 			height = 24;
 			width = 110;
@@ -23,7 +22,11 @@ namespace xmlgui {
 		
 		
 		void draw() {
-			ofSetHexColor(0xFFFFFF);
+			if(parent->isOpaque()) {
+				ofSetColor(0, 0, 0, 150);
+				ofRect( x, y, width, height-5);
+			}
+			ofSetColor(255);
 			xmlgui::Resources::drawString(this, name, x+3, y+14);
 			ofLine(x, y+height-5, x+width, y+height-5);
 		}

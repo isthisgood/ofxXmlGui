@@ -69,17 +69,15 @@ bool xmlgui::ofGuiEventDispatcher::touchUp(ofTouchEventArgs &e) {
 }
 
 void xmlgui::ofGuiEventDispatcher::enableInteraction() {
-	ofAddListener(ofEvents().mousePressed, this, &xmlgui::ofGuiEventDispatcher::mousePressed);
-	ofAddListener(ofEvents().mouseMoved, this, &xmlgui::ofGuiEventDispatcher::mouseMoved);
-	ofAddListener(ofEvents().mouseDragged, this, &xmlgui::ofGuiEventDispatcher::mouseDragged);
-	ofAddListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased);
+	
+	ofRegisterMouseEvents(this);
+
 	
 	ofAddListener(ofEvents().touchDown, this, &xmlgui::ofGuiEventDispatcher::touchDown);
 	ofAddListener(ofEvents().touchUp, this, &xmlgui::ofGuiEventDispatcher::touchUp);
 	ofAddListener(ofEvents().touchMoved, this, &xmlgui::ofGuiEventDispatcher::touchMoved);
 	
-	ofAddListener(ofEvents().keyPressed, this, &xmlgui::ofGuiEventDispatcher::keyPressed);
-	ofAddListener(ofEvents().keyReleased, this, &xmlgui::ofGuiEventDispatcher::keyReleased);
+	ofRegisterKeyEvents(this);
 }
 
 
@@ -94,17 +92,15 @@ void xmlgui::ofGuiEventDispatcher::enableEvents() {
 }
 
 void xmlgui::ofGuiEventDispatcher::disableInteraction() {
-	ofRemoveListener(ofEvents().mousePressed, this, &xmlgui::ofGuiEventDispatcher::mousePressed, eventPriority);
-	ofRemoveListener(ofEvents().mouseMoved, this, &xmlgui::ofGuiEventDispatcher::mouseMoved, eventPriority);
-	ofRemoveListener(ofEvents().mouseDragged, this, &xmlgui::ofGuiEventDispatcher::mouseDragged, eventPriority);
-	ofRemoveListener(ofEvents().mouseReleased, this, &xmlgui::ofGuiEventDispatcher::mouseReleased, eventPriority);
+	ofUnregisterMouseEvents(this);
 	
 	ofRemoveListener(ofEvents().touchDown, this, &xmlgui::ofGuiEventDispatcher::touchDown, eventPriority);
 	ofRemoveListener(ofEvents().touchUp, this, &xmlgui::ofGuiEventDispatcher::touchUp, eventPriority);
 	ofRemoveListener(ofEvents().touchMoved, this, &xmlgui::ofGuiEventDispatcher::touchMoved, eventPriority);
 	
-	ofRemoveListener(ofEvents().keyPressed, this, &xmlgui::ofGuiEventDispatcher::keyPressed, eventPriority);
-	ofRemoveListener(ofEvents().keyReleased, this, &xmlgui::ofGuiEventDispatcher::keyReleased, eventPriority);
+	ofUnregisterKeyEvents(this);
+
+
 }
 
 void xmlgui::ofGuiEventDispatcher::disableEvents() {

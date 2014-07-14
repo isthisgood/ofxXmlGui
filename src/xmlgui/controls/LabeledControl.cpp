@@ -37,6 +37,10 @@ void xmlgui::LabeledControl::drawLabel(float x, float y) {
 			x = this->x;
 			y = this->y - 3;
 		}
+		if(parent->isOpaque() && x==this->x) {
+			ofSetColor(0, 0, 0, 150);
+			ofRect( x, y-10, width, 14);
+		}
 		setRGBA(labelColor);
 		xmlgui::Resources::drawString(this, name, x, y);
 		//			ofVec2f p = parent->getAbsolutePosition();
@@ -48,7 +52,7 @@ void xmlgui::LabeledControl::drawLabel(float x, float y) {
 void xmlgui::LabeledControl::drawCustomLabel(string label, float x, float y) {
 	
 	if(drawingLabel) {
-		if(parent->isOpaque()) {
+		if(parent->isOpaque() && x==this->x) {
 			ofSetColor(0, 0, 0, 150);
 			ofRect( x, y-10, width, 14);
 		}

@@ -28,14 +28,17 @@ namespace xmlgui {
 			}
 
 			float val = (fval(value)-min)/(max-min);
-
+			
+			if(val>1) val = 1;
+			else if(val<0) val = 0;
+			
 			if(sliderFG!=NULL) {
 				ofSetHexColor(0xFFFFFF);
 				ofPoint abs = getAbsolutePosition();
-				if(vertical) maskOn(abs.x, abs.y + height-height*val, width, height*val);
-				else maskOn(abs.x, abs.y, width*val, height);
+				if(vertical) pushMask(abs.x, abs.y + height-height*val, width, height*val);
+				else pushMask(abs.x, abs.y, width*val, height);
 				sliderFG->draw(x, y);
-				maskOff();
+				popMask();
 			} else {
 				setRGBA(fgColor);
 

@@ -53,6 +53,7 @@ namespace xmlgui {
 		void setLayoutType(LayoutType layoutType);
 		void pointToValue(string controlName, void *pointer);
 
+
 		float getFloat(string controlName);
 		int getInt(string controlName);
 		bool getBool(string controlName);
@@ -80,7 +81,11 @@ namespace xmlgui {
 		void saveSettings(ofxXmlSettings &xml);
 		void loadSettings(ofxXmlSettings &xml);
 		
+		void setContained(bool contained);
+		
+		
 	protected:
+		bool contained;
 		bool opaque;
 
 		string bgImageUrl;

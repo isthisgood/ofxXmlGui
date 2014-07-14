@@ -19,10 +19,14 @@ xmlgui::Container::Container(): Control() {
 	keyboardFocusedControl = NULL;
 	focusedControl = NULL;
 	opaque = false;
-
+	contained = false;
 
 }
 
+
+void xmlgui::Container::setContained(bool contained) {
+	this->contained = contained;
+}
 bool xmlgui::Container::isOpaque() {
 	return opaque;
 }
@@ -57,11 +61,19 @@ xmlgui::Container::~Container() {
 void xmlgui::Container::draw() {
 	//glDisable(GL_DEPTH_TEST);
 	if(!active) return;
+	if(contained) {
+		pushMask(x, y, width, height);
+	}
 	if(bgImage!=NULL) {
 		bgImage->draw(x, y, width, height);
 
 	}
 	drawChildren();
+	
+	if(contained) {
+		Resources::drawAllDeferredStrings();
+		popMask();
+	}
 }
 
 void xmlgui::Container::setLayoutType(LayoutType layoutType) {
@@ -439,7 +451,6 @@ void xmlgui::Container::saveSettings(ofxXmlSettings &xml) {
 	}
 }
 void xmlgui::Container::saveSettings(string file) {
-	printf("yarp\n");
 	if(file=="") {
 		if(this->settingsFile=="") {
 			if(name=="") {
@@ -458,7 +469,7 @@ void xmlgui::Container::saveSettings(string file) {
 	ofxXmlSettings xml;
 	xml.addTag("settings");
 	xml.pushTag("settings");
-	printf("Trying to save to '%s' - '%s'\n", settingsFile.c_str(), file.c_str());
+	//printf("Trying to save to '%s' - '%s'\n", settingsFile.c_str(), file.c_str());
 	saveSettings(xml);
 
 

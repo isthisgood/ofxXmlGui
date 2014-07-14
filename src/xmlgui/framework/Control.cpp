@@ -205,3 +205,46 @@ void xmlgui::Control::print(int indent) {
 	for(int i = 0; i < indent; i++) printf("  ");
 	printf("Control type=%s    id=%s    name=%s\n", type.c_str(), id.c_str(), name.c_str());
 }
+
+
+vector<ofRectangle> xmlgui::Control::maskStack;
+
+void xmlgui::Control::pushMask(ofRectangle &r) {
+	maskStack.push_back(r);
+	if(maskStack.size()==1) {
+		glEnable(GL_SCISSOR_TEST);
+	}
+	glScissor(r.x, ofGetHeight()-(r.y+r.height), r.width, r.height);
+}
+
+void xmlgui::Control::pushMask(int _x, int _y, int _w, int _h) {
+	ofRectangle r(_x, _y, _w, _h);
+	pushMask(r);
+}
+
+
+void xmlgui::Control::popMask() {
+	maskStack.pop_back();
+	if(maskStack.size()>0) {
+		glScissor(maskStack.back().x, ofGetHeight()-(maskStack.back().y+maskStack.back().height), maskStack.back().width, maskStack.back().height);
+	} else {
+		glDisable(GL_SCISSOR_TEST);
+	}
+}
+
+
+
+
+
+
+void xmlgui::Control::maskOn(ofRectangle &r) {
+	maskOn(r.x, r.y, r.width, r.height);
+}
+void xmlgui::Control::maskOn(int _x, int _y, int _w, int _h) {
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(_x, ofGetHeight()-(_y+_h), _w, _h);
+}
+void xmlgui::Control::maskOff() {
+	glDisable(GL_SCISSOR_TEST);
+}
+

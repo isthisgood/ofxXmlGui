@@ -89,11 +89,11 @@ void xmlgui::Slider::draw() {
 	if(sliderFG!=NULL) {
 		ofSetHexColor(0xFFFFFF);
 		ofVec2f abs = getAbsolutePosition();
-		if(vertical) maskOn(abs.x, abs.y + height-height*val, width, height*val);
-		else maskOn(abs.x, abs.y, width*val, height);
+		if(vertical) pushMask(abs.x, abs.y + height-height*val, width, height*val);
+		else pushMask(abs.x, abs.y, width*val, height);
 		sliderFG->draw(x, y);
 		//ofRect(0, 0, ofGetWidth(), ofGetHeight());
-		maskOff();
+		popMask();
 	} else {
 		setRGBA(fgColor);
 		

@@ -106,18 +106,13 @@ namespace xmlgui {
 		virtual void saveToXmlObject(ofxXmlSettings &xml);
 		virtual void loadFromXmlObject(TiXmlElement *xml);
 
-        void maskOn(ofRectangle &r) {
-            maskOn(r.x, r.y, r.width, r.height);
-        }
-	
-		// todo: make protected and in the cpp file
-		void maskOn(int _x, int _y, int _w, int _h) {
-			glEnable(GL_SCISSOR_TEST);
-			glScissor(_x, ofGetHeight()-(_y+_h), _w, _h);
-		}
-		void maskOff() {
-			glDisable(GL_SCISSOR_TEST);
-		}
+       
+		void pushMask(ofRectangle &r);
+		void pushMask(int _x, int _y, int _w, int _h);
+		void popMask();
+		static vector<ofRectangle> maskStack;
+		
+		
 		
 		void pointToValue(void *value) {
 			
@@ -150,6 +145,12 @@ namespace xmlgui {
 		
 	protected:
 		void *value;
+
+	private:
+		void maskOn(ofRectangle &r);
+		void maskOn(int _x, int _y, int _w, int _h);
+		void maskOff();
+		
 		
 	};
 	

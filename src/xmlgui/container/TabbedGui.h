@@ -29,9 +29,11 @@ namespace xmlgui {
 		PushButton *saveAllButton, *saveThisTabButton, *revertThisTabButton;
 		int tabIndex;
 		string settingsDirectory;
-        
-        
+		int tabWidth;
+		
+
 		TabbedGui(): SimpleGui() {
+			tabWidth = 60;
             settingsDirectory = "settings";
 			//setAutoLayout(false);
 			tabIndex = 0;
@@ -213,15 +215,19 @@ namespace xmlgui {
 			}
 		}
 		
+		void setTabWidth(int width) {
+			tabWidth = width;
+			tabber->width = tabs.size() * width;
+		}
 		void updateTabber() {
 			tabber->options.clear();
 			for(int i = 0; i < tabs.size(); i++) {
 
 				tabber->addOption(tabs[i].first);
 			}
-			tabber->width = tabs.size() * 60;
+			tabber->width = tabs.size() * tabWidth;
 		}
-		
+
 		void clear() {
 			tabber->options.clear();
 			gui->clear();

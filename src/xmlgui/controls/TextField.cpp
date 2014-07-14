@@ -193,9 +193,9 @@ void xmlgui::TextField::draw() {
 	}
 	
 	ofVec2f p = getAbsolutePosition();
-	maskOn(p.x, p.y, width, height);
+	pushMask(p.x, p.y, width, height);
 	fontRef->drawString(text, HORIZONTAL_PADDING+2, fontRef->getLineHeight()+VERTICAL_PADDING);
-	maskOff();
+	popMask();
 
 	
 	ofPopMatrix();
