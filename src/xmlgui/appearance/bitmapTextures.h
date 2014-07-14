@@ -38,7 +38,6 @@ public:
 		while(v.size()<4) v.push_back(ofVec3f());
 		while(tc.size()<4) tc.push_back(ofVec2f());
 		
-		glBegin(GL_QUADS);
 		tc[0].set(r.getTopLeft()*texScale);
 		v[0].set(r.getTopLeft());
 		
@@ -51,7 +50,7 @@ public:
 		tc[2].set(r.getBottomLeft()*texScale);
 		v[2].set(r.getBottomLeft());
 		
-		glEnd();
+		
 		tex.bind();
 		vbo.draw();
 		tex.unbind();

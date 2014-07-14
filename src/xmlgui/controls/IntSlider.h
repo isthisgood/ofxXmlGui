@@ -36,10 +36,12 @@
 #include <Carbon/Carbon.h>
 #endif
 #ifdef TARGET_LINUX
+#ifndef TARGET_RASPBERRY_PI
 #include <GL/glut.h>
 #include "ofIcon.h"
 #include "ofImage.h"
 #include <X11/Xatom.h>
+#endif
 #endif
 
 
@@ -242,7 +244,7 @@ namespace xmlgui {
 			} else if(key==OF_KEY_RIGHT) {
 				increment = 1;
 			}
-			
+#ifndef TARGET_RASPBERRY_PI			
 			if(glutGetModifiers() & GLUT_ACTIVE_SHIFT) {
 				if((max-min)>width) {
 					increment *= (max-min)/width;
@@ -250,6 +252,8 @@ namespace xmlgui {
 					increment *= 10;
 				}
 			}
+#endif
+
             if(increment!=0) {
                 ival(value) = ofClamp(ival(value)+increment, min, max);
                 return true;

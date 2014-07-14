@@ -127,6 +127,7 @@ namespace xmlgui {
 				points[11] = 0;
 	#ifndef TARGET_OF_IPHONE
 				#ifndef TARGET_ANDROID
+#ifndef TARGET_RASPBERRY_PI
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glEnableClientState(GL_COLOR_ARRAY);
 				glVertexPointer(3, GL_FLOAT, 0, &points[0]);
@@ -135,7 +136,7 @@ namespace xmlgui {
 				glDisableClientState(GL_VERTEX_ARRAY);
 				glDisableClientState(GL_COLOR_ARRAY);
 				#endif
-				
+		#endif		
 	#endif
 
 
