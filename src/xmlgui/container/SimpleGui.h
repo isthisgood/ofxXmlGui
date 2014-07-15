@@ -58,7 +58,8 @@ namespace xmlgui {
 		Slider2D		*addSlider2D(string name, float *value, float minX=-1, float maxX=1, float minY=-1, float maxY=1);
 		Slider2D		*addSlider2D(string name, ofVec2f &pos, float minX=-1, float maxX=1, float minY=-1, float maxY=1);
 		HexColorPicker	*addHexColorPicker(string name, int &value);
-		FloatColorPicker*addColorPicker(string name, ofFloatColor &value);
+		FloatColorPicker*addColorPicker(string name, ofFloatColor &value, float scale = 1);
+		FloatColorPicker*addColorPicker(string name, ofVec4f &value, float scale = 1);
 		HorizontalRule	*addHR();
         Graph           *addGraph(string name, float &value, float min = 0, float max = 1, int updatePeriod = 1);
 		Meter			*addMeter(string name, float &value, float min = 0, float max = 1);
