@@ -32,9 +32,16 @@ namespace xmlgui {
 		
 		bool mousePressed(ofMouseEventArgs &e);
 		void mouseMoved(ofMouseEventArgs &e);
-		bool mouseDragged(ofMouseEventArgs &e);
-		bool mouseReleased(ofMouseEventArgs &e);
-		
+        bool mouseDragged(ofMouseEventArgs &e);
+        bool mouseReleased(ofMouseEventArgs &e);
+        
+        
+        bool mouseEntered(ofMouseEventArgs &e) {}
+        bool mouseExited(ofMouseEventArgs &e) {}
+        bool mouseScrolled(ofMouseEventArgs &e) {}
+        
+        
+        
 		bool keyPressed(ofKeyEventArgs &e);
 		bool keyReleased(ofKeyEventArgs &e);
 		
