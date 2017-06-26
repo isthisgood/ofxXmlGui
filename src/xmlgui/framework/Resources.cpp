@@ -107,22 +107,22 @@ void xmlgui::Resources::drawString(xmlgui::Control *caller, string str, int x, i
 
 void xmlgui::Resources::drawAllDeferredStrings() {
 	if(font!=NULL) {
-		font->bind();
+		font->getFontTexture().bind();
 		stringMeshes.setMode(OF_PRIMITIVE_TRIANGLES);
 		stringMeshes.draw();
 		stringMeshes.clear();
-		font->unbind();
+		font->getFontTexture().unbind();
 	}
 }
 
 void xmlgui::Resources::bindFont() {
 	if(font!=NULL && !customFontNotAvailable) {
-		font->bind();
+		font->getFontTexture().bind();
 	}
 }
 void xmlgui::Resources::unbindFont() {
 	if(font!=NULL && !customFontNotAvailable) {
-		font->unbind();
+		font->getFontTexture().unbind();
 	}
 }
 
