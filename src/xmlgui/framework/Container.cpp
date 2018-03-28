@@ -22,7 +22,29 @@ xmlgui::Container::Container(): Control() {
 	contained = false;
 
 }
+void xmlgui::Container::sendToBack(Control *child) {
+	// back is the front of the deque
+	for(auto it = children.begin(); it != children.end(); it++) {
+		if((*it)==child) {
+			children.erase(it);
+			children.push_front(child);
+			return;
+		}
+	}
+	printf("Error: Couldn't send child to front because it's not in its parent\n");
+}
 
+void xmlgui::Container::sendToFront(Control *child) {
+	// back is the front of the deque
+	for(auto it = children.begin(); it != children.end(); it++) {
+		if((*it)==child) {
+			children.erase(it);
+			children.push_back(child);
+			return;
+		}
+	}
+	printf("Error: Couldn't send child to front because it's not in its parent\n");
+}
 
 void xmlgui::Container::setContained(bool contained) {
 	this->contained = contained;
@@ -87,7 +109,12 @@ void xmlgui::Container::addChild(Control *child) {
 			child->x = children.back()->x;
 			child->y = children.back()->y + children.back()->height + AUTO_LAYOUT_PADDING;
 		}
-	}
+    } else if(layoutType==LayoutType_horizontal) {
+        if(children.size()>0) {
+            child->y = children.back()->y;
+            child->x = children.back()->x + children.back()->width + AUTO_LAYOUT_PADDING;
+        }
+    }
 	//printf("Adding child %s, %d\n", child->name.c_str(), child->isContainer());
 	children.push_back(child);
 	if(child->isContainer()) {
@@ -135,12 +162,23 @@ void xmlgui::Container::touchOver(int x, int y, int id) {
 		(*it)->touchOver(x, y, id);
 	}
 }
+
+
 void xmlgui::Container::notifyChange(xmlgui::Event *e) {
 
+	if(e->type==xmlgui::Event::TOUCH_DOWN && e->control->pressed) {
+		e->control->pressed();
+	} else if(e->type==xmlgui::Event::TOUCH_UP && e->control->released) {
+		e->control->released();
+	}
+	
+	
 	for(int i = 0; i < listeners.size(); i++) {
 		listeners[i]->controlChanged(e);
 	}
 }
+
+
 bool xmlgui::Container::touchDown(int x, int y, int id) {
 	if(!active) return false;
 	x -= this->x;
@@ -237,14 +275,14 @@ bool xmlgui::Container::touchUp(int x, int y, int id) {
 }
 
 void xmlgui::Container::drawChildren() {
-	glPushMatrix();
-	glTranslatef(x, y, 0);
+	ofPushMatrix();
+	ofTranslate(x, y, 0);
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
 		if(!(*it)->active) continue;
 		(*it)->draw();
 	}
-	glPopMatrix();
+	ofPopMatrix();
 }
 
 
@@ -328,7 +366,12 @@ void xmlgui::Container::loadFromXmlObject(TiXmlElement *xml) {
 bool xmlgui::Container::keyPressed(int key) {
 	if(!active) return false;
 	if(keyboardFocusedControl!=NULL) {
-		return keyboardFocusedControl->keyPressed(key);
+		bool success = keyboardFocusedControl->keyPressed(key);
+		if(success) {
+			xmlgui::Event evt(keyboardFocusedControl, Event::KEY_PRESSED);
+			notifyChange(&evt);
+		}
+		return success;
 	} else {
 		return false;
 	}
@@ -337,7 +380,12 @@ bool xmlgui::Container::keyPressed(int key) {
 bool xmlgui::Container::keyReleased(int key) {
 	if(!active) return false;
 	if(keyboardFocusedControl!=NULL) {
-		return keyboardFocusedControl->keyReleased(key);
+		bool success = keyboardFocusedControl->keyReleased(key);
+		if(success) {
+			xmlgui::Event evt(keyboardFocusedControl, Event::KEY_RELEASED);
+			notifyChange(&evt);
+		}
+		return success;
 	} else {
 		return false;
 	}
@@ -361,6 +409,7 @@ void xmlgui::Container::addListener(Listener *listener) {
 			return;
 		}
 	}
+	
 	deque<Control*>::iterator it;
 	for(it = children.begin(); it != children.end(); it++) {
 		if((*it)->isContainer()) {
@@ -368,6 +417,7 @@ void xmlgui::Container::addListener(Listener *listener) {
 			c->addListener(listener);
 		}
 	}
+	
 	listeners.push_back(listener);
 }
 

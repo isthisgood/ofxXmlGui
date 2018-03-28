@@ -1,6 +1,6 @@
 /**
  *  OSCServer.cpp
- *
+ **
  *  Created by Marek Bereza on 14/11/2012.
  */
 
@@ -8,6 +8,8 @@
 #include "ofxXmlSettings.h"
 #include "Slider.h"
 #include "Panner.h"
+#include "Resources.h"
+
 
 xmlgui::OSCServer::OSCServer() {
 	started = false;
@@ -26,11 +28,14 @@ xmlgui::OSCServer::~OSCServer() {
 	}
 }
 
-void xmlgui::OSCServer::setup() {
+void xmlgui::OSCServer::setup(int port, int httpPort) {
+	xmlgui::Resources::getFont();
+
 	started = true;
-	ws.start();
+	ws.start("./", httpPort);
 	ws.addHandler(this, "*");
-	osc.setup(12345);
+	osc.setup(port);
+	ofAddListener(ofEvents().update, this, &xmlgui::OSCServer::update);
 }
 
 void xmlgui::OSCServer::smoothChange(xmlgui::Control *c, float value) {
@@ -50,14 +55,14 @@ float xmlgui::OSCServer::getControlRange(xmlgui::Control *c) {
 		return -1;
 	}
 }
-void xmlgui::OSCServer::update() {
+void xmlgui::OSCServer::update(ofEventArgs &e) {
 	ofxOscMessage m;
 	while(osc.getNextMessage(&m)) {
 		if(m.getAddress()=="/gui") {
 			string name = m.getArgAsString(0);
 			for(int i = 0; i < guis.size(); i++) {
 				if(guis[i]->name==name || (guis[i]->name=="default" && name=="")) {
-
+					printf("Received message\n");
 					xmlgui::Control *c = guis[i]->getControlById(m.getArgAsString(1));
 					if(c!=NULL) {
 						if(c->type=="slider" || c->type=="panner") {
@@ -69,6 +74,8 @@ void xmlgui::OSCServer::update() {
 							xmlgui::Event e(c, xmlgui::Event::TOUCH_UP);
 							c->parent->notifyChange(&e);
 						}
+					} else {
+						printf("Can't find control called %s\n", m.getArgAsString(1).c_str());
 					}
 					break;
 				}
@@ -99,6 +106,13 @@ void xmlgui::OSCServer::update() {
 			it++;
 		}
 
+	}
+}
+
+
+void xmlgui::OSCServer::addTabbedGui(xmlgui::TabbedGui *gui) {
+	for(int i = 0; i < gui->tabs.size(); i++) {
+		addGui(gui->tabs[i].second);
 	}
 }
 

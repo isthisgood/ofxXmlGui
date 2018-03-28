@@ -59,7 +59,7 @@ namespace xmlgui {
 		void draw();
 		
 		
-		map<int,MultiballTouch> touches;
+        ::map<int,MultiballTouch> touches;
 		
 		int bgColor;
 		int borderColor;

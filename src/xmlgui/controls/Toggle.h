@@ -25,12 +25,15 @@ namespace xmlgui {
 		string toggleOffUrl;
 		string toggleDownUrl;
 
+		bool momentary = false;
+		
+		function<void(bool)> onChange;
 
 		Toggle(): LabeledControl() {
 			offColor = 0x505050;
 			onColor = 0x995050;
 			strokeColor = 0;
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 70;
 
 			value = new bool[1];
@@ -72,7 +75,7 @@ namespace xmlgui {
 					toggleOn->draw(x, y);
 				} else {
 					setRGBA(onColor);
-					ofRect(x, y, width, height);
+                    ofDrawRectangle(*this);
 				}
 			} else {
 				if(toggleDown!=NULL && down) {
@@ -83,31 +86,49 @@ namespace xmlgui {
 					ofSetHexColor(0xFFFFFF);
 					toggleOff->draw(x, y);
 				} else {
-					//if (over) {
-						setRGBA(offColor);
-						ofRect(x, y, width, height);
-					//} else {
-					//	ofSetColor(offColor);
-					//	ofRect(x, y, width, height);
-					//}
+
+					setRGBA(offColor);
+                    ofDrawRectangle(*this);
+				
 				}
 			}
 
 			if(toggleOff==NULL) {
 				setRGBA(strokeColor);
 				ofNoFill();
-				ofRect(*this);
+				ofDrawRectangle(*this);
 
 				if(bval(value)) {
-					ofLine(x+3, y+3, x+width-5, y+height-5);
-					ofLine(x+3, y+height-5, x+width-5, y+3);
+					ofDrawLine(x+3, y+3, x+width-5, y+height-5);
+					ofDrawLine(x+3, y+height-5, x+width-5, y+3);
 				}
 				ofFill();
 			}
 			drawLabel(x, y-3);
 		}
 		bool touchDown(int _x, int _y, int button) {
-			bval(value) ^= true;
+			
+			if(momentary) {
+				bval(value) = true;
+			} else {
+				bval(value) = !bval(value);
+			}
+			if(onChange) {
+				onChange(bval(value));
+			}
+			//			printf("Toucing down on %s\n", name.c_str());
+			return true;
+		}
+		
+		bool touchUp(int _x, int _y, int button) {
+			
+			if(momentary) {
+				bval(value) = false;
+                if(onChange) {
+                    onChange(bval(value));
+                }
+			}
+            
 			return true;
 		}
 

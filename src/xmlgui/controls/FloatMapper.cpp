@@ -141,14 +141,14 @@ void xmlgui::FloatMapper::draw() {
 	outRange.set(x, inRange.y+inRange.height +2, width, (height/4));
 	
 	ofSetColor(50);
-	ofRect(mapButton);
-	ofRect(controlPreview);
+	ofDrawRectangle(mapButton);
+	ofDrawRectangle(controlPreview);
 	
 	
 	ofSetColor(200, 200, 0);
 	
 	float val = ofMap(*controlValue, controlMin, controlMax, 0, 1, true);
-	ofRect(controlPreview.x, controlPreview.y, controlPreview.width * val, controlPreview.height);
+	ofDrawRectangle(controlPreview.x, controlPreview.y, controlPreview.width * val, controlPreview.height);
 	
 	
 	ofSetColor(255);

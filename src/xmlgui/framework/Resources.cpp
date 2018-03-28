@@ -11,14 +11,17 @@
 #include "Container.h"
 #include "LabeledControl.h"
 #include "bitmapTextures.h"
+string xmlgui::Resources::fontPath = DEFAULT_FONT;
+int xmlgui::Resources::fontSize = DEFAULT_FONT_SIZE;
+
+
 StripeyRect *diagLines = NULL;
 VerticalLinesRect *verticLines = NULL;
 vector<pair<ofVec2f, string> > xmlgui::LabeledControl::labels;
 int xmlgui::LabeledControl::lastDrawnFrame = 0;
 //#define DEFAULT_FONT "OCRAStd.ttf"
 //#define DEFAULT_FONT_SIZE 12
-#define DEFAULT_FONT "res/mono0755.ttf"
-#define DEFAULT_FONT_SIZE 6
+
 
 
 ofTrueTypeFont *xmlgui::Resources::font = NULL;
@@ -32,6 +35,11 @@ ofTrueTypeFont *xmlgui::Resources::getFont() {
 	return font;
 }
 
+void xmlgui::Resources::setCustomFont(string path, int size) {
+	fontPath = path;
+	fontSize = size;
+	
+}
 ofImage *xmlgui::Resources::getImage(string path) {
 
 
@@ -68,14 +76,22 @@ int xmlgui::Resources::stringWidth(const string &s) {
 void xmlgui::Resources::checkFontLoaded() {
     if(font==NULL && !customFontNotAvailable) {
 		// try to load font
-		ofFile f(DEFAULT_FONT);
+		ofFile f(fontPath);
 
 		if(f.exists()) {
 
 			font = new ofTrueTypeFont();
-			font->loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
+            
+            if(!font->load(fontPath, fontSize)) {
+                ofLogError() << "Error loading font!! - path =\"" << fontPath << "\"";
+                customFontNotAvailable = true;
+                delete font;
+                font = NULL;
+            }
+            
+            
 		} else {
-			ofLogError() << "Couldn't find font at " << ofToDataPath(DEFAULT_FONT, true);
+			ofLogError() << "Couldn't find font at " << ofToDataPath(fontPath, true);
 			customFontNotAvailable = true;
 		}
 	}
@@ -107,22 +123,22 @@ void xmlgui::Resources::drawString(xmlgui::Control *caller, string str, int x, i
 
 void xmlgui::Resources::drawAllDeferredStrings() {
 	if(font!=NULL) {
-		font->bind();
+		font->getFontTexture().bind();
 		stringMeshes.setMode(OF_PRIMITIVE_TRIANGLES);
 		stringMeshes.draw();
 		stringMeshes.clear();
-		font->unbind();
+		font->getFontTexture().unbind();
 	}
 }
 
 void xmlgui::Resources::bindFont() {
 	if(font!=NULL && !customFontNotAvailable) {
-		font->bind();
+		font->getFontTexture().bind();
 	}
 }
 void xmlgui::Resources::unbindFont() {
 	if(font!=NULL && !customFontNotAvailable) {
-		font->unbind();
+		font->getFontTexture().unbind();
 	}
 }
 

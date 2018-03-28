@@ -66,7 +66,7 @@ namespace xmlgui {
 		bool	isEditing;
 		bool	mouseDownInRect;
 		bool isShifted, isCommand;
-		static map<int, char> shiftMap;
+        static std::map<int, char> shiftMap;
 		int getCursorPositionFromMouse(int x);
 		
 		string valueToString() { return sval(value); }

@@ -35,7 +35,7 @@ namespace xmlgui {
 			bgColor = 0x555555;
 			borderColor = 0xFFFFFF;
 			width = 100;
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			min = 0;
 			max = 1;
 		}

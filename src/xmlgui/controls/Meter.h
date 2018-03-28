@@ -38,7 +38,7 @@ namespace xmlgui {
 			min = 0;
 			max = 1;
 			vertical = true;
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 100;
 
 			value = new float[1];

@@ -278,17 +278,17 @@ void xmlgui::Editor::draw() {
 		ofNoFill();
 		ofSetHexColor(0xFFFFFF);
 		ofVec2f pos = focusedControl->getAbsolutePosition();
-		ofRect(pos.x, pos.y, focusedControl->width, focusedControl->height);
+		ofDrawRectangle(pos.x, pos.y, focusedControl->width, focusedControl->height);
 		ofFill();
 	}
 
 	if(rolledOverControl!=NULL) {
 		ofSetHexColor(0xFFFFFF);
 		ofVec2f pos = rolledOverControl->getAbsolutePosition();
-		ofRect(pos.x + rolledOverControl->width-5, pos.y+rolledOverControl->height-5, 5, 5);
+		ofDrawRectangle(pos.x + rolledOverControl->width-5, pos.y+rolledOverControl->height-5, 5, 5);
 
 		ofSetHexColor(0x002244);
-		ofRect(0, ofGetHeight()-20, ofGetWidth(), 20);
+		ofDrawRectangle(0, ofGetHeight()-20, ofGetWidth(), 20);
 		string path = "";
 		Control *c = rolledOverControl;
 		while(c!=NULL && c->parent!=NULL && c->parent->parent!=NULL) {

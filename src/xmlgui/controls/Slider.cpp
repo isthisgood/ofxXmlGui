@@ -14,7 +14,7 @@
 #endif
 #ifdef TARGET_OSX
 #include <OpenGL/OpenGL.h>
-#include "../../../libs/glut/lib/osx/GLUT.framework/Versions/A/Headers/glut.h"
+//#include "../../../libs/glut/lib/osx/GLUT.framework/Versions/A/Headers/glut.h"
 #include <Carbon/Carbon.h>
 #endif
 #ifdef TARGET_LINUX
@@ -33,7 +33,7 @@ xmlgui::Slider::Slider(): LabeledControl() {
 	lastTimePressed = 0;
 	sliderBG = sliderFG = sliderHandle = NULL;
 	vertical = false;
-	height = 20;
+    height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 	width = 100;
 	stepped = false;
 	value = new float[1];
@@ -224,8 +224,10 @@ bool xmlgui::Slider::keyPressed(int key) {
 		increment = (max-min)/(width*10.f);
 	}
 #ifndef TARGET_RASPBERRY_PI
-	if(glutGetModifiers() & GLUT_ACTIVE_SHIFT) increment *= 10.f;
+#ifndef TARGET_OF_IOS
+//	if(glutGetModifiers() & GLUT_ACTIVE_SHIFT) increment *= 10.f;
 #endif	
+#endif
 	fval(value) = ofClamp(fval(value)+increment, min, max);
     printf("Got key event\n");
     if(key==OF_KEY_LEFT || key==OF_KEY_RIGHT) return true;

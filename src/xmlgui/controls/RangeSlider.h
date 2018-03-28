@@ -42,7 +42,7 @@ namespace xmlgui {
 		RangeSlider(): LabeledControl() {
 			sliderBG = sliderFG = sliderHandle = NULL;
 			vertical = false;
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 100;
 			stepped = false;
 			value = new float[2];

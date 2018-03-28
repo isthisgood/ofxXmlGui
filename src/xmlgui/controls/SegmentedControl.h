@@ -17,6 +17,7 @@ namespace xmlgui {
 	public:
 
 
+		function<void(int)> valueChanged;
 		string options;
 		bool vertical;
 		vector<string> opts;
@@ -27,7 +28,7 @@ namespace xmlgui {
 		SegmentedControl(): LabeledControl() {
 			value = new int[1];
 			ival(value) = 0;
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			vertical = false;
 			fgColor = 0xC80000;
 			borderColor = 0;
@@ -58,28 +59,28 @@ namespace xmlgui {
 			int size = opts.size();
 			if(size==0) {
 				ofSetColor(100, 100, 100);
-				ofRect(x,y,width,height);
+				ofDrawRectangle(x,y,width,height);
 			}
-
+//			printf("%s: %d\n", name.c_str(), ival(value));
 
 			if(vertical) {
 				for(int i = 0; i < size; i++) {
 					ofRectangle r(x, y+(height/size)*i, width, (height/size)-3);
 
-
+					ofFill();
 					if(i==ival(value)) {
 						setRGBA(fgColor);
-						ofRect(r);
+						ofDrawRectangle(r);
 					} else {
 						setRGBA(bgColor);
-						ofRect(r);
+						ofDrawRectangle(r);
 					}
 
 					setRGBA(labelColor);
 					xmlgui::Resources::drawString(this, opts[i], x+3, y + (height/size)*(i+1)-3);
 					setRGBA(borderColor);
 					ofNoFill();
-					ofRect(r);
+					ofDrawRectangle(r);
 					ofFill();
 				}
 			} else {
@@ -88,17 +89,17 @@ namespace xmlgui {
 					ofRectangle r(x+(width/size)*i, y, (width/size)-3, height);
 					if(i==ival(value)) {
 						setRGBA(fgColor);
-						ofRect(r);
+						ofDrawRectangle(r);
 					} else {
 						setRGBA(bgColor);
-						ofRect(r);
+						ofDrawRectangle(r);
 					}
 
 					setRGBA(labelColor);
 					xmlgui::Resources::drawString(this, opts[i], x+(width/size)*i+3, y+height-3);
 					setRGBA(borderColor);
 					ofNoFill();
-					ofRect(r);
+					ofDrawRectangle(r);
 					ofFill();
 				}
 			}
@@ -121,8 +122,12 @@ namespace xmlgui {
 		bool touchDown(int _x, int _y, int touchId) {
 			if(vertical) {
 				ival(value) = (int)((float)opts.size()*(_y-y)/height);
+				if(valueChanged) valueChanged(ival(value));
+
 			} else {
 				ival(value) = (int)((float)opts.size()*(_x-x)/width);
+				if(valueChanged) valueChanged(ival(value));
+
 			}
 			return true;
 		}

@@ -54,11 +54,11 @@ namespace xmlgui {
 			} else {
 
 				setRGBA(bgColor);
-				ofRect(x, y, width, height);
+				ofDrawRectangle(x, y, width, height);
 
 				ofNoFill();
 				setRGBA(lineColor);
-				ofRect(x, y, width, height);
+				ofDrawRectangle(x, y, width, height);
 			}
 
 			float cellHeight = (float)height/notes;
@@ -71,20 +71,20 @@ namespace xmlgui {
 			((GridSequence*)value)->rewind();
 			Note *n;
 			while((n = ((GridSequence*)value)->nextNote())!=NULL) {
-				ofRect(x + cellWidth*n->step, y + cellHeight*n->note, cellWidth, cellHeight);
+				ofDrawRectangle(x + cellWidth*n->step, y + cellHeight*n->note, cellWidth, cellHeight);
 			}
 
 
 
 			setRGBA(lineColor);
 			for(int i = 1; i < notes; i++) {
-				ofLine(x, y + cellHeight*i, x+width, y + cellHeight*i);
+				ofDrawLine(x, y + cellHeight*i, x+width, y + cellHeight*i);
 			}
 
 			for(int i = 1; i < steps; i++) {
-				ofLine(x + cellWidth*i, y, x + cellWidth*i, y +height);
+				ofDrawLine(x + cellWidth*i, y, x + cellWidth*i, y +height);
 			}
-			ofLine(x+width*position, y, x+width*position, y*height);
+			ofDrawLine(x+width*position, y, x+width*position, y*height);
 			ofFill();
 
 		}

@@ -16,7 +16,7 @@ namespace xmlgui {
 		
 		DoubleField(): LabeledControl() {
 			
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 70;
 			value = new double[1];
 			dval(value) = 0;

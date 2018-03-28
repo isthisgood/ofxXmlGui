@@ -104,6 +104,28 @@ namespace xmlgui {
 		}
 	}
 	
+	
+	
+	VUSlider		*SimpleGui::addVUSlider(string name, float &sliderValue, float minDb, float maxDb) {
+		auto vu = (VUSlider *)INSTANTIATE_WITH_ID("vuslider", name);
+		gui->addChild(vu);
+		vu->minDb = minDb;
+		vu->maxDb = maxDb;
+		vu->pointToValue(&sliderValue);
+		return vu;
+		
+	}
+	DropDown		*SimpleGui::addDropDown(string name, int &value, string options) {
+		auto opts = ofSplitString(options, "|");
+		return addDropDown(name, value, opts);
+	}
+	DropDown		*SimpleGui::addDropDown(string name, int &value, vector<string> options) {
+		auto dd = (DropDown*) INSTANTIATE_WITH_ID("dropdown", name);
+		dd->options = options;
+		dd->pointToValue(&value);
+		gui->addChild(dd);
+		return dd;
+	}
 
 
 
@@ -342,9 +364,10 @@ namespace xmlgui {
 		PushButton *tog = (PushButton*)INSTANTIATE_WITH_ID("pushbutton", name);
 		tog->width = 80;
 		if(xmlgui::Resources::getFont()!=NULL) {
-			tog->width = xmlgui::Resources::getFont()->stringWidth(name) + 6;
+			tog->width = xmlgui::Resources::stringWidth(name) + 6;
 		}
-		tog->height = 20;
+        tog->height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
+;
 		gui->addChild(tog);
 		return tog;
 
@@ -353,12 +376,18 @@ namespace xmlgui {
 		return addSegmented(name, value, ofSplitString(options, "|"));
 	}
 
+	
+	SegmentedControl *SimpleGui::addSegmented(string name, bool &value, string options) {
+		return addSegmented(name, (int&)value, ofSplitString(options, "|"));
+	}
+
 	SegmentedControl *SimpleGui::addSegmented(string name, int &value, vector<string> options) {
 
 		SegmentedControl *seg = (SegmentedControl*)INSTANTIATE_WITH_ID("segmented", name);
 		seg->pointToValue(&value);
 		seg->width = SIMPLE_GUI_WIDTH;
 		seg->opts = options;
+		seg->options = ofJoinString(options, "|");
 		gui->addChild(seg);
 		return seg;
 	}
@@ -374,6 +403,7 @@ namespace xmlgui {
 		List *list = (List*)INSTANTIATE_WITH_ID("list", name);
 		list->pointToValue(&value);
 		list->items = options;
+		//list->options = ofJoinString(options, "|");
 		list->width = SIMPLE_GUI_WIDTH;
 		gui->addChild(list);
 		return list;
@@ -406,26 +436,38 @@ namespace xmlgui {
 		for(int i = 0; i < gui->getNumChildren(); i++) {
 			Control *c = gui->getChild(i);
 			if(!c->active) continue;
-			if(c->type=="column") {
-				startingPos.y = 0;
-				startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
-			} else {
-				if(c->type=="simplegui") {
-					SimpleGui *s = (SimpleGui*)c;
-					s->redoLayout();
-					if(startingPos.y>0) startingPos.y -= AUTO_LAYOUT_PADDING/2;
-				}
-				c->position(startingPos.x, startingPos.y);
-				if(guiY+c->y+c->height>winHeight) {
-					startingPos.y = 0;
-					startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
-					c->position(startingPos.x, startingPos.y);
-				}
+            if(layoutType==LayoutType_vertical) {
+                if(c->type=="column") {
+                    startingPos.y = 0;
+                    startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
+                } else {
+                    if(c->type=="simplegui") {
+                        SimpleGui *s = (SimpleGui*)c;
+                        s->redoLayout();
+                        if(startingPos.y>0) startingPos.y -= AUTO_LAYOUT_PADDING/2;
+                    }
+                    c->position(startingPos.x, startingPos.y);
+                    if(guiY+c->y+c->height>winHeight) {
+                        startingPos.y = 0;
+                        startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
+                        c->position(startingPos.x, startingPos.y);
+                    }
 
 
-				startingPos.y += c->height + AUTO_LAYOUT_PADDING;
-				r.growToInclude(*c);
-			}
+                    startingPos.y += c->height + AUTO_LAYOUT_PADDING;
+                    r.growToInclude(*c);
+                }
+            } else if(layoutType==LayoutType_horizontal) {
+                if(c->type=="column") {
+//                    startingPos.y = 0;
+//                    startingPos.x += SIMPLE_GUI_WIDTH+AUTO_LAYOUT_PADDING;
+                } else {
+                    c->position(startingPos.x, startingPos.y);
+                    startingPos.x += c->width + AUTO_LAYOUT_PADDING;
+                    
+                }
+                
+            }
 		}
 		width = r.width;
 		height = r.height;
@@ -493,7 +535,12 @@ namespace xmlgui {
 		xml.loadFromBuffer(response.data.getText());
 		string str;
 		xml.copyXmlToString(str);
-		//printf("hello: %s\n", str.c_str());
+		if(str.find("<guis>")==-1 && str.find("width=\"")==-1) {
+			ofLogWarning() << "Couldn't load gui from " + url + " - " + str;
+			return;
+		}
+		printf("hello: %s\n", str.c_str());
+
 		loadFromXmlObject(xml.doc.RootElement());
 
 	}

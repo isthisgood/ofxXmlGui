@@ -14,6 +14,8 @@ namespace xmlgui {
 	class Knob: public LabeledControl {
 	public:
 
+		
+		float defaultNeedleThickness = 4;
 		float min;
 		float max;
 		int bgColor;
@@ -75,8 +77,13 @@ namespace xmlgui {
 				ofSetHexColor(0xFFFFFF);
 				bgImage->draw(x,y, width, height);
 			} else {
+
 				setRGBA(bgColor);
 				ofCircle(center.x, center.y, radius);
+				ofNoFill();
+				setRGBA(fgColor);
+				ofCircle(center.x, center.y, radius);
+				ofFill();
 			}
 
 			float angle = (fval(value)-min)/(max-min);
@@ -97,7 +104,7 @@ namespace xmlgui {
 				glTranslatef(x + radius, y+radius, 0);
 				glRotatef(angle, 0, 0, 1);
 				setRGBA(fgColor);
-				ofRect(0, -2, radius, 4);
+				ofRect(0, -2, radius, defaultNeedleThickness);
 	//			ofLine(center.x, center.y, center.x + radius*cos(ofDegToRad(angle)), center.y + radius*sin(ofDegToRad(angle)));
 				glPopMatrix();
 				ofSetColor(255, 255, 255);

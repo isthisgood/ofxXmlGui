@@ -8,6 +8,7 @@
 #include "Container.h"
 
 
+int xmlgui::LabeledControl::DEFAULT_CONTROL_HEIGHT = 20;
 
 xmlgui::LabeledControl::LabeledControl(): Control() {
 	lastDrawnFrame = 0;

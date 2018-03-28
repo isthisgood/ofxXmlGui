@@ -28,7 +28,7 @@ namespace xmlgui {
 		}
 
 		float getBrightness() {
-			return (faval(value,0)+faval(value,1)+faval(value,2))/3.f;
+			return faval(value,3)*(faval(value,0)+faval(value,1)+faval(value,2))/3.f;
 		}
 
 
@@ -38,7 +38,7 @@ namespace xmlgui {
 
 			//setRGBA(ival(value));
 			glColor4f(faval(value,0)/scale, faval(value,1)/scale, faval(value,2)/scale, faval(value,3)/scale);
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 
 			float h4 = height/4;
 
@@ -49,26 +49,26 @@ namespace xmlgui {
 			}
 
 			ofNoFill();
-			ofRect(x, y, width, height);
-			ofLine(x, y + h4,  x+width, y + h4);
-			ofLine(x, y + h4*2,  x+width, y + h4*2);
-			ofLine(x, y + h4*3,  x+width, y + h4*3);
+			ofDrawRectangle(x, y, width, height);
+			ofDrawLine(x, y + h4,  x+width, y + h4);
+			ofDrawLine(x, y + h4*2,  x+width, y + h4*2);
+			ofDrawLine(x, y + h4*3,  x+width, y + h4*3);
 
 
 			float c = faval(value, 0)/scale;
 
-			ofLine(x + width*c, y, x + width*c, y+h4);
+			ofDrawLine(x + width*c, y, x + width*c, y+h4);
 
 			c = faval(value, 1)/scale;
-			ofLine(x + width*c, y+h4, x + width*c, y+h4*2);
+			ofDrawLine(x + width*c, y+h4, x + width*c, y+h4*2);
 
 
 			c = faval(value, 2)/scale;
-			ofLine(x + width*c, y+h4*2, x + width*c, y+h4*3);
+			ofDrawLine(x + width*c, y+h4*2, x + width*c, y+h4*3);
 
 
 			c = faval(value, 3)/scale;
-			ofLine(x + width*c, y+h4*3, x + width*c, y+height);
+			ofDrawLine(x + width*c, y+h4*3, x + width*c, y+height);
 			ofFill();
 			xmlgui::Resources::bindFont();
 			xmlgui::Resources::drawString(this, "R", x+3, y+h4-3);

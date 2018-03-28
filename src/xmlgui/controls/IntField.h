@@ -15,12 +15,12 @@ namespace xmlgui {
 	public:
 		
 		IntField() {
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 70;
 			value = new int[1];
 			ival(value) = 0;
 		}
-		
+
 		virtual bool isKeyAllowed(int key) {
 			printf("%d\n", key);
 			

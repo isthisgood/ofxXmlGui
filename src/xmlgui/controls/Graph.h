@@ -48,7 +48,7 @@ namespace xmlgui {
 
 			while(history.size()>width) history.pop_back();
 			ofSetColor(50, 50, 50);
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 			ofSetColor(255, 255, 255);
 			//glBegin(GL_LINE_STRIP);
 			ofNoFill();

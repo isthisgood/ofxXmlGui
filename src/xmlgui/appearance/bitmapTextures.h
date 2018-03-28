@@ -25,6 +25,9 @@ public:
 		hasBeenSetup = false;
 	}
 	
+    glm::vec3 vec2vec3(const ofVec2f &a) {
+        return glm::vec3(a.x, a.y, 0);
+    }
 	void draw(const ofRectangle &r) {
 		if(!hasBeenSetup) {
 			setup();
@@ -32,23 +35,24 @@ public:
 		
 		vbo.clear();
 		
-		vector<ofVec3f> &v = vbo.getVertices();
-		vector<ofVec2f> &tc = vbo.getTexCoords();
+        vector<glm::vec3> &v = vbo.getVertices();
+		vector<glm::vec2> &tc = vbo.getTexCoords();
+        
 		
 		while(v.size()<4) v.push_back(ofVec3f());
 		while(tc.size()<4) tc.push_back(ofVec2f());
 		
-		tc[0].set(r.getTopLeft()*texScale);
-		v[0].set(r.getTopLeft());
+        tc[0] = glm::vec2(r.getTopLeft()*texScale);
+		v[0] = vec2vec3(r.getTopLeft());
 		
-		tc[1].set(r.getTopRight()*texScale);
-		v[1].set(r.getTopRight());
+		tc[1] = glm::vec2(r.getTopRight()*texScale);
+		v[1] = vec2vec3(r.getTopRight());
 		
-		tc[3].set(r.getBottomRight()*texScale);
-		v[3].set(r.getBottomRight());
+		tc[3] = glm::vec2(r.getBottomRight()*texScale);
+		v[3] = vec2vec3(r.getBottomRight());
 		
-		tc[2].set(r.getBottomLeft()*texScale);
-		v[2].set(r.getBottomLeft());
+		tc[2] = glm::vec2(r.getBottomLeft()*texScale);
+		v[2] = vec2vec3(r.getBottomLeft());
 		
 		
 		tex.bind();

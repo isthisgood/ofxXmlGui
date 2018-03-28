@@ -12,6 +12,7 @@
 namespace xmlgui {
 	class LabeledControl: public xmlgui::Control {
 	public:
+        static int DEFAULT_CONTROL_HEIGHT;
 		static int lastDrawnFrame;
 		LabeledControl();
 		static void drawAllLabels();

@@ -25,6 +25,9 @@
 #include "xmlgui/controls/FileField.h"
 #include "xmlgui/controls/FloatMapper.h"
 #include "xmlgui/controls/Multiball.h"
+#include "xmlgui/controls/NumberBox.h"
+#include "xmlgui/controls/DropDown.h"
+#include "xmlgui/controls/VUSlider.h"
 
 //#include "SliderBank.h"
 
@@ -68,6 +71,7 @@ namespace xmlgui {
 		PushButton		*addPushButton(string name);
 		SegmentedControl *addSegmented(string name, int &value, string options);
 		SegmentedControl *addSegmented(string name, int &value, vector<string> options);
+		SegmentedControl *addSegmented(string name, bool &value, string options);
 		List			*addList(string name, int &value, vector<string> options);
 		List			*addList(string name, int &value, string opts);
 		IntField		*addIntField(string name, int &value);
@@ -80,6 +84,12 @@ namespace xmlgui {
 		FileField		*addFileField(string name, string &path);
 		FloatMapper		*addFloatMapper(string name, float &value, float controlMin = 0, float controlMax = 1);
 		Multiball		*addMultiball(string name, xmlgui::MultiballListener *listener);
+		
+		VUSlider		*addVUSlider(string name, float &sliderValue, float minDb = -25, float maxDb = 4);
+		DropDown		*addDropDown(string name, int &value, string options);
+		DropDown		*addDropDown(string name, int &value, vector<string> options);
+		
+		
 		void addColumn();
 		xmlgui::ofGuiEventDispatcher events;
 		

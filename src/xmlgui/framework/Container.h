@@ -17,7 +17,8 @@ namespace xmlgui {
 		// do nothing
 		LayoutType_absolute,
 		// stack the elements on top of eachother
-		LayoutType_vertical
+		LayoutType_vertical,
+        LayoutType_horizontal
 	};
 
 	class Container: public Control {
@@ -49,6 +50,9 @@ namespace xmlgui {
 		// case insensitive version
 		virtual Control *getControlByIdi(string id);
 		
+		
+		void sendToBack(Control *child);
+		void sendToFront(Control *child);
 		
 		void setLayoutType(LayoutType layoutType);
 		void pointToValue(string controlName, void *pointer);

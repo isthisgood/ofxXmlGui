@@ -24,7 +24,7 @@
 #include "Container.h"
 
 #include <math.h>
-
+#include "ofMain.h"
 
 #ifdef TARGET_WIN32
 #define GLUT_BUILDING_LIB
@@ -32,7 +32,7 @@
 #endif
 #ifdef TARGET_OSX
 #include <OpenGL/OpenGL.h>
-#include "../../../libs/glut/lib/osx/GLUT.framework/Versions/A/Headers/glut.h"
+//#include "../../../libs/glut/lib/osx/GLUT.framework/Versions/A/Headers/glut.h"
 #include <Carbon/Carbon.h>
 #endif
 #ifdef TARGET_LINUX
@@ -49,6 +49,7 @@ namespace xmlgui {
 	class IntSlider: public LabeledControl {
 	public:
 
+		function<void(int)> valueChanged;
 		bool vertical;
 		int min;
 		int max;
@@ -63,10 +64,13 @@ namespace xmlgui {
 		string sliderFGUrl;
 		string sliderHandleUrl;
 		ofImage *sliderBG, *sliderFG, *sliderHandle;
+		
+		
+		
 		IntSlider(): LabeledControl() {
 			sliderBG = sliderFG = sliderHandle = NULL;
 			vertical = false;
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 100;
 
 			logarithmic = false;
@@ -110,7 +114,7 @@ namespace xmlgui {
 				} else {
 					setRGBA(bgColor);
 				}
-				ofRect(x, y, width, height);
+				ofDrawRectangle(x, y, width, height);
 			}
 
 			float val = ((float)ival(value)-min)/(float)(max-min);
@@ -125,22 +129,22 @@ namespace xmlgui {
 				if(vertical) pushMask(abs.x, abs.y + height-height*val, width, height*val);
 				else pushMask(abs.x, abs.y, width*val, height);
 				sliderFG->draw(x, y);
-				//ofRect(0, 0, ofGetWidth(), ofGetHeight());
+				//ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 				popMask();
 			} else {
 				setRGBA(fgColor);
                 if (val < 0) // out of range indicators
                 {
                     ofSetColor(0, 0, 0);
-                    ofRect(x, y, width, height);
+                    ofDrawRectangle(x, y, width, height);
                 }
                 else if (val > 1)
                 {
                     ofSetColor(255, 0, 0);
-                    ofRect(x, y, width, height);
+                    ofDrawRectangle(x, y, width, height);
                 } else {
-                    if(vertical) ofRect(x, y+height-height*val, width, height*val);
-                    else ofRect(x, y, width*val, height);
+                    if(vertical) ofDrawRectangle(x, y+height-height*val, width, height*val);
+                    else ofDrawRectangle(x, y, width*val, height);
 			
                 }
             }
@@ -166,7 +170,7 @@ namespace xmlgui {
 			if(sliderBG==NULL) {
 				setRGBA(borderColor);
 				ofNoFill();
-				ofRect(*this);
+				ofDrawRectangle(*this);
 				ofFill();
 			}
 		}
@@ -193,7 +197,9 @@ namespace xmlgui {
 			
 			ival(value) = __round((float)val*((float)max-min) + min);
 //			ival(value) = __round((float)val*((float)max-min) + min);
-			
+			if(valueChanged) {
+				valueChanged(ival(value));
+			}
 			return true;
 		}
 
@@ -244,14 +250,17 @@ namespace xmlgui {
 			} else if(key==OF_KEY_RIGHT) {
 				increment = 1;
 			}
-#ifndef TARGET_RASPBERRY_PI			
+#ifndef TARGET_RASPBERRY_PI		
+#ifndef TARGET_OF_IOS
+            /*
 			if(glutGetModifiers() & GLUT_ACTIVE_SHIFT) {
 				if((max-min)>width) {
 					increment *= (max-min)/width;
 				} else {
 					increment *= 10;
 				}
-			}
+			}*/
+#endif
 #endif
 
             if(increment!=0) {

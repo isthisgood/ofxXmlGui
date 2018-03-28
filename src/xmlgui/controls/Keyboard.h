@@ -47,7 +47,7 @@ namespace xmlgui {
 
 
 			setRGBA(whiteColor);
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 			setRGBA(blackColor);
 
 
@@ -61,7 +61,7 @@ namespace xmlgui {
 				for(int i = 0; i < keys; i++) {
 					if(ival(value)==i+offset || isABlackNote(i+offset)) {
 						setColorForNote(i+offset);
-						ofRect(x, y+i*keyHeight, width, keyHeight);
+						ofDrawRectangle(x, y+i*keyHeight, width, keyHeight);
 						ofSetHexColor(blackColor);
 					}
 
@@ -81,7 +81,7 @@ namespace xmlgui {
 
 					if(ival(value)==i+offset || isABlackNote(i+offset)) {
 						setColorForNote(i+offset);
-						ofRect(x+i*keyWidth, y, keyWidth, height);
+						ofDrawRectangle(x+i*keyWidth, y, keyWidth, height);
 						setRGBA(blackColor);
 					}
 

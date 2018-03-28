@@ -34,6 +34,13 @@ xmlgui::Control *xmlgui::Control::hitTest(float x, float y) {
 		return NULL;
 	}
 }
+void xmlgui::Control::sendToFront() {
+	parent->sendToFront(this);
+}
+
+void xmlgui::Control::sendToBack() {
+	parent->sendToBack(this);
+}
 
 void xmlgui::Control::saveToXmlObject(ofxXmlSettings &xml) {
 

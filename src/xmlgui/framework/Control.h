@@ -83,7 +83,8 @@ namespace xmlgui {
 		// this happens when you just loaded settings
 		virtual void settingsLoaded() {}
 		
-		
+		function<void()> pressed;
+		function<void()> released;
 		
 		virtual void touchOver(int x, int y, int id) { }
 		virtual bool touchMoved(int x, int y, int id){ return inside(x, y); }
@@ -112,7 +113,8 @@ namespace xmlgui {
 		void popMask();
 		static vector<ofRectangle> maskStack;
 		
-		
+		void sendToFront();
+		void sendToBack();
 		
 		void pointToValue(void *value) {
 			

@@ -26,7 +26,7 @@ namespace xmlgui {
 			float g = ((ival(value)&0xFF00)>>8);
 			float b = ival(value)&0xFF;
 			float a = 255 - ((ival(value)&0xFF000000)>>24);
-			return (r + g + b + a) / 4;
+			return a*(r + g + b) / 3;
 		}
 
 		void draw() {
@@ -34,7 +34,7 @@ namespace xmlgui {
 
 
 			setRGBA(ival(value));
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 
 			float h4 = height/4;
 			if(getBrightness()<128) {
@@ -42,31 +42,34 @@ namespace xmlgui {
 			} else {
 				ofSetHexColor(0);
 			}
+			
+			
+			
 			ofNoFill();
-			ofRect(x, y, width, height);
-			ofLine(x, y + h4,  x+width, y + h4);
-			ofLine(x, y + h4*2,  x+width, y + h4*2);
-			ofLine(x, y + h4*3,  x+width, y + h4*3);
+			ofDrawRectangle(x, y, width, height);
+			ofDrawLine(x, y + h4,  x+width, y + h4);
+			ofDrawLine(x, y + h4*2,  x+width, y + h4*2);
+			ofDrawLine(x, y + h4*3,  x+width, y + h4*3);
 
 
 			float c = ((ival(value)&0xFF0000)>>16);
 			c /= 255.f;
-			ofLine(x + width*c, y, x + width*c, y+h4);
+			ofDrawLine(x + width*c, y, x + width*c, y+h4);
 
 
 			c = ((ival(value)&0xFF00)>>8);
 			c /= 255.f;
-			ofLine(x + width*c, y+h4, x + width*c, y+h4*2);
+			ofDrawLine(x + width*c, y+h4, x + width*c, y+h4*2);
 
 
 			c = ival(value)&0xFF;
 			c /= 255.f;
-			ofLine(x + width*c, y+h4*2, x + width*c, y+h4*3);
+			ofDrawLine(x + width*c, y+h4*2, x + width*c, y+h4*3);
 
 
 			c = 255 - ((ival(value)&0xFF000000)>>24);
 			c /= 255.f;
-			ofLine(x + width*c, y+h4*3, x + width*c, y+height);
+			ofDrawLine(x + width*c, y+h4*3, x + width*c, y+height);
 			ofFill();
 
 			xmlgui::Resources::bindFont();

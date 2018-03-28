@@ -11,7 +11,7 @@
  *     \__\/         \__\/         |__|/         \__\/         \__\/         |__|/
  *
  *  Description:
- *
+ **
  *  GuiServer.h, created by Marek Bereza on 14/11/2012.
  */
 
@@ -19,6 +19,7 @@
 #include "Container.h"
 #include "ofxWebServer.h"
 #include "ofxOsc.h"
+#include "TabbedGui.h"
 
 namespace xmlgui {
 
@@ -42,9 +43,10 @@ namespace xmlgui {
 		OSCServer();
 		~OSCServer();
 
-		void setup();
-		void update();
+		void setup(int port = 12345, int httpPort = 8910);
+
 		void addGui(xmlgui::Container *gui);
+		void addTabbedGui(xmlgui::TabbedGui *gui);
 		void httpGet(string url);
 		void httpPost(string url, char *data, int dataLength);
 
@@ -52,7 +54,7 @@ namespace xmlgui {
 
 
 	private:
-
+		void update(ofEventArgs &e);
         OSCServerExtraListener *extraListener;
 		ofxWebServer ws;
 		ofxOscReceiver osc;

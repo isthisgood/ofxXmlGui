@@ -30,8 +30,8 @@ void xmlgui::Multiball::draw() {
 	ofRect(*this);
 	
 
-	map<int,MultiballTouch>::iterator it;
-	for(it = touches.begin(); it != touches.end(); it++) {
+	//map<int,MultiballTouch>::iterator it;
+	for(auto it = touches.begin(); it != touches.end(); it++) {
 
 		ofVec3f t = (*it).second;
 		ofSetColor(255, t.z * 255.f);

@@ -32,19 +32,27 @@ void xmlgui::ofGuiEventDispatcher::draw(ofEventArgs &e) {
 
 
 bool xmlgui::ofGuiEventDispatcher::mousePressed(ofMouseEventArgs &e) {
+#if !defined(TARGET_OF_IOS) && !defined(TARGET_ANDROID)
 	return root->touchDown(e.x, e.y, e.button);
+#endif
 }
 
 void xmlgui::ofGuiEventDispatcher::mouseMoved(ofMouseEventArgs &e) {
+#if !defined(TARGET_OF_IOS) && !defined(TARGET_ANDROID)
 	root->touchOver(e.x, e.y, e.button);
+#endif
 }
 
 bool xmlgui::ofGuiEventDispatcher::mouseDragged(ofMouseEventArgs &e) {
-	return root->touchMoved(e.x, e.y, e.button);
+#if !defined(TARGET_OF_IOS) && !defined(TARGET_ANDROID)
+    return root->touchMoved(e.x, e.y, e.button);
+#endif
 }
 
 bool xmlgui::ofGuiEventDispatcher::mouseReleased(ofMouseEventArgs &e) {
+#if !defined(TARGET_OF_IOS) && !defined(TARGET_ANDROID)
 	return root->touchUp(e.x, e.y, e.button);
+#endif
 }
 
 bool xmlgui::ofGuiEventDispatcher::keyPressed(ofKeyEventArgs &e) {

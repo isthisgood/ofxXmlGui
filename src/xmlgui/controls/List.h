@@ -21,7 +21,7 @@
 namespace xmlgui {
 	class List: public LabeledControl {
 	public:
-
+		function<void(int)> valueChanged;
 		int bgColor;
 		int fgColor;
 
@@ -37,7 +37,7 @@ namespace xmlgui {
 			fgColor = 0xFFFFFF;
 			dragging = false;
 			scrolling = SCROLL_NONE;
-			itemHeight = 16;
+            itemHeight = LabeledControl::DEFAULT_CONTROL_HEIGHT - 4;
 			scrollerWidth = 22;
 			scrollOffset = 0;
 			value = new int[1];
@@ -88,13 +88,13 @@ namespace xmlgui {
 			}
 
 			setRGBA(bgColor);
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 
 			//glEnable(GL_SCISSOR_TEST);
 
 			ofNoFill();
 			setRGBA(fgColor);
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 
 			
 			
@@ -110,7 +110,7 @@ namespace xmlgui {
 				float yy = scrollOffset + y + i*itemHeight;
 				if(i==ival(value)) {
 					ofSetHexColor(0x007700);
-					ofRect(x, yy, width-scrollerWidth, itemHeight);
+					ofDrawRectangle(x, yy, width-scrollerWidth, itemHeight);
 				}
 				
 				ofSetHexColor(0x999999);
@@ -219,13 +219,13 @@ namespace xmlgui {
 
 
 		bool touchUp(int _x, int _y, int touchId) {
-			if(!dragging && _x==lastMouse.x && _y==lastMouse.y) {
+			if(!dragging && ofVec2f(_x, _y).distance(lastMouse)<3) {
 				// click!
 				float offset = (float)(_y - y - scrollOffset)/itemHeight;
 				int i = floor(offset);
 				if(i>=0 && i < items.size()) {
 					ival(value) = i;
-
+					if(valueChanged) valueChanged(i);
 	//#pragma warning this was uncommented code before I imported the widgets to the new ofxXmlGui
 					/*if(parent!=NULL) {
 						xmlgui::Event e(this, xmlgui::Event::TOUCH_UP);

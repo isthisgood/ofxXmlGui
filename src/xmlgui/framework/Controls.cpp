@@ -44,7 +44,9 @@
 #include "xmlgui/controls/Graph.h"
 #include "xmlgui/controls/FloatMapper.h"
 #include "xmlgui/controls/Multiball.h"
-
+#include "xmlgui/controls/NumberBox.h"
+#include "xmlgui/controls/DropDown.h"
+#include "xmlgui/controls/VUSlider.h"
 
 #define REGISTER_CONTROL(A, B) addControlConstructor(ControlInstantiator<A>, B);
 
@@ -93,11 +95,15 @@ void xmlgui::Instantiator::registerControls() {
 	
 	REGISTER_CONTROL(Grid,			"grid");
 	REGISTER_CONTROL(Multiball,		"multiball");
+
+	REGISTER_CONTROL(NumberBox,		"numberbox");
+	REGISTER_CONTROL(DropDown,		"dropdown");
+	REGISTER_CONTROL(VUSlider,		"vuslider");
+
 	
 	// weird menu stuff for gui editor
 	REGISTER_CONTROL(Menu,			"menu");
 	REGISTER_CONTROL(MenuBar,		"menubar");
 	REGISTER_CONTROL(MenuItem,		"menuitem");
-
 }
 

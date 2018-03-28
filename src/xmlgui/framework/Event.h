@@ -24,7 +24,9 @@ namespace xmlgui {
 		enum EventType {
 			TOUCH_MOVED,
 			TOUCH_UP,
-			TOUCH_DOWN
+			TOUCH_DOWN,
+			KEY_PRESSED,
+			KEY_RELEASED
 		};
 		xmlgui::Control *control;
 		

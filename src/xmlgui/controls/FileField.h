@@ -16,7 +16,7 @@ namespace xmlgui {
 		
 		FileField(): LabeledControl() {
 			
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 70;
 			value = new string;
 		}
@@ -28,13 +28,13 @@ namespace xmlgui {
 		void draw() {
 			
 			ofSetColor(50, 50, 50);
-			ofRect(x, y, width - FILE_ICON_WIDTH - 5, height);
+			ofDrawRectangle(x, y, width - FILE_ICON_WIDTH - 5, height);
 			ofNoFill();
-			ofRect(x, y, width - FILE_ICON_WIDTH - 5, height);
+			ofDrawRectangle(x, y, width - FILE_ICON_WIDTH - 5, height);
 			ofFill();
 			ofSetColor(255, 255, 255);
-			ofRect(x + width - FILE_ICON_WIDTH, y+2, FILE_ICON_WIDTH/3, 2);
-			ofRect(x + width - FILE_ICON_WIDTH, y+5, FILE_ICON_WIDTH, 12);
+			ofDrawRectangle(x + width - FILE_ICON_WIDTH, y+2, FILE_ICON_WIDTH/3, 2);
+			ofDrawRectangle(x + width - FILE_ICON_WIDTH, y+5, FILE_ICON_WIDTH, 12);
 			
 			
 			if(focus && ((int)__round(ofGetElapsedTimef()*2.5))%2==0) {

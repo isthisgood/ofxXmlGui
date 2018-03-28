@@ -18,14 +18,19 @@ namespace xmlgui {
 		int upColor;
 		int downColor;
 		int overColor;
+    
+        bool enabled;
+        function<void()> action;
+    
 		PushButton(): LabeledControl() {
-			height = 20;
+            height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 			width = 110;
 			upImg = downImg = NULL;
 			upImgUrl = downImgUrl = "";
 			upColor = 0x555555;
 			downColor = 0;
 			overColor = 0xCCCCCC;
+            enabled = true;
 		}
 
 		void load() {
@@ -41,38 +46,54 @@ namespace xmlgui {
 				height = downImg->getHeight();
 			}
 		}
-
+        bool touchUp(int x, int y, int id) {
+            if(inside(x, y)) {
+                if(action) {
+                    action();
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
 
 		void draw() {
 
-			if(down) {
-				if(downImg!=NULL) {
-					ofSetHexColor(0xFFFFFF);
-					downImg->draw(x, y);
-				} else {
-					setRGBA(downColor);
-					ofRect(x, y, width, height);
-				}
-			} else if(over && upImg==NULL && downImg==NULL) { // draw grey bg for nice menus
-				setRGBA(overColor);
-				ofRect(x, y, width, height);
-			} else {
-				setRGBA(upColor);
-				if(upImg!=NULL) {
-					upImg->draw(x, y);
-				} else {
-					ofRect(x, y, width, height);
-				}
-			}
+            
+            if(!enabled) {
+                
+            } else {
+                if(down) {
+                    if(downImg!=NULL) {
+                        ofSetHexColor(0xFFFFFF);
+                        downImg->draw(x, y);
+                    } else {
+                        setRGBA(downColor);
+                        ofRect(x, y, width, height);
+                    }
+                } else if(over && upImg==NULL && downImg==NULL) { // draw grey bg for nice menus
+                    setRGBA(overColor);
+                    ofRect(x, y, width, height);
+                } else {
+                    setRGBA(upColor);
+                    if(upImg!=NULL) {
+                        upImg->draw(x, y);
+                    } else {
+                        ofRect(x, y, width, height);
+                    }
+                }
 
-			if(upImg==NULL && downImg==NULL) {
-				float w = xmlgui::Resources::stringWidth(name)+6;
-				if(width<w) {
-					width = w;
-				}
-			}
+                if(upImg==NULL && downImg==NULL) {
+                    float w = xmlgui::Resources::stringWidth(name)+6;
+                    if(width<w) {
+                        width = w;
+                    }
+                }
+            }
 			drawLabel(x+3, y+14);
 		}
+        
+    
 
 
 		virtual void getParameterInfo(vector<ParameterInfo> &params) {
@@ -82,6 +103,7 @@ namespace xmlgui {
 			params.push_back(ParameterInfo("Up Color", "upColor", "hexcolorpicker", &upColor));
 			params.push_back(ParameterInfo("Down Color", "downColor", "hexcolorpicker", &downColor));
 			params.push_back(ParameterInfo("over Color", "overColor", "hexcolorpicker", &overColor));
+            params.push_back(ParameterInfo("enabled", "enabled", "toggle", &enabled));
 
 		}
 	};

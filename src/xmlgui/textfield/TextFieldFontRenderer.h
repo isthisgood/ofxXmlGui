@@ -16,7 +16,7 @@
  *
  *  ofxTextInputFieldFontRenderer.h, created by Marek Bereza on 14/08/2013.
  */
-
+#pragma once
 //For lack of a type abstraction, this lets you #define a font renderer so
 //(like ofxFTGL or ofxFont)
 //to use ofxFTGL use somethinglike this:

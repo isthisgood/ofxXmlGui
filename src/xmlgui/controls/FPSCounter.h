@@ -36,7 +36,7 @@ namespace xmlgui {
 			}
 			while(history.size()>HISTORY_SIZE) history.pop_back();		
 			ofSetColor(0, 100, 0);
-			ofRect(x, y, width, height);
+			ofDrawRectangle(x, y, width, height);
 			ofSetColor(255, 255, 255);
 			xmlgui::Resources::drawString(this, ofToString(fps, 1), x+3, y+14);
 			ofNoFill();

@@ -12,7 +12,7 @@ xmlgui::ofxTextInput::FontRenderer* xmlgui::TextField::fontRef = NULL;
 
 xmlgui::TextField::TextField(): LabeledControl() {
 	editable = true;
-	height = 20;
+    height = LabeledControl::DEFAULT_CONTROL_HEIGHT;
 	width = 70;
 	value = new string;
 	
